@@ -1,7 +1,6 @@
-
-import { authGatewayLocal } from "@infra/auth/authGateway.local.ts";
-import { userEntity } from "@domain/auth/entity/user.entity.ts";
-import { GenerateTokenUsecase } from "@domain/auth/usecase/tokenGenerate.usecase.ts";
+import { authGatewayLocal } from "@infra/auth/authGateway.local";
+import { userEntity } from "@domain/auth/entity/user.entity";
+import { GenerateTokenUsecase } from "@domain/auth/usecase/tokenGenerate.usecase";
 
 describe("Testando TokenGenerateUsecase", () => {
   test("Deve gerar um token de autenticacao", async () => {

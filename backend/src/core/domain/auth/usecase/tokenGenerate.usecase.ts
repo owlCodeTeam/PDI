@@ -1,4 +1,4 @@
-import { authGatewayInterface } from "@domain/auth/authGateway.interface.ts";
+import { authGatewayInterface } from "@domain/auth/authGateway.interface";
 import { userEntity } from "@domain/auth/entity/user.entity";
 
 export class GenerateTokenUsecase {
