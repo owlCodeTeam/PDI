@@ -1,5 +1,5 @@
-import { School } from "../entity/School.entity";
-import schoolRepositoryInterface from "../schoolRepository.interface";
+import { School } from '../entity/School.entity';
+import schoolRepositoryInterface from '../schoolRepository.interface';
 export type newSchoolInput = {
   _id?: string;
   name: string;

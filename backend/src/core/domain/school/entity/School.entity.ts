@@ -14,10 +14,10 @@ export class School {
   cep(): string {
     return this.props.cep;
   }
-  updateCep(cep: string): void {
+  updateCep(cep: string) {
     this.props.cep = cep;
   }
-  updateName(name: string): void {
+  updateName(name: string) {
     this.props.name = name;
   }
 }

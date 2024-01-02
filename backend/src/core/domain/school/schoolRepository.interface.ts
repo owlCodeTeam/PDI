@@ -1,4 +1,4 @@
-import { School } from "./entity/School.entity";
+import { School } from './entity/School.entity';
 export type updateSchoolInput = {
   name: string;
   cep: string;
