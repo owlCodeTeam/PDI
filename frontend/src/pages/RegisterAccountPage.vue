@@ -4,7 +4,7 @@
     class="row justify-center items-center"
   >
   <div class="">
-    test
+    teste
   </div>  
   </q-page>
 </template>
