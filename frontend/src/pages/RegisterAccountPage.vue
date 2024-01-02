@@ -3,9 +3,9 @@
     padding
     class="row justify-center items-center"
   >
-  <div class="">
-    teste
-  </div>  
+    <div class="col-12 fit">
+      teste
+    </div>  
   </q-page>
 </template>
 
