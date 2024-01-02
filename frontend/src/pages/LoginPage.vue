@@ -21,7 +21,7 @@
       <div class="q-my-xl">
         <q-form 
           class="row justify-center justify-center items-center"
-          
+          @submit="onSubmit"
         >
           <q-input 
             outlined 
@@ -104,6 +104,7 @@ export default defineComponent({
 
     function onSubmit() {
       console.log(loginData)
+      router.push('/control-panel')
     }
 
     return {

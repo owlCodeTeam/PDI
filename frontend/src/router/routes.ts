@@ -10,6 +10,13 @@ const routes: RouteRecordRaw[] = [
       { path: 'recover-password', component: () => import('pages/RecoverPasswordPage.vue') }
     ],
   },
+  {
+    path: '/control-panel',
+    component: () => import('layouts/ControlPanelLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/SchoolsPage.vue') },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it
