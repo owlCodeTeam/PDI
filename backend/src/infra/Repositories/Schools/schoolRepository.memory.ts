@@ -1,8 +1,6 @@
-import { error } from 'console';
-import { School } from '../../../core/domain/school/entity/School.entity';
-import schoolRepositoryInterface, {
-  updateSchoolInput,
-} from '../../../core/domain/school/schoolRepository.interface';
+import { error } from "console";
+import { School } from "../../../core/domain/school/entity/School.entity";
+import schoolRepositoryInterface, { updateSchoolInput } from "../../../core/domain/school/schoolRepository.interface";
 
 export class schoolRepositoryMemory implements schoolRepositoryInterface {
   public schools: School[] = [];
@@ -11,9 +9,7 @@ export class schoolRepositoryMemory implements schoolRepositoryInterface {
     return newSchool;
   }
   async getOne(_id: string): Promise<School> {
-    const school: School = await this.schools.find(
-      (school: School): boolean => school._id() === _id,
-    );
+    const school: School = await this.schools.find((school: School): boolean => school._id() === _id);
     if (!school) {
       throw new error(`Nenhuma escola com o id igual a ${_id} foi encontrada`);
     }
