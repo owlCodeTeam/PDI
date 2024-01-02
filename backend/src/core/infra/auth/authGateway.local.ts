@@ -1,6 +1,6 @@
-import { authGatewayInterface } from "@core/domain/auth/authGateway.interface.ts";
+import { authGatewayInterface } from "@domain/auth/authGateway.interface.ts";
 import { sign, verify } from "jsonwebtoken";
-import { userEntity } from "@core/domain/auth/entity/user.entity.ts";
+import { userEntity } from "@domain/auth/entity/user.entity.ts";
 export type verifyOutput = {
   email: string;
   expiresIn: string;

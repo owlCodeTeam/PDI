@@ -1,6 +1,6 @@
 import { error } from "console";
-import { School } from "@core/domain/school/entity/School.entity";
-import schoolRepositoryInterface, { updateSchoolInput } from "@core/domain/school/schoolRepository.interface";
+import { School } from "@domain/school/entity/School.entity";
+import schoolRepositoryInterface, { updateSchoolInput } from "@domain/school/schoolRepository.interface";
 
 export class schoolRepositoryMemory implements schoolRepositoryInterface {
   public schools: School[] = [];

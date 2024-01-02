@@ -1,4 +1,4 @@
-import { userEntity } from "@core/domain/auth/entity/user.entity.ts";
+import { userEntity } from "@domain/auth/entity/user.entity.ts";
 export type verifyOutput = {
   email: string;
   expiresIn: string;
