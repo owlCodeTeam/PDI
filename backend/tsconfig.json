@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@core/": ["src/core/*"],
-      "@infra/": ["src/infra/*"]
+      "@infra/": ["src/core/infra/*"]
     }
   },
   "include": ["src"],
