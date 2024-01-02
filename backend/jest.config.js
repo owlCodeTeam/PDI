@@ -5,6 +5,7 @@ module.exports = {
   },
   moduleNameMapper: {
     '@core/(.+)$': '<rootDir>/src/core/$1',
+    '@infra/(.+)$': '<rootDir>/src/infra/$1',
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   testMatch: ['<rootDir>/src/**/*.test.ts'],

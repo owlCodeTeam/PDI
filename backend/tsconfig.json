@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@core/": ["src/core/"]
-    },
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -19,6 +16,12 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@core/": ["src/core/*"],
+      "@infra/": ["src/infra/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "docker", "dist"]
 }
