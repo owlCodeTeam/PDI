@@ -28,7 +28,7 @@
           <div class="col-12 row justify-center q-my-sm">
             <q-btn 
               label="Reenviar"
-              class="col-9 text-h6"
+              class="col-auto text-h6"
               color="indigo-10"
               @click="newVerificationRequest()"
             />
@@ -47,16 +47,19 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'VerifyAccountPage',
   setup() {
+    const router = useRoute()
     const user = reactive({
-      email: '' as string,
+      email: router.params.email,
       token: '' as string
     })
 
     function newVerificationRequest() {
       console.log('new request')
+      console.log(user)
     }
 
     return {

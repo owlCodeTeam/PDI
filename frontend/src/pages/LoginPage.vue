@@ -42,7 +42,7 @@
             class="text-h6 col-sm-7 col-11 q-my-sm"
             label="Senha"
             color="indigo-10"
-            :type="showPassword.data ? 'password' : 'text'"
+            :type="showPassword ? 'password' : 'text'"
             :rules="[inputIsNull()]"
           >
             <template v-slot:prepend>
@@ -50,9 +50,9 @@
             </template>
             <template v-slot:append>
               <q-icon
-                :name="showPassword.data ? 'visibility_off' : 'visibility'"
+                :name="showPassword ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
-                @click="showPassword.data = !showPassword.data"
+                @click="showPassword = !showPassword"
               />
             </template>
           </q-input>
@@ -88,23 +88,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import LoginGateway from 'src/infra/gateway/LoginGateway'
+import { defineComponent, inject, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import LoginAction from '../core/LoginAction'
+import UserEntity from '../core/UserEntity'
+
 export default defineComponent({
   name: 'LoginPage',
   setup() {
+    const loginGateway = inject('loginGateway') as LoginGateway
     const loginData = reactive({
       email: '' as string,
       password: '' as string
     })
-    const showPassword = reactive({data: true})
+    const showPassword = ref(true)
     const router = useRouter()
     
     const inputIsNull = () => (val: any) => (!!val || 'Este campo é obrigatório')
 
-    function onSubmit() {
-      console.log(loginData)
-      router.push('/control-panel')
+    async function onSubmit() {
+      const action = new LoginAction(loginGateway)
+      const user = new UserEntity(loginData)
+      const response = await action.execute(user)
+      console.log(response)
     }
 
     return {
