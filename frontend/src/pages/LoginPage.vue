@@ -3,9 +3,9 @@
     padding 
     class="row justify-center items-center"
   >
-    <div class="col-12 col-sm-6 backgroun-red flex justify-center items-center">
+    <div class="col-12 col-sm-6 flex justify-center items-center">
       <q-img 
-        src="../assets/walpaper-login.svg"
+        src="../assets/login-illustration.svg"
         width="80%"
       />
     </div>
@@ -58,7 +58,7 @@
           </q-input>
           <div class="col-sm-7 col-11 text-right">
             <p 
-              class="q-ma-none text-subtitle1 text-indigo-10"
+              class="q-ma-none text-subtitle1 text-indigo-10 cursor-pointer"
               @click="router.push('/recover-password')"
             >
               Esqueceu a senha?
@@ -74,7 +74,7 @@
             <p class="q-ma-none text-subtitle1">
               Não tem uma uma conta? 
               <span 
-                class="text-indigo-10" 
+                class="text-indigo-10 cursor-pointer" 
                 @click="router.push('/register-account')"
               >
                 Registre-se
