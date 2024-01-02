@@ -1,6 +1,6 @@
 import { schoolRepositoryMemory } from "@infra/Repositories/Schools/schoolRepository.memory";
-import { updateSchool } from "@core/domain/school/usecases/updateSchool.usecase.ts";
-import { School } from "@core/domain/school/entity/School.entity.ts";
+import { updateSchool } from "@domain/school/usecases/updateSchool.usecase.ts";
+import { School } from "@domain/school/entity/School.entity.ts";
 import * as crypto from "crypto";
 describe("Testando o caso de uso 'updateSchool'", () => {
   test("Deve editar a escola", async () => {

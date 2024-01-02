@@ -1,5 +1,5 @@
 import { School } from "../entity/School.entity";
-import schoolRepositoryInterface from "@core/";
+import schoolRepositoryInterface from "@domain/school/schoolRepository.interface.ts";
 
 export class getOneSchool {
   constructor(readonly repo: schoolRepositoryInterface) {}

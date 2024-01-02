@@ -1,5 +1,5 @@
-import { School } from "@core/domain/school/entity/School.entity.ts";
-import schoolRepositoryInterface from "@core/domain/school/schoolRepository.interface.ts";
+import { School } from "@domain/school/entity/School.entity.ts";
+import schoolRepositoryInterface from "@domain/school/schoolRepository.interface.ts";
 export type updateSchoolInput = {
   name: string;
   cep: string;

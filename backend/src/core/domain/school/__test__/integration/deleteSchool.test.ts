@@ -1,7 +1,7 @@
 import { schoolRepositoryMemory } from "@infra/Repositories/Schools/schoolRepository.memory";
-import { School } from "@core/domain/school/entity/School.entity.ts";
+import { School } from "@domain/school/entity/School.entity.ts";
 import * as crypto from "crypto";
-import { deleteSchool } from "@core/domain/school/usecases/deleteSchool.usecase.ts";
+import { deleteSchool } from "@domain/school/usecases/deleteSchool.usecase.ts";
 describe("Testando o caso de uso 'deleteSchool'", () => {
   test("Deve deletar uma escola", async () => {
     const repo = new schoolRepositoryMemory();

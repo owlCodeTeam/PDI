@@ -1,15 +1,17 @@
-import { userEntity } from "@core/domain/auth/entity/user.entity.ts";
-import { GenerateTokenUsecase } from "@core/domain/auth/usecase/tokenGenerate.usecase.ts";
+
+import { authGatewayLocal } from "@infra/auth/authGateway.local.ts";
+import { userEntity } from "@domain/auth/entity/user.entity.ts";
+import { GenerateTokenUsecase } from "@domain/auth/usecase/tokenGenerate.usecase.ts";
 
 describe("Testando TokenGenerateUsecase", () => {
   test("Deve gerar um token de autenticacao", async () => {
-    const action = new GenerateTokenUsecase();
+    const gateway = new authGatewayLocal("2321223231");
+    const action = new GenerateTokenUsecase(gateway);
     const user = new userEntity({
       email: "teste@gmail.com",
       password: "123",
     });
     const response = await action.execute(user);
-
-    expect(response.token).toBe("abc");
+    expect(response.length > 10).toBe(true);
   });
 });

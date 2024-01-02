@@ -4,8 +4,8 @@ module.exports = {
     '^.+\\.(t|j)sx?$': '@swc/jest',
   },
   moduleNameMapper: {
-    '@core/(.+)$': '<rootDir>/src/core/$1',
-    '@infra/(.+)$': '<rootDir>/src/infra/$1',
+    '@domain/(.+)$': '<rootDir>/src/core/domain/$1',
+    '@infra/(.+)$': '<rootDir>/src/core/infra/$1',
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   testMatch: ['<rootDir>/src/**/*.test.ts'],

@@ -1,4 +1,4 @@
-import schoolRepositoryInterface from "@core/domain/school/schoolRepository.interface,ts";
+import schoolRepositoryInterface from "@domain/school/schoolRepository.interface,ts";
 
 export class deleteSchool {
   constructor(readonly repo: schoolRepositoryInterface) {}
