@@ -26,6 +26,8 @@ test("Deve tentar realizar com email inválido", async () => {
     }
     try {
         const user = new LoginDataEntity(loginData)
+        const response = await loginAction.execute(user)
+        expect(response.status).toBe(true)
     } catch(error) {
         expect(error?.message).toBe('Email inválido')
     }
@@ -38,6 +40,8 @@ test("Deve tentar realizar com senha inválida", async () => {
     }
     try {
         const user = new LoginDataEntity(loginData)
+        const response = await loginAction.execute(user)
+        expect(response.status).toBe(true)
     } catch(error) {
         expect(error?.message).toBe('O campo senha não pode estar vazio')
     }
