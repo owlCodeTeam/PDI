@@ -2,6 +2,7 @@ export type userProps = {
   username: string;
   email: string;
   password: string;
+  cpf: string;
   _id?: string;
 };
 export class userEntity {
@@ -25,6 +26,9 @@ export class userEntity {
   }
   _id(): string {
     return this.props._id;
+  }
+  cpf(): string {
+    return this.props.cpf;
   }
   updatePassword(password: string) {
     this.props.password = password;

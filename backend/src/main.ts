@@ -4,6 +4,7 @@ import { AppModule } from "./core/infra/http/nestjs/app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { json, urlencoded } from "express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { AuthModule } from "@infra/http/nestjs/auth/auth.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +23,7 @@ async function bootstrap() {
     .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT", in: "header" }, "Authorization")
     .build();
   const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig, {
-    include: [AppModule],
+    include: [AppModule, AuthModule],
   });
   SwaggerModule.setup("doc", app, swaggerDoc);
 

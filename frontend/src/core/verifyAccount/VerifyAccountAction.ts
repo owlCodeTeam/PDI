@@ -1,4 +1,4 @@
-import VerifyAccountGateway from "src/infra/VerifyAccount/VerifyAccountGateway";
+import VerifyAccountGateway from "src/infra/verifyAccount/VerifyAccountGateway";
 
 export default class VerifyAccountAction {
     constructor(readonly gateway:VerifyAccountGateway) {}

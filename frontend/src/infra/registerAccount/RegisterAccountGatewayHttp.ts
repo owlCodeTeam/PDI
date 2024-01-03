@@ -1,4 +1,4 @@
-import RegisterAccountEntity from "src/core/RegisterAccount/RegisterAccountEntity";
+import RegisterAccountEntity from "src/core/registerAccount/RegisterAccountEntity";
 import HttpClient from "../http/HttpClient";
 const registerAccountEntity = new RegisterAccountEntity()
 

@@ -53,8 +53,8 @@
 <script lang="ts">
 import { defineComponent, inject, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import VerifyAccountAction from '../core/VerifyAccount/VerifyAccountAction'
-import VerifyAccountTokenEntity from 'src/core/VerifyAccount/VerifyAccountTokenEntity'
+import VerifyAccountAction from 'src/core/verifyAccount/VerifyAccountAction'
+import VerifyAccountTokenEntity from 'src/core/verifyAccount/VerifyAccountTokenEntity'
 import { Notify } from 'quasar'
 
 export default defineComponent({
@@ -86,7 +86,7 @@ export default defineComponent({
           localStorage.removeItem('user-email')
           router.push(`${response?.route}`)
         }
-      } catch (error) {
+      } catch (error:any) {
         Notify.create({
           message: error.message,
           color: 'red-14',
