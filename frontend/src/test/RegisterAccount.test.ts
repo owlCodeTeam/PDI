@@ -1,18 +1,22 @@
-import LoginGatewayHttp from "src/infra/gateway/LoginGatewayHttp"
-import MockAdpter from "src/infra/http/MockAdapter"
+import RegisterAccountAction from "src/core/RegisterAccount/RegisterAccountAction"
+import RegisterAccountDataEntity from "src/core/RegisterAccount/RegisterAccountDataEntity"
+import RegisterAccountGatewayHttp from "src/infra/RegisterAccount/RegisterAccountGatewayHttp"
+import MockAdapter from "src/infra/http/MockAdapter"
 import { expect, test } from "vitest"
 
-const mockAdpter = new MockAdpter()
+const mockAdpter = new MockAdapter()
 const baseUrl = 'http://localhost:3000/'
-const loginGateway = new LoginGatewayHttp(mockAdpter, baseUrl)
 
-test("Deve tentar cadastrar uma conta", async () => {
-    const user = {
-        name: 'henrique',
+const registerAccountGateway = new RegisterAccountGatewayHttp(mockAdpter, baseUrl)
+const registerAccountAction = new RegisterAccountAction(registerAccountGateway)
+
+test("Deve criar um usuário válido", async () => {
+    const registerData = {
+        name: 'Henrique Gabriel Moraes Denoni',
         email: 'henrique@gmail.com',
         password: '12345678'
     }
-    const response = await loginGateway.login(user)
-    console.log(response)
-    expect(response).toBe(true)
+    const user = new RegisterAccountDataEntity(registerData)
+    const response = await registerAccountAction.execute(user)
+    expect(response.status).toBe(true)
 })
