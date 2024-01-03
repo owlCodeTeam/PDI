@@ -1,7 +1,12 @@
 import { boot } from 'quasar/wrappers'
-import LoginGatewayHttp from 'src/infra/gateway/LoginGatewayHttp'
+import LoginGatewayHttp from 'src/infra/Login/LoginGatewayHttp'
 import AxiosAdapter from '../infra/http/AxiosAdapter'
 import MockAdapter from '../infra/http/MockAdapter'
+import LoginAction from 'src/core/Login/LoginAction'
+import RegisterAccountGatewayHttp from 'src/infra/RegisterAccount/RegisterAccountGatewayHttp'
+import RegisterAccountAction from 'src/core/RegisterAccount/RegisterAccountAction'
+import VerifyAccountGatewayHttp from 'src/infra/VerifyAccount/VerifyAccountGatewayHttp'
+import VerifyAccountAction from 'src/core/VerifyAccount/VerifyAccountAction'
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
@@ -12,5 +17,14 @@ export default boot(async ({app}) => {
   const baseUrl = 'http://localhost:3000/'
 
   const loginGateway = new LoginGatewayHttp(mockAdpter, baseUrl)
-  app.provide('loginGateway', loginGateway)
+  const loginAction =  new LoginAction(loginGateway)
+  app.provide('loginAction', loginAction)
+
+  const registerAccountGateway = new RegisterAccountGatewayHttp(mockAdpter, baseUrl)
+  const registerAccountAction = new RegisterAccountAction(registerAccountGateway)
+  app.provide('registerAccountAction', registerAccountAction)
+
+  const verifyAccountGateway = new VerifyAccountGatewayHttp(mockAdpter, baseUrl)
+  const verifyAccountAction = new VerifyAccountAction(verifyAccountGateway)
+  app.provide('verifyAccountAction', verifyAccountAction)
 })

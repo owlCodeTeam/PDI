@@ -19,10 +19,13 @@
             Crie a sua conta
           </p>
         </div>
-        <q-form class="row justify-center items-center">
+        <q-form 
+          class="row justify-center items-center"
+          @submit="onSubmit"
+        >
           <q-input 
             outlined 
-            v-model="registerData.name"
+            v-model="registerData.username"
             class="text-h6 col-sm-7 col-11 q-my-sm"
             label="Nome"
             color="indigo-10"
@@ -98,30 +101,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import RegisterAccountAction from 'src/core/RegisterAccount/RegisterAccountAction'
+import RegisterAccountDataEntity from 'src/core/RegisterAccount/RegisterAccountDataEntity'
+import { defineComponent, inject, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'RegisterAccount',
   setup() {
+    const registerAccountAction = inject('registerAccountAction') as RegisterAccountAction
     const showPassword = ref(true)
     const router = useRouter()
     const registerData = reactive({
-      name: '' as string,
+      username: '' as string,
       email: '' as string,
       password: '' as string
     })
     const confirmPassword = reactive({data: '' as string})
-
     const inputIsNull = () => (val: any) => (!!val || 'Este campo é obrigatório')
     const passwordAreTheSame = () => (val: any) => (val == registerData.password || 'As senhas devem ser iguais')
 
+    async function onSubmit() {
+      const user = new RegisterAccountDataEntity(registerData)
+      const response = await registerAccountAction.execute(user)
+      if (response?.status == true) {
+        localStorage.setItem('user-email', user.email())
+        router.push(`/verify-account/${user.email()}`)
+      }
+    }
+    
     return {
       registerData,
       confirmPassword,
       showPassword,
       router,
       passwordAreTheSame,
-      inputIsNull
+      inputIsNull,
+      onSubmit
     }
   }
 })

@@ -88,30 +88,29 @@
 </template>
 
 <script lang="ts">
-import LoginGateway from 'src/infra/gateway/LoginGateway'
 import { defineComponent, inject, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import LoginAction from '../core/LoginAction'
-import UserEntity from '../core/UserEntity'
+import LoginAction from 'src/core/Login/LoginAction'
+import LoginDataEntity from 'src/core/Login/LoginDataEntity'
 
 export default defineComponent({
   name: 'LoginPage',
   setup() {
-    const loginGateway = inject('loginGateway') as LoginGateway
+    const loginAction = inject('loginAction') as LoginAction
     const loginData = reactive({
       email: '' as string,
       password: '' as string
     })
     const showPassword = ref(true)
     const router = useRouter()
-    
     const inputIsNull = () => (val: any) => (!!val || 'Este campo é obrigatório')
-
+    
     async function onSubmit() {
-      const action = new LoginAction(loginGateway)
-      const user = new UserEntity(loginData)
-      const response = await action.execute(user)
-      console.log(response)
+      const user = new LoginDataEntity(loginData)
+      const response = await loginAction.execute(user)
+      if (response?.status == true) {
+        router.push('/control-panel')
+      }
     }
 
     return {
