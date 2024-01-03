@@ -39,7 +39,7 @@
             class="text-h6 col-sm-7 col-11 q-my-sm"
             label="Email"
             color="indigo-10"
-            type="text"
+            type="email"
             :rules="[inputIsNull()]"
           >
             <template v-slot:prepend>
@@ -52,7 +52,7 @@
             class="text-h6 col-sm-7 col-11 q-my-sm"
             label="Senha"
             color="indigo-10"
-            :type="showPassword.data ? 'password' : 'text'"
+            :type="showPassword ? 'password' : 'text'"
             :rules="[inputIsNull()]"
           >
             <template v-slot:prepend>
@@ -60,9 +60,9 @@
             </template>
             <template v-slot:append>
               <q-icon
-                :name="showPassword.data ? 'visibility_off' : 'visibility'"
+                :name="showPassword ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
-                @click="showPassword.data = !showPassword.data"
+                @click="showPassword = !showPassword"
               />
             </template>
           </q-input>
@@ -72,7 +72,7 @@
             class="text-h6 col-sm-7 col-11 q-my-sm"
             label="Senha"
             color="indigo-10"
-            :type="showPassword.data ? 'password' : 'text'"
+            :type="showPassword ? 'password' : 'text'"
             :rules="[inputIsNull(), passwordAreTheSame()]"
           >
             <template v-slot:prepend>
@@ -98,12 +98,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'RegisterAccount',
   setup() {
-    const showPassword = reactive({data: true})
+    const showPassword = ref(true)
     const router = useRouter()
     const registerData = reactive({
       name: '' as string,
