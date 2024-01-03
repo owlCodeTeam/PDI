@@ -1,4 +1,4 @@
-import RegisterAccountGateway from "src/infra/RegisterAccount/RegisterAccountGateway";
+import RegisterAccountGateway from "src/infra/registerAccount/RegisterAccountGateway";
 import RegisterAccountDataEntity from "./RegisterAccountDataEntity";
 
 export default class RegisterAccountAction {

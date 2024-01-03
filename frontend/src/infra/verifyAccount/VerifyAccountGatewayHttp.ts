@@ -1,4 +1,4 @@
-import VerifyAccountEntity from "src/core/VerifyAccount/VerifyAccountEntity";
+import VerifyAccountEntity from "src/core/verifyAccount/VerifyAccountEntity";
 import HttpClient from "../http/HttpClient";
 import VerifyAccountGateway from "./VerifyAccountGateway";
 const verifyAccountEntity = new VerifyAccountEntity()
