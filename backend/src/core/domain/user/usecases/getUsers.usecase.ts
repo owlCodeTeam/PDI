@@ -3,7 +3,7 @@ import { userRepositoryInterface } from "../userRepository.interface";
 
 export class getUsersUsecase {
   constructor(readonly repo: userRepositoryInterface) {}
-  public async ecxecute(): Promise<userEntity[]> {
+  public async execute(): Promise<userEntity[]> {
     return await this.repo.get();
   }
 }

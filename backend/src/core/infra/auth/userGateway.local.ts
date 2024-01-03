@@ -8,7 +8,8 @@ export type verifyOutput = {
   iat: number;
 };
 export class userGatewayLocal implements authGatewayInterface {
-  constructor(readonly key: string) {}
+  constructor() {}
+  private key = process.env.SECRET;
   sign(username: string, password: string, time: string): Promise<string> {
     const token = sign(
       {
@@ -27,7 +28,7 @@ export class userGatewayLocal implements authGatewayInterface {
   }
   async save(user: userEntity): Promise<string> {
     const salt = bcrypt.genSalt(12);
-    const passwordHash = bcrypt.hash(user.password, salt);
+    const passwordHash = bcrypt.hash(user.password(), salt);
     return passwordHash;
   }
 }

@@ -8,11 +8,11 @@ export type updateStudentInput = {
   email: string;
   password: string;
 };
+
 export interface userRepositoryInterface {
-  signUp(userEntity: userEntity): Promise<userEntity>;
+  save(userEntity: userEntity): Promise<userEntity>;
   login(loginInput: loginInput): Promise<boolean>;
   get(): Promise<userEntity[]>;
   getOne(_id: string): Promise<userEntity>;
   delete(_id: string): Promise<void>;
-  update(updateStudentInput: updateStudentInput, _id: string): Promise<userEntity>;
 }

@@ -8,7 +8,8 @@ export type verifyOutput = {
   iat: number;
 };
 export class authGatewayLocal implements authGatewayInterface {
-  constructor(readonly key: string) {}
+  constructor() {}
+  private key = process.env.SECRET;
   sign(username: string, password: string, time: string): Promise<string> {
     const token = sign(
       {

@@ -2,7 +2,7 @@ export type userProps = {
   username: string;
   email: string;
   password: string;
-  _id: string;
+  _id?: string;
 };
 export class userEntity {
   constructor(readonly props: userProps) {
@@ -25,6 +25,9 @@ export class userEntity {
   }
   _id(): string {
     return this.props._id;
+  }
+  updatePassword(password: string) {
+    this.props.password = password;
   }
   updateUserName(username: string) {
     this.props.username = username;

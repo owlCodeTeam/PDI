@@ -1,9 +1,9 @@
 import { userEntity } from "../entity/user.entity";
 import { userRepositoryInterface } from "../userRepository.interface";
 
-export class GetOneUsecase {
+export class GetOneUserUsecase {
   constructor(readonly repo: userRepositoryInterface) {}
-  public async getOne(_id: string): Promise<userEntity> {
+  public async execute(_id: string): Promise<userEntity> {
     return await this.repo.getOne(_id);
   }
 }
