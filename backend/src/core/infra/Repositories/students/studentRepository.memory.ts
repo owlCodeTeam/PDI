@@ -1,5 +1,5 @@
-import { studentEntity } from "@domain/sutdent/entity/student.entity";
-import { studentRepositoryInterface, updateStudentInput } from "@domain/sutdent/studentRepository.interface";
+import { studentEntity } from "@domain/student/entity/student.entity";
+import { studentRepositoryInterface, updateStudentInput } from "@domain/student/studentRepository.interface";
 
 export class studentRepositoryMemory implements studentRepositoryInterface {
   public students: studentEntity[] = [];

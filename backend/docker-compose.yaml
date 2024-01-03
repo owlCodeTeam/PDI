@@ -1,0 +1,13 @@
+version: "2.2"
+services:
+  postgres: 
+    container_name: PDIDatabase
+    image: postgres
+    environment: 
+      POSTGRES_USER: owlCode
+      POSTGRES_PASSWORD: 99781384
+      POSTGRES_DB: PDI
+    volumes:
+      - ./data:/data/postgres
+    ports:
+      - "5432:5432"

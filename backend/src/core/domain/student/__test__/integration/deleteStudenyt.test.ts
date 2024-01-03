@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
-import { deleteStudentUsecase } from "@domain/sutdent/usecases/deleteStudent.usecase";
-import { studentEntity } from "@domain/sutdent/entity/student.entity";
+import { deleteStudentUsecase } from "@domain/student/usecases/deleteStudent.usecase";
+import { studentEntity } from "@domain/student/entity/student.entity";
 import { studentRepositoryMemory } from "@infra/Repositories/students/studentRepository.memory";
 describe("Testando o caso de uso 'deleteStudent'", () => {
   test("Deve deletar uma Student", async () => {

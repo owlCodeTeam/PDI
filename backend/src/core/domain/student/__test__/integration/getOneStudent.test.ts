@@ -1,6 +1,6 @@
 import { studentRepositoryMemory } from "@infra/Repositories/students/studentRepository.memory";
-import { studentEntity } from "@domain/sutdent/entity/student.entity";
-import { getOneStudentUsecase } from "@domain/sutdent/usecases/gteOneStudent.usecase";
+import { studentEntity } from "@domain/student/entity/student.entity";
+import { getOneStudentUsecase } from "@domain/student/usecases/gteOneStudent.usecase";
 import * as crypto from "crypto";
 describe("Testando o caso de uso 'getOneStudent'", () => {
   test("Deve encontrar uma estudante", async () => {

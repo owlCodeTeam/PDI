@@ -1,6 +1,6 @@
-import { updateStudentUsecase } from "@domain/sutdent/usecases/updateStudent.usecase";
+import { updateStudentUsecase } from "@domain/student/usecases/updateStudent.usecase";
 import * as crypto from "crypto";
-import { studentEntity } from "@domain/sutdent/entity/student.entity";
+import { studentEntity } from "@domain/student/entity/student.entity";
 import { studentRepositoryMemory } from "@infra/Repositories/students/studentRepository.memory";
 describe("Testando o caso de uso 'updateStudent'", () => {
   test("Deve editar o estudante", async () => {

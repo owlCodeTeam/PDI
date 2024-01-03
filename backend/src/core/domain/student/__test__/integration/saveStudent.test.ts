@@ -1,5 +1,5 @@
-import { studentEntity } from "@domain/sutdent/entity/student.entity";
-import { saveStudentUsecase } from "@domain/sutdent/usecases/saveStudent.usecase";
+import { studentEntity } from "@domain/student/entity/student.entity";
+import { saveStudentUsecase } from "@domain/student/usecases/saveStudent.usecase";
 import { studentRepositoryMemory } from "@infra/Repositories/students/studentRepository.memory";
 import * as crypto from "crypto";
 describe("Deve testar o usecase saveStudent", () => {
