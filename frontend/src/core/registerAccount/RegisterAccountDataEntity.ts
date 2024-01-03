@@ -4,12 +4,6 @@ export type registerAccountProps = {
     password: string
 }
 
-export type configReponse = {
-    message: string,
-    color: string,
-    route: string
-}
-
 export default class RegisterAccountDataEntity {
     constructor(readonly props:registerAccountProps, confirmPassword:string) {
         this.validateName()
@@ -33,7 +27,7 @@ export default class RegisterAccountDataEntity {
         if (this.username().length <= 0){
             throw new Error('O nome de usuário não pode estar vazio')
         }
-        const regex = /^[a-z]+$/
+        const regex = /^[A-Za-z ]+$/
         if (!(regex.test(this.username()))) {
             throw new Error('O nome de usuário não pode conter números ou caracteres especiais')
         }

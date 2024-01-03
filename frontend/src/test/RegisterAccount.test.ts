@@ -1,4 +1,4 @@
-import RegisterAccountAction from "src/core/legisterAccount/RegisterAccountAction"
+import RegisterAccountAction from "src/core/registerAccount/RegisterAccountAction"
 import RegisterAccountDataEntity from "src/core/registerAccount/RegisterAccountDataEntity"
 import RegisterAccountGatewayHttp from "src/infra/registerAccount/RegisterAccountGatewayHttp"
 import MockAdapter from "src/infra/http/MockAdapter"
@@ -12,11 +12,12 @@ const registerAccountAction = new RegisterAccountAction(registerAccountGateway)
 
 test("Deve criar um usuário válido", async () => {
     const registerData = {
-        name: 'Henrique Gabriel Moraes Denoni',
+        username: 'Henrique Gabriel Moraes Denoni',
         email: 'henrique@gmail.com',
         password: '12345678'
     }
-    const user = new RegisterAccountDataEntity(registerData)
+    const confirmPassword = '12345678'
+    const user = new RegisterAccountDataEntity(registerData, confirmPassword)
     const response = await registerAccountAction.execute(user)
     expect(response.status).toBe(true)
 })

@@ -18,3 +18,27 @@ test("Deve tentar realizar login válido", async () => {
     const response = await loginAction.execute(user)
     expect(response.status).toBe(true)
 })
+
+test("Deve tentar realizar com email inválido", async () => {
+    const loginData = {
+        email: 'henrique@',
+        password: '12345678'
+    }
+    try {
+        const user = new LoginDataEntity(loginData)
+    } catch(error) {
+        expect(error?.message).toBe('Email inválido')
+    }
+})
+
+test("Deve tentar realizar com senha inválida", async () => {
+    const loginData = {
+        email: 'henrique@gmail.com',
+        password: ''
+    }
+    try {
+        const user = new LoginDataEntity(loginData)
+    } catch(error) {
+        expect(error?.message).toBe('O campo senha não pode estar vazio')
+    }
+})

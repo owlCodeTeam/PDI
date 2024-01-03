@@ -53,7 +53,7 @@
 <script lang="ts">
 import { defineComponent, inject, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import VerifyAccountAction from '../core/verifyAccount/VerifyAccountAction'
+import VerifyAccountAction from 'src/core/verifyAccount/VerifyAccountAction'
 import VerifyAccountTokenEntity from 'src/core/verifyAccount/VerifyAccountTokenEntity'
 import { Notify } from 'quasar'
 
