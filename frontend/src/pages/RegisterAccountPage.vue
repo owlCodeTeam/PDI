@@ -25,7 +25,7 @@
         >
           <q-input 
             outlined 
-            v-model="registerData.name"
+            v-model="registerData.username"
             class="text-h6 col-sm-7 col-11 q-my-sm"
             label="Nome"
             color="indigo-10"
@@ -112,7 +112,7 @@ export default defineComponent({
     const showPassword = ref(true)
     const router = useRouter()
     const registerData = reactive({
-      name: '' as string,
+      username: '' as string,
       email: '' as string,
       password: '' as string
     })
@@ -124,7 +124,8 @@ export default defineComponent({
       const user = new RegisterAccountDataEntity(registerData)
       const response = await registerAccountAction.execute(user)
       if (response?.status == true) {
-        router.push('/verify-account')
+        localStorage.setItem('user-email', user.email())
+        router.push(`/verify-account/${user.email()}`)
       }
     }
     

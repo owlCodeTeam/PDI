@@ -1,10 +1,10 @@
-export type LoginDataProps = {
+export type loginDataProps = {
     email: string,
     password: string
 }
 
 export default class LoginDataEntity {
-    constructor(readonly props:LoginDataProps) {
+    constructor(readonly props:loginDataProps) {
         //insert validation functions here
     }
 

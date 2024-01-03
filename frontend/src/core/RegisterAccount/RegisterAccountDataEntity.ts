@@ -1,5 +1,5 @@
 export type registerAccountProps = {
-    name: string,
+    username: string,
     email: string,
     password: string
 }
@@ -9,8 +9,8 @@ export default class RegisterAccountDataEntity {
         //insert validation functions here
     }
 
-    name() {
-        return this.props.name
+    username() {
+        return this.props.username
     }
 
     email() {

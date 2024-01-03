@@ -6,7 +6,7 @@ export default class RegisterAccountGatewayHttp implements RegisterAccountGatewa
     constructor(readonly httpClient:HttpClient, readonly baseUrl:string) {}
 
     async register(user:object) {
-        const responseGateway = await this.httpClient.post(`${this.baseUrl}/`, user)
+        const responseGateway = await this.httpClient.post(`${this.baseUrl}`, user)
         const response = registerAccountEntity.execute(responseGateway)
         return response
     }

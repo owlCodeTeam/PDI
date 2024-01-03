@@ -1,3 +1,3 @@
 export default interface RegisterAccountGateway {
-    register(user: object): Promise<any>
+    register(user:object): Promise<any>
 }
