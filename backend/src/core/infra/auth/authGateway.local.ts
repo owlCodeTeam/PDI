@@ -1,3 +1,4 @@
+import * as bcrypt from "bcrypt";
 import { authGatewayInterface } from "@domain/auth/authGateway.interface";
 import { sign, verify } from "jsonwebtoken";
 import { userEntity } from "@domain/auth/entity/user.entity";
@@ -8,10 +9,10 @@ export type verifyOutput = {
 };
 export class authGatewayLocal implements authGatewayInterface {
   constructor(readonly key: string) {}
-  sign(user: userEntity, time: string): Promise<string> {
+  sign(username: string, password: string, time: string): Promise<string> {
     const token = sign(
       {
-        email: user.email(),
+        email: username,
         expiresIn: time,
       },
       this.key,

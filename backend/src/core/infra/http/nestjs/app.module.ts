@@ -5,11 +5,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   imports: [
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: "localhost",
-      port: 5432,
-      username: "owlCode",
-      password: "99781384",
-      database: "PDI",
+      host: "host.docker.internal",
+      port: 5433,
+      username: "root",
+      password: "root",
+      database: "pdi",
       entities: [],
       synchronize: true,
     }),

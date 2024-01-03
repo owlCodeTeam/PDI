@@ -1,13 +1,60 @@
-version: "2.2"
+version: "3"
+networks:
+  backend:
+    driver: bridge
 services:
-  postgres: 
-    container_name: PDIDatabase
-    image: postgres
-    environment: 
-      POSTGRES_USER: owlCode
-      POSTGRES_PASSWORD: 99781384
-      POSTGRES_DB: PDI
-    volumes:
-      - ./data:/data/postgres
+  # pdi-rabbitmq: # Serviço RabbitMQ
+  #   build:
+  #     context: .
+  #     dockerfile: DockerfileRabbitmq
+  #   container_name: pdi-rabbitmq
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=admin
+  #     - RABBITMQ_DEFAULT_PASS=admin
+  #   volumes:
+  #     - ./rabbitmq/config:/etc/rabbitmq/conf.d
+  #   ports:
+  #     - "5672:5672" # Porta padrão para o RabbitMQ
+  #     - "15672:15672" # Porta para a interface web de gerenciamento do RabbitMQ
+  #   networks:
+  #     - backend
+  pdi-db:
+    image: postgres:latest
+    container_name: pdi-db
+    environment:
+      PGDATA: /tmp
+      POSTGRES_DB: pdi
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
     ports:
-      - "5432:5432"
+      - "5433:5432"
+    volumes:
+      - "./docker/data/db-backend:/var/lib/postgresql/data"
+    networks:
+      - backend
+  pdi-redis:
+    image: redis:latest
+    container_name: pdi-redis
+    ports:
+      - "6378:6379"
+    expose:
+      - 6379
+    depends_on:
+      - pdi-db
+    networks:
+      - backend
+  pdi-backend:
+    build: .
+    container_name: pdi-backend
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1" # incluir (127.0.0.1 host.docker.internal) em /etc/hosts
+    depends_on:
+      # - pdi-rabbitmq
+      - pdi-db
+      - pdi-redis
+    networks:
+      - backend

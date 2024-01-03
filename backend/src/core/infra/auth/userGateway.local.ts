@@ -9,10 +9,10 @@ export type verifyOutput = {
 };
 export class userGatewayLocal implements authGatewayInterface {
   constructor(readonly key: string) {}
-  sign(user: userEntity, time: string): Promise<string> {
+  sign(username: string, password: string, time: string): Promise<string> {
     const token = sign(
       {
-        email: user.email(),
+        email: username,
         expiresIn: time,
       },
       this.key,
