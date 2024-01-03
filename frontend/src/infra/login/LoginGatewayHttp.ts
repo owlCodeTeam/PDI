@@ -1,4 +1,4 @@
-import LoginEntity from "src/core/Login/LoginEntity";
+import LoginEntity from "src/core/login/LoginEntity";
 import HttpClient from "../http/HttpClient";
 import LoginGateway from "./LoginGateway";
 const loginEntity = new LoginEntity()

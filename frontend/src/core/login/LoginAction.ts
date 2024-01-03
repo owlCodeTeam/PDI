@@ -1,4 +1,4 @@
-import LoginGateway from "src/infra/Login/LoginGateway";
+import LoginGateway from "src/infra/login/LoginGateway";
 import LoginDataEntity from "./LoginDataEntity";
 
 export default class LoginAction {

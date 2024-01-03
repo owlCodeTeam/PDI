@@ -18,108 +18,19 @@
           Plano de Desenvolvimento Individual
         </p>
       </div>
-      <div class="q-my-xl">
-        <q-form 
-          class="row justify-center justify-center items-center"
-          @submit="onSubmit"
-        >
-          <q-input 
-            outlined 
-            v-model="loginData.email"
-            class="text-h6 col-sm-7 col-11 q-my-sm"
-            label="Email"
-            color="indigo-10"
-            type="text"
-            :rules="[inputIsNull()]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="person" />
-            </template>
-          </q-input>
-          <q-input 
-            outlined 
-            v-model="loginData.password"
-            class="text-h6 col-sm-7 col-11 q-my-sm"
-            label="Senha"
-            color="indigo-10"
-            :type="showPassword ? 'password' : 'text'"
-            :rules="[inputIsNull()]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="key" />
-            </template>
-            <template v-slot:append>
-              <q-icon
-                :name="showPassword ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="showPassword = !showPassword"
-              />
-            </template>
-          </q-input>
-          <div class="col-sm-7 col-11 text-right">
-            <p 
-              class="q-ma-none text-subtitle1 text-indigo-10 cursor-pointer"
-              @click="router.push('/recover-password')"
-            >
-              Esqueceu a senha?
-            </p>
-          </div>
-          <q-btn 
-            label="Entrar"
-            color="indigo-10"
-            class="col-sm-7 col-11 q-my-md text-h6"
-            type="submit"
-          />
-          <div class="col-sm-7 col-11 text-center">
-            <p class="q-ma-none text-subtitle1">
-              Não tem uma uma conta? 
-              <span 
-                class="text-indigo-10 cursor-pointer" 
-                @click="router.push('/register-account')"
-              >
-                Registre-se
-              </span>
-            </p>
-          </div>
-        </q-form>
-      </div>
+      <LoginForm />
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import LoginAction from 'src/core/Login/LoginAction'
-import LoginDataEntity from 'src/core/Login/LoginDataEntity'
+import LoginForm from '../components/login/LoginForm.vue'
 
 export default defineComponent({
   name: 'LoginPage',
-  setup() {
-    const loginAction = inject('loginAction') as LoginAction
-    const loginData = reactive({
-      email: '' as string,
-      password: '' as string
-    })
-    const showPassword = ref(true)
-    const router = useRouter()
-    const inputIsNull = () => (val: any) => (!!val || 'Este campo é obrigatório')
-    
-    async function onSubmit() {
-      const user = new LoginDataEntity(loginData)
-      const response = await loginAction.execute(user)
-      if (response?.status == true) {
-        router.push('/control-panel')
-      }
-    }
-
-    return {
-      loginData,
-      showPassword,
-      router,
-      inputIsNull,
-      onSubmit
-    }
+  components: {
+    LoginForm
   }
 })
 </script>

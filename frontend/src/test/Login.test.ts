@@ -1,6 +1,6 @@
-import LoginAction from "src/core/Login/LoginAction"
-import LoginDataEntity from "src/core/Login/LoginDataEntity"
-import LoginGatewayHttp from "src/infra/Login/LoginGatewayHttp"
+import LoginAction from "src/core/login/LoginAction"
+import LoginDataEntity from "src/core/login/LoginDataEntity"
+import LoginGatewayHttp from "src/infra/login/LoginGatewayHttp"
 import MockAdapter from "src/infra/http/MockAdapter"
 import { expect, test } from "vitest"
 

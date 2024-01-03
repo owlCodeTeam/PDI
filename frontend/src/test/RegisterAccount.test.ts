@@ -1,6 +1,6 @@
-import RegisterAccountAction from "src/core/RegisterAccount/RegisterAccountAction"
-import RegisterAccountDataEntity from "src/core/RegisterAccount/RegisterAccountDataEntity"
-import RegisterAccountGatewayHttp from "src/infra/RegisterAccount/RegisterAccountGatewayHttp"
+import RegisterAccountAction from "src/core/legisterAccount/RegisterAccountAction"
+import RegisterAccountDataEntity from "src/core/registerAccount/RegisterAccountDataEntity"
+import RegisterAccountGatewayHttp from "src/infra/registerAccount/RegisterAccountGatewayHttp"
 import MockAdapter from "src/infra/http/MockAdapter"
 import { expect, test } from "vitest"
 

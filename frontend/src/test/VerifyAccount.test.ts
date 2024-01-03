@@ -1,6 +1,6 @@
 
-import VerifyAccountAction from "src/core/VerifyAccount/VerifyAccountAction"
-import VerifyAccountGatewayHttp from "src/infra/VerifyAccount/VerifyAccountGatewayHttp"
+import VerifyAccountAction from "src/core/verifyAccount/VerifyAccountAction"
+import VerifyAccountGatewayHttp from "src/infra/verifyAccount/VerifyAccountGatewayHttp"
 import MockAdapter from "src/infra/http/MockAdapter"
 import { expect, test } from "vitest"
 

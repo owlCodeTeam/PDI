@@ -13,83 +13,7 @@
       />
     </q-page-sticky>
     <div class="col-12 col-sm-9 flex justify-center items-center">
-      <div>
-        <div class="text-center ">
-          <p class="q-my-xl text-h4">
-            Crie a sua conta
-          </p>
-        </div>
-        <q-form 
-          class="row justify-center items-center"
-          @submit="onSubmit"
-        >
-          <q-input 
-            outlined 
-            v-model="registerData.username"
-            class="text-h6 col-sm-7 col-11 q-my-sm"
-            label="Nome"
-            color="indigo-10"
-            type="text"
-            :rules="[inputIsNull()]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="person" />
-            </template>
-          </q-input>
-          <q-input 
-            outlined 
-            v-model="registerData.email"
-            class="text-h6 col-sm-7 col-11 q-my-sm"
-            label="Email"
-            color="indigo-10"
-            type="email"
-            :rules="[inputIsNull()]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="mail" />
-            </template>
-          </q-input>
-          <q-input 
-            outlined 
-            v-model="registerData.password"
-            class="text-h6 col-sm-7 col-11 q-my-sm"
-            label="Senha"
-            color="indigo-10"
-            :type="showPassword ? 'password' : 'text'"
-            :rules="[inputIsNull()]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="key" />
-            </template>
-            <template v-slot:append>
-              <q-icon
-                :name="showPassword ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="showPassword = !showPassword"
-              />
-            </template>
-          </q-input>
-          <q-input 
-            outlined 
-            v-model="confirmPassword.data"
-            class="text-h6 col-sm-7 col-11 q-my-sm"
-            label="Senha"
-            color="indigo-10"
-            :type="showPassword ? 'password' : 'text'"
-            :rules="[inputIsNull(), passwordAreTheSame()]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="key" />
-            </template>
-          </q-input>
-          <q-btn 
-            label="Criar"
-            color="indigo-10"
-            class="col-sm-7 col-11 q-my-md text-h6"
-            type="submit"
-          />
-        </q-form>
-      </div>
+      <RegisterAccountForm />
     </div>  
     <div class="col-12 col-sm-3 bg-indigo-8 flex justify-center items-center">
       <q-img 
@@ -101,43 +25,21 @@
 </template>
 
 <script lang="ts">
-import RegisterAccountAction from 'src/core/RegisterAccount/RegisterAccountAction'
-import RegisterAccountDataEntity from 'src/core/RegisterAccount/RegisterAccountDataEntity'
-import { defineComponent, inject, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent } from 'vue'
+import RegisterAccountForm from 'src/components/registerAccount/RegisterAccountForm.vue'
+import { useRouter } from 'vue-router';
+
 export default defineComponent({
   name: 'RegisterAccount',
   setup() {
-    const registerAccountAction = inject('registerAccountAction') as RegisterAccountAction
-    const showPassword = ref(true)
     const router = useRouter()
-    const registerData = reactive({
-      username: '' as string,
-      email: '' as string,
-      password: '' as string
-    })
-    const confirmPassword = reactive({data: '' as string})
-    const inputIsNull = () => (val: any) => (!!val || 'Este campo é obrigatório')
-    const passwordAreTheSame = () => (val: any) => (val == registerData.password || 'As senhas devem ser iguais')
 
-    async function onSubmit() {
-      const user = new RegisterAccountDataEntity(registerData)
-      const response = await registerAccountAction.execute(user)
-      if (response?.status == true) {
-        localStorage.setItem('user-email', user.email())
-        router.push(`/verify-account/${user.email()}`)
-      }
-    }
-    
     return {
-      registerData,
-      confirmPassword,
-      showPassword,
-      router,
-      passwordAreTheSame,
-      inputIsNull,
-      onSubmit
+      router
     }
-  }
+  },
+  components: {
+    RegisterAccountForm
+  },
 })
 </script>
