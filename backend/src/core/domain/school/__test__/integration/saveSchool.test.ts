@@ -11,6 +11,6 @@ describe("Deve testar o caso de uso 'saveSchool'", () => {
       cep: "3213",
       _id: crypto.randomBytes(8).toString("hex"),
     });
-    expect(1).toBe(1);
+    expect(repo.schools.length).toBe(1);
   });
 });

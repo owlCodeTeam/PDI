@@ -12,7 +12,7 @@ describe("Testando o caso de uso 'getSchools'", () => {
     });
     repo.schools.push(testSchool);
     const action = new getSchools(repo);
-    const Schools: School[] = await action.execute(testSchool._id());
+    const Schools: School[] = await action.execute();
     expect(Schools.length).toBe(1);
   });
 });
