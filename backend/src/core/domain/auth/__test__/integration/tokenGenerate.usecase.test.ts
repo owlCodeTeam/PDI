@@ -1,5 +1,5 @@
 import { stub } from "sinon";
-import { authGatewayLocal } from "@infra/auth/authGateway.local";
+import { authGatewayLocal } from "@infra/auth/gateways/authGateway.local";
 import { GenerateTokenUsecase } from "@domain/auth/usecase/tokenGenerate.usecase";
 
 describe("Testando TokenGenerateUsecase", () => {

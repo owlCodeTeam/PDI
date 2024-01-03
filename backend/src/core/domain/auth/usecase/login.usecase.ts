@@ -1,4 +1,4 @@
-import { userGatewayLocal } from "@infra/auth/userGateway.local";
+import { userGatewayLocal } from "@infra/auth/gateways/userGateway.local";
 export type loginInput = {
   newPassword: string;
   oldPassword: string;

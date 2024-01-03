@@ -1,6 +1,6 @@
 import { stub } from "sinon";
 import { loginUsecase } from "@domain/auth/usecase/login.usecase";
-import { authGatewayLocal } from "@infra/auth/authGateway.local";
+import { authGatewayLocal } from "@infra/auth/gateways/authGateway.local";
 
 describe("Deve testar LoginUsecase", () => {
   test.skip("Deve autenticar User", async () => {

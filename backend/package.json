@@ -17,7 +17,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "typeorm-extension": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs",
+    "migration:create": "npm run typeorm migration:create ./migration-create.migration",
+    "migration:run": "docker exec pdi-backend npm run typeorm migration:run -- -d src/core/infra/shared/database/datasource",
+    "seed:run": "docker exec pdi-backend npm run typeorm-extension seed:run -- -d src/core/infra/shared/database/datasource"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -34,7 +39,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "sinon": "^17.0.1",
-    "typeorm": "^0.3.18",
+    "typeorm": "^0.3.19",
+    "typeorm-extension": "^3.2.0",
     "yarn": "^1.22.21"
   },
   "devDependencies": {
