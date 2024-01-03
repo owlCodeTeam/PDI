@@ -1,4 +1,4 @@
-import { userEntity } from "@domain/auth/entity/user.entity";
+import { UserEntity } from "@domain/auth/entity/user.entity";
 export type verifyOutput = {
   email: string;
   expiresIn: string;
@@ -6,8 +6,8 @@ export type verifyOutput = {
 };
 
 export interface authGatewayInterface {
-  sign(username: string, password: string, time: string): Promise<string>;
-  Verify(token: string): Promise<verifyOutput>;
-  save(user: userEntity): Promise<string>;
-  login(oldPassword: string, newPassword: string): Promise<boolean>;
+  tokenGenerate(user: UserEntity): Promise<string>;
+  validatePassword(user: UserEntity, password: string): Promise<boolean>;
+  // save(user: UserEntity): Promise<string>;
+  // login(oldPassword: string, newPassword: string): Promise<boolean>;
 }

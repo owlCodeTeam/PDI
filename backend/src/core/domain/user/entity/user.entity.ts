@@ -4,7 +4,7 @@ export type userProps = {
   password: string;
   _id: string;
 };
-export class userEntity {
+export class UserEntity {
   constructor(readonly props: userProps) {
     if (props.email) {
       this.updateEmail(props.email);

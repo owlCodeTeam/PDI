@@ -1,4 +1,4 @@
-import { userEntity } from "./entity/user.entity";
+import { UserEntity } from "./entity/user.entity";
 export type loginInput = {
   email: string;
   password: string;
@@ -9,10 +9,10 @@ export type updateStudentInput = {
   password: string;
 };
 export interface userRepositoryInterface {
-  signUp(userEntity: userEntity): Promise<userEntity>;
+  signUp(UserEntity: UserEntity): Promise<UserEntity>;
   login(loginInput: loginInput): Promise<boolean>;
-  get(): Promise<userEntity[]>;
-  getOne(_id: string): Promise<userEntity>;
+  get(): Promise<UserEntity[]>;
+  getOne(_id: string): Promise<UserEntity>;
   delete(_id: string): Promise<void>;
-  update(updateStudentInput: updateStudentInput, _id: string): Promise<userEntity>;
+  update(updateStudentInput: updateStudentInput, _id: string): Promise<UserEntity>;
 }
