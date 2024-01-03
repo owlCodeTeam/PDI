@@ -7,6 +7,8 @@ import RegisterAccountGatewayHttp from 'src/infra/registerAccount/RegisterAccoun
 import RegisterAccountAction from 'src/core/registerAccount/RegisterAccountAction'
 import VerifyAccountGatewayHttp from 'src/infra/verifyAccount/VerifyAccountGatewayHttp'
 import VerifyAccountAction from 'src/core/verifyAccount/VerifyAccountAction'
+import RecoverPasswordGatewayHttp from 'src/infra/recoverPassword/RecoverPasswordGatewayHttp'
+import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction'
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
@@ -27,4 +29,8 @@ export default boot(async ({app}) => {
   const verifyAccountGateway = new VerifyAccountGatewayHttp(mockAdpter, baseUrl)
   const verifyAccountAction = new VerifyAccountAction(verifyAccountGateway)
   app.provide('verifyAccountAction', verifyAccountAction)
+
+  const recoverPasswordGateway = new RecoverPasswordGatewayHttp(mockAdpter, baseUrl)
+  const recoverPasswordAction = new RecoverPasswordAction(recoverPasswordGateway)
+  app.provide('recoverPasswordAction', recoverPasswordAction)
 })

@@ -7,6 +7,7 @@
       <q-img 
         src="../assets/login-illustration.svg"
         width="80%"
+        class="q-my-sm"
       />
     </div>
     <div class="col-12 col-sm-6 row justify-center items-center">

@@ -1,7 +1,5 @@
 <template>
-  <q-page 
-    class="row justify-center"
-  >
+  <q-page class="row justify-center">
     <q-page-sticky 
       position="top-left" 
       :offset="[18, 18]"
