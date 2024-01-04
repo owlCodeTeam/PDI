@@ -56,7 +56,7 @@
         outlined 
         v-model="confirmPassword.data" 
         class="text-h6 col-sm-7 col-11 q-my-sm" 
-        label="Senha"
+        label="Confirmar senha"
         color="indigo-10" 
         :type="showPassword ? 'password' : 'text'"
       >

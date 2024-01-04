@@ -25,6 +25,7 @@
       />
       <NewPasswordForm 
         v-if="pageStep == 'new-password'"
+        @setNewPassword="getNewPassword"
       />
     </div>  
     <div class="col-12 col-sm-3 bg-indigo-8 flex justify-center items-center">
@@ -52,8 +53,17 @@ export default defineComponent({
 
     const user = reactive({
       email: '' as string,
-      token: '' as string
+      token: '' as string,
     })
+    var newPassword:object = reactive({
+      password: '' as string,
+      confirmPassword: '' as string
+    })
+
+    function onSubmit() {
+      console.log(user)
+      console.log(newPassword)
+    }
 
     function getEmail(email:string) {
       user.email = email
@@ -61,6 +71,11 @@ export default defineComponent({
 
     function getToken(token:string) {
       user.token = token
+    }
+
+    function getNewPassword(data:object) {
+      newPassword = data
+      onSubmit()
     }
 
     function changePageStep(step:string) {
@@ -78,7 +93,8 @@ export default defineComponent({
       leaveThePage,
       getEmail,
       getToken,
-      changePageStep
+      changePageStep,
+      getNewPassword
     }
   },
   components: {
