@@ -40,7 +40,7 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
           cpf: user.cpf(),
         },
       ])
-      .orUpdate(["email", "password", "name"], ["uuid"])
+      .orUpdate(["email", "password", "name", "is_verify", "cpf"], ["uuid"])
       .execute();
     return user;
   }

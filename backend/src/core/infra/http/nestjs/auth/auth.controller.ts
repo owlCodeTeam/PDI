@@ -5,7 +5,7 @@ import { GenerateTokenUsecase } from "@domain/auth/usecase/generateToken.usecase
 import { AuthGatewayLocal } from "@infra/auth/authGateway.local";
 import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
 import { AuthSaveDto } from "./authSave.dto";
-import { saveUserUsecase } from "@domain/auth/usecase/save.usecase";
+import { saveUserUsecase } from "@domain/user/usecases/save.usecase";
 @ApiTags("Auth")
 @Controller()
 export class AuthController {

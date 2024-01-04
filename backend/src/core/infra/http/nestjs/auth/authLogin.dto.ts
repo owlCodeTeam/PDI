@@ -11,7 +11,4 @@ export class AuthLoginDto {
   @IsString({ message: "O nome deve ser uma string" })
   @IsNotEmpty({ message: "O nome não pode ser vazio" })
   password: string;
-
-  @ApiProperty({ example: "013b6d7a-eb0e-42ee-9918-8335a82f1fd9" })
-  companyUuid?: string;
 }

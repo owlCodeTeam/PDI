@@ -22,6 +22,7 @@
     "typeorm-extension": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs",
     "migration:create": "npm run typeorm migration:create ./migration-create.migration",
     "migration:run": "docker exec pdi-backend npm run typeorm migration:run -- -d src/core/infra/shared/database/datasource",
+    "migration:revert": "docker exec pdi-backend npm run typeorm migration:revert -- -d src/core/infra/shared/database/datasource",
     "seed:run": "docker exec pdi-backend npm run typeorm-extension seed:run -- -d src/core/infra/shared/database/datasource"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.8",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
