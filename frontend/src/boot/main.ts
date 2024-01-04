@@ -22,7 +22,7 @@ export default boot(async ({app}) => {
   const loginAction =  new LoginAction(loginGateway)
   app.provide('loginAction', loginAction)
 
-  const registerAccountGateway = new RegisterAccountGatewayHttp(mockAdpter, baseUrl)
+  const registerAccountGateway = new RegisterAccountGatewayHttp(httpClient, baseUrl)
   const registerAccountAction = new RegisterAccountAction(registerAccountGateway)
   app.provide('registerAccountAction', registerAccountAction)
 

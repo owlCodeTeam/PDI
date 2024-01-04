@@ -11,12 +11,16 @@ export default class AxiosAdpter implements HttpClient {
         return response
     }
 
-    async post(url: string, data: object): Promise<any> {
-        const response = await axios.post(url, data, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return response
+    async post(url:string, data:object): Promise<any> {
+        try {
+            const response = await axios.post(url, data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            return response
+        } catch (error) {
+            return error
+        }
     }
 }

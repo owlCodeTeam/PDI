@@ -64,6 +64,19 @@
           <q-icon name="key" />
         </template>
       </q-input>
+      <q-input 
+        outlined 
+        v-model="registerData.cpf" 
+        class="text-h6 col-sm-7 col-11 q-my-sm" 
+        label="CPF"
+        mask="###.###.###-##"
+        color="indigo-10" 
+        type="text"
+      >
+        <template v-slot:prepend>
+          <q-icon name="-" />
+        </template>
+      </q-input>
       <q-btn 
         label="Criar" 
         color="indigo-10" 
@@ -90,7 +103,8 @@ export default defineComponent({
     const registerData = reactive({
       username: '' as string,
       email: '' as string,
-      password: '' as string
+      password: '' as string,
+      cpf: '' as string
     })
     const confirmPassword = reactive({data: '' as string})
 
