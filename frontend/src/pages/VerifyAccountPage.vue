@@ -65,7 +65,7 @@ export default defineComponent({
     const router = useRouter()
     const user = reactive({
       email: route.params.email,
-      token: '' as string
+      token: ''
     })
     const token = new VerifyAccountTokenEntity(user)
 
@@ -96,14 +96,9 @@ export default defineComponent({
     }
 
     onMounted(async() => {
-      if (token.validateSession(route.params.email) == false) {
-        Notify.create({
-          message: 'Você não tem permissão para acessar esta página',
-          color: 'red-14',
-          position: 'top'
-        })
-        localStorage.removeItem('user-email')
-        router.push('/')
+      if(route.params?.token) {
+        user.token = route.params.token
+        onSubmit()
       }
     })
 

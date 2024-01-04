@@ -10,11 +10,11 @@ export default class RegisterAccountEntity {
     }
 
     execute(responseGateway:any) {
-        if (responseGateway.status == 200) {
+        if (responseGateway.message == 'Usuario cadastrado com sucesso') {
             this.response.status = true
         }
-        if (!(responseGateway.status == 200)) {
-            throw new Error('Erro ao tentar registrar uma nova conta!')
+        if (!(responseGateway.message == 'Usuario cadastrado com sucesso')) {
+            throw new Error(responseGateway.message)
         }
         return this.response
     }

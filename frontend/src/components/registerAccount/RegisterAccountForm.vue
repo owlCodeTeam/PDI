@@ -112,8 +112,8 @@ export default defineComponent({
       try {
         const user = new RegisterAccountDataEntity(registerData, confirmPassword.data)
         const response = await registerAccountAction.execute(user)
+        console.log(response)
         if (response?.status == true) {
-          localStorage.setItem('user-email', user.email())
           router.push(`/verify-account/${user.email()}`)
         }
       } catch (error:any) {

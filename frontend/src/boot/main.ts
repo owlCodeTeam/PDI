@@ -20,7 +20,7 @@ export default boot(async ({app}) => {
   const mockAdpter = new MockAdapter()
   const baseUrl = 'http://localhost:3000/'
 
-  const loginGateway = new LoginGatewayHttp(fetchAdapter, baseUrl)
+  const loginGateway = new LoginGatewayHttp(axiosAdapter, baseUrl)
   const loginAction =  new LoginAction(loginGateway)
   app.provide('loginAction', loginAction)
 

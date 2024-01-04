@@ -11,8 +11,11 @@ export default class LoginEntity {
 
     execute(responseGateway:any) {
         console.log(responseGateway)
-        if (responseGateway.status == 200) {
+        if (responseGateway.message == 'token gerado com sucesso') {
             this.response.status = true
+        }
+        if (!(responseGateway.message == 'token gerado com sucesso')) {
+            throw new Error(responseGateway.message)
         }
         return this.response
     }
