@@ -29,7 +29,7 @@ export class AuthGatewayLocal implements authGatewayInterface {
     return await bcrypt.compare(password, userModel.password);
   }
 
-  async tokenDecoding(token: string): Promise<any> {
+  async tokenDecoding(token: string): Promise<verifyOutput> {
     try {
       const payload = verify(token, this.key);
       return payload;

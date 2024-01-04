@@ -9,4 +9,5 @@ export interface authGatewayInterface {
   tokenGenerate(user: userEntity): Promise<string>;
   validatePassword(user: userEntity, password: string): Promise<boolean>;
   encryptPassword(password: string): Promise<string>;
+  tokenDecoding(token: string): Promise<verifyOutput>;
 }
