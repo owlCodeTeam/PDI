@@ -1,7 +1,8 @@
 export type registerAccountProps = {
     username: string,
     email: string,
-    password: string
+    password: string,
+    cpf: string
 }
 
 export default class RegisterAccountDataEntity {
@@ -9,6 +10,7 @@ export default class RegisterAccountDataEntity {
         this.validateName()
         this.validateEmail()
         this.validatePassword(confirmPassword)
+        this.validateCpf()
     }
 
     username() {
@@ -21,6 +23,14 @@ export default class RegisterAccountDataEntity {
 
     password() {
         return this.props.password
+    }
+
+    cpf() {
+        return this.props.cpf
+    }
+
+    getData() {
+        return this.props
     }
 
     validateName() {
@@ -54,5 +64,13 @@ export default class RegisterAccountDataEntity {
             throw new Error('Senhas diferentes. Digite a mesma senha em ambos os campos de senha')
         }
     }
-    
+
+    validateCpf() {
+        if (this.cpf().length <= 0) {
+            throw new Error('O campo CPF não pode estar vazio')
+        }
+        if (this.cpf().length != 14) {
+            throw new Error('CPF inválido')
+        }
+    }
 }

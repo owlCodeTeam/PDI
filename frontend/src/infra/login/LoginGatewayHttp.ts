@@ -7,7 +7,7 @@ export default class LoginGatewayHttp implements LoginGateway {
     constructor(readonly httpClient:HttpClient, readonly baseUrl:string) {}
     
     async login(user: object): Promise<any> {
-        const responseGateway = await this.httpClient.post(`${this.baseUrl}`, user) 
+        const responseGateway = await this.httpClient.post(`${this.baseUrl}token-generate`, user) 
         const response = loginEntity.execute(responseGateway) 
         return response
     }

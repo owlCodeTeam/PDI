@@ -10,8 +10,11 @@ export default class RegisterAccountEntity {
     }
 
     execute(responseGateway:any) {
-        if (responseGateway === 'Post Mock Success') {
+        if (responseGateway.status == 200) {
             this.response.status = true
+        }
+        if (!(responseGateway.status == 200)) {
+            throw new Error('Erro ao tentar registrar uma nova conta!')
         }
         return this.response
     }

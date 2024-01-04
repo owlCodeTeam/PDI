@@ -27,7 +27,9 @@ export class AuthController {
         token,
       });
     } catch (error) {
-      response.status(HttpStatus.PRECONDITION_FAILED).send(error);
+      response.status(HttpStatus.PRECONDITION_FAILED).send({
+        message: error.message,
+      });
     }
   }
   @Post("signUp")
