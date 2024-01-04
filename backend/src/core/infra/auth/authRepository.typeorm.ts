@@ -45,4 +45,7 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       .execute();
     return user;
   }
+  async setCheckedAccount(email: string): Promise<void> {
+    await this.dataSource.createQueryBuilder().update(UserModel).set({ is_verify: true }).where({});
+  }
 }
