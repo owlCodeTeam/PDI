@@ -1,10 +1,10 @@
 require("dotenv").config();
-import * as bcrypt from "bcrypt";
 import { authGatewayInterface } from "@domain/auth/authGateway.interface";
 import { sign, verify } from "jsonwebtoken";
 import { userEntity } from "@domain/auth/entity/user.entity";
 import { DataSource } from "typeorm";
 import { UserModel } from "./database/models/User.model";
+import * as bcrypt from "bcrypt";
 export type verifyOutput = {
   email: string;
   expiresIn: string;
@@ -36,5 +36,10 @@ export class AuthGatewayLocal implements authGatewayInterface {
     } catch (error) {
       throw new Error(error);
     }
+  }
+  async encryptPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(password, salt);
+    return passwordHash;
   }
 }

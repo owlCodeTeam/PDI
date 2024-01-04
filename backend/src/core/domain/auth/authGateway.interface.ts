@@ -8,6 +8,5 @@ export type verifyOutput = {
 export interface authGatewayInterface {
   tokenGenerate(user: userEntity): Promise<string>;
   validatePassword(user: userEntity, password: string): Promise<boolean>;
-  // save(user: UserEntity): Promise<string>;
-  // login(oldPassword: string, newPassword: string): Promise<boolean>;
+  encryptPassword(password: string): Promise<string>;
 }

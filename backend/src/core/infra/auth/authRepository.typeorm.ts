@@ -2,7 +2,6 @@ import { AuthRepositoryInterface } from "@domain/auth/authRepository.interface";
 import { userEntity } from "@domain/auth/entity/user.entity";
 import { DataSource } from "typeorm";
 import { UserModel } from "./database/models/User.model";
-
 export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
   constructor(readonly dataSource: DataSource) {}
 

@@ -33,7 +33,7 @@ export class AuthController {
   @Post("signUp")
   async save(@Body() body: AuthSaveDto, @Res() response) {
     try {
-      const usecase = new saveUserUsecase(this.repo);
+      const usecase = new saveUserUsecase(this.repo, this.gateway);
       const user = await usecase.execute(body);
       response.status(HttpStatus.OK).send({
         message: "Usuario cadastrado com sucesso",
