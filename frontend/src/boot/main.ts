@@ -9,16 +9,18 @@ import VerifyAccountGatewayHttp from 'src/infra/verifyAccount/VerifyAccountGatew
 import VerifyAccountAction from 'src/core/verifyAccount/VerifyAccountAction'
 import RecoverPasswordGatewayHttp from 'src/infra/recoverPassword/RecoverPasswordGatewayHttp'
 import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction'
+import FetchAdapter from 'src/infra/http/FetchAdapter'
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async ({app}) => {
 
   const httpClient = new AxiosAdapter()
+  const fetchAdapter = new FetchAdapter()
   const mockAdpter = new MockAdapter()
   const baseUrl = 'http://localhost:3000/'
 
-  const loginGateway = new LoginGatewayHttp(httpClient, baseUrl)
+  const loginGateway = new LoginGatewayHttp(fetchAdapter, baseUrl)
   const loginAction =  new LoginAction(loginGateway)
   app.provide('loginAction', loginAction)
 

@@ -12,7 +12,7 @@ export default class FetchAdapter implements HttpClient {
         console.log('login')
         const response = await responseData.json()
         console.log(url)
-        console.log(response)
+        console.log(response.json())
         return response.json()
     }
 
