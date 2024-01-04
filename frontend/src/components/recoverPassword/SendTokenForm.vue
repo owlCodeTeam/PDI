@@ -46,8 +46,9 @@
 
 <script lang="ts">
 import { Notify } from 'quasar'
+import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction'
 import RecoverPasswordDataEntity from 'src/core/recoverPassword/RecoverPasswordDataEntity'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 export default defineComponent({
   name: 'SendTokenForm',
   props: {
@@ -56,13 +57,17 @@ export default defineComponent({
   setup(props, { emit }) {
     const token = ref('')
     const email = ref(props.emailProps)
+    const recoverPasswordAction = inject('recoverPasswordAction') as RecoverPasswordAction
 
-    const onSubmit = () => {
+    const onSubmit = async() => {
       try {
-        const response = new RecoverPasswordDataEntity()
-        response.validateToken(token.value)
-        emit('setToken', token.value)
-        emit('sendNextPageStep', 'new-password')
+        const responseDataEntity = new RecoverPasswordDataEntity()
+        responseDataEntity.validateToken(token.value)
+        const responseAction = await recoverPasswordAction.executeSendToken(token.value)
+        if (responseAction.statusToken == true) {
+          emit('setToken', token.value)
+          emit('sendNextPageStep', 'new-password')
+        }
       } catch (error) {
         Notify.create({
           message: error.message,

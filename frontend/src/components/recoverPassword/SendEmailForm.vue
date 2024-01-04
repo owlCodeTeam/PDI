@@ -29,19 +29,24 @@
 
 <script lang="ts">
 import { Notify } from 'quasar'
+import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction'
 import RecoverPasswordDataEntity from 'src/core/recoverPassword/RecoverPasswordDataEntity'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 export default defineComponent({
   name: 'SendEmailForm',
   setup(_, { emit }) {
     const email = ref('')
+    const recoverPasswordAction = inject('recoverPasswordAction') as RecoverPasswordAction
 
-    const onSubmit = () => {
+    const onSubmit = async() => {
       try {
-        const response = new RecoverPasswordDataEntity()
-        response.validateEmail(email.value)
-        emit('setEmail', email.value)
-        emit('sendNextPageStep', 'token')
+        const responseDataEntity = new RecoverPasswordDataEntity()
+        responseDataEntity.validateEmail(email.value)
+        const responseAction = await recoverPasswordAction.executeSendEmail(email.value)
+        if (responseAction.statusEmail == true) {
+          emit('setEmail', email.value)
+          emit('sendNextPageStep', 'token')
+        }
       } catch (error:any) {
         Notify.create({
           message: error.message,
