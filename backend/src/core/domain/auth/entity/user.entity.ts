@@ -4,6 +4,7 @@ export type userProps = {
   email: string;
   password: string;
   cpf: string;
+  is_verify?: boolean;
 };
 export class userEntity {
   constructor(readonly props: userProps) {}
@@ -13,6 +14,9 @@ export class userEntity {
   }
   password(): string {
     return this.props.password;
+  }
+  is_verify(): boolean {
+    return this.props.is_verify;
   }
   name(): string {
     return this.props.name;

@@ -49,4 +49,15 @@ describe("Testando TokenGenerateUsecase", () => {
       });
     }).rejects.toThrow("invalid_password");
   });
+  test("Deve gerar um novo token a um usuario não autenticado para a verificação da conta", async () => {
+    const repo = new AuthRepositoryTypeorm(dataSource);
+    const gateway = new AuthGatewayLocal(dataSource);
+    const action = new GenerateTokenUsecase(repo, gateway);
+
+    const response = await action.execute({
+      username: "usuario01@email.com",
+    });
+
+    expect(response.length > 10).toBe(true);
+  });
 });

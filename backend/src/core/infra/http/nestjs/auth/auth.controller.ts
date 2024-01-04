@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Param, Post, Res, Get } from "@nestjs/common";
 import { AuthLoginDto } from "./authLogin.dto";
 import { ApiTags } from "@nestjs/swagger";
 import { GenerateTokenUsecase } from "@domain/auth/usecase/generateToken.usecase";
@@ -41,6 +41,23 @@ export class AuthController {
       response.status(HttpStatus.OK).send({
         message: "Usuario cadastrado com sucesso",
         user: user.props,
+      });
+    } catch (error) {
+      response.status(HttpStatus.PRECONDITION_FAILED).send({
+        message: error.message,
+      });
+    }
+  }
+  @Get("resend/:email")
+  async ResendToken(@Param("email") email: string, @Res() response) {
+    try {
+      const usecase = new GenerateTokenUsecase(this.repo, this.gateway);
+      const token = await usecase.execute({
+        username: email,
+      });
+      response.status(HttpStatus.OK).send({
+        message: "token gerado com sucesso",
+        token,
       });
     } catch (error) {
       response.status(HttpStatus.PRECONDITION_FAILED).send({

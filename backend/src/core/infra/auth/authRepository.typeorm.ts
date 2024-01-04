@@ -22,6 +22,7 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       email: userModel.email,
       password: userModel.password,
       cpf: userModel.cpf,
+      is_verify: userModel.is_verify,
     });
 
     return user;

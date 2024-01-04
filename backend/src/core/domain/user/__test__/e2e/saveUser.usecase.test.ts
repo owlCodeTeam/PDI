@@ -3,6 +3,7 @@ import { AuthGatewayLocal } from "@infra/auth/authGateway.local";
 import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
 import dataSource from "@infra/shared/database/datasource";
 import { UserModel } from "@infra/auth/database/models/User.model";
+import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
 describe("Deve testar o saveUserUsecase", () => {
   beforeAll(async () => {
     await dataSource.initialize();
@@ -13,7 +14,8 @@ describe("Deve testar o saveUserUsecase", () => {
   test("Deve criar um usuario no banco de dados", async () => {
     const repo = new AuthGatewayLocal(dataSource);
     const gateway = new AuthRepositoryTypeorm(dataSource);
-    const action = new saveUserUsecase(gateway, repo);
+    const emailGateway = new emailGatewayLocal();
+    const action = new saveUserUsecase(gateway, repo, emailGateway);
     const userInput = {
       username: "userTeste",
       password: "123456",
