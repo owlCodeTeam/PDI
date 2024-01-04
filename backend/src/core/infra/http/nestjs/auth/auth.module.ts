@@ -4,6 +4,7 @@ import { AuthGatewayLocal } from "@infra/auth/authGateway.local";
 import { DataSource } from "typeorm";
 import { getDataSourceToken } from "@nestjs/typeorm";
 import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
+import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
 
 @Module({
   controllers: [AuthController],
@@ -19,6 +20,13 @@ import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
       provide: AuthGatewayLocal,
       useFactory: (dataSource: DataSource) => {
         return new AuthGatewayLocal(dataSource);
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: emailGatewayLocal,
+      useFactory: () => {
+        return new emailGatewayLocal();
       },
       inject: [getDataSourceToken()],
     },
