@@ -1,22 +1,35 @@
 <template>
   <q-page class="row justify-center">
     <q-page-sticky 
+      v-if="pageStep != 'new-password'"
       position="top-left" 
       :offset="[18, 18]"
     >
       <q-btn 
         icon="keyboard_arrow_left" 
         class="text-bold fit bg-indigo-10 text-white" 
-        @click="router.push('/')"
+        @click="leaveThePage"
       />
     </q-page-sticky>
-    <div class="col-12 col-sm-9 flex justify-center items-center">
-      <SendEmailForm v-if="pageStep == 'email'" :sendEmail="getEmail" />
-      <SendTokenForm v-if="pageStep == 'token'" />
+    <div class="col-12 col-sm-9 flex justify-center items-center fit-height">
+      <SendEmailForm 
+        v-if="pageStep == 'email'"
+        @setEmail="getEmail"
+        @sendNextPageStep="changePageStep"
+      />
+      <SendTokenForm 
+        v-if="pageStep == 'token'" 
+        :email-props="user.email"
+        @setToken="getToken"
+        @sendNextPageStep="changePageStep"
+      />
+      <NewPasswordForm 
+        v-if="pageStep == 'new-password'"
+      />
     </div>  
     <div class="col-12 col-sm-3 bg-indigo-8 flex justify-center items-center">
       <q-img 
-        class="q-ma-xl"
+        class="q-ma-md"
         src="../assets/recover-password-illustration.svg"
       />
     </div>
@@ -28,31 +41,50 @@ import { defineComponent, inject, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import SendEmailForm from '../components/recoverPassword/SendEmailForm.vue'
 import SendTokenForm from '../components/recoverPassword/SendTokenForm.vue'
+import NewPasswordForm from 'src/components/recoverPassword/NewPasswordForm.vue';
+import { SessionStorage } from 'quasar';
 
 export default defineComponent({
   name: 'RecoverPasswordPage',
   setup() {
     const router = useRouter()
-    const pageStep = ref('email')
+    const pageStep = ref(SessionStorage.getItem('page-step') ? SessionStorage.getItem('page-step') : 'email')
 
     const user = reactive({
-      email: '' as string
+      email: '' as string,
+      token: '' as string
     })
 
-    const getEmail = (data:string) => {
-      user.email = data
-      console.log(user)
+    function getEmail(email:string) {
+      user.email = email
+    }
+
+    function getToken(token:string) {
+      user.token = token
+    }
+
+    function changePageStep(step:string) {
+      pageStep.value = step
+    }
+
+    function leaveThePage() {
+      router.push('/')
     }
 
     return {
       router,
       pageStep,
-      getEmail
+      user,
+      leaveThePage,
+      getEmail,
+      getToken,
+      changePageStep
     }
   },
   components: {
     SendEmailForm,
-    SendTokenForm
+    SendTokenForm,
+    NewPasswordForm
   }
 })
 </script>

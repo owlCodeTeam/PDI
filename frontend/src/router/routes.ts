@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
       { path: '', component: () => import('pages/LoginPage.vue') },
       { path: 'register-account', component: () => import('pages/RegisterAccountPage.vue') },
       { path: 'recover-password', component: () => import('pages/RecoverPasswordPage.vue') },
-      { path: 'verify-account/:email', component: () => import('pages/VerifyAccountPage.vue') }
+      { path: 'verify-account/:email/:token?', component: () => import('pages/VerifyAccountPage.vue') }
     ],
   },
   {

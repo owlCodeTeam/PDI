@@ -15,7 +15,7 @@ import FetchAdapter from 'src/infra/http/FetchAdapter'
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async ({app}) => {
 
-  const httpClient = new AxiosAdapter()
+  const axiosAdapter = new AxiosAdapter()
   const fetchAdapter = new FetchAdapter()
   const mockAdpter = new MockAdapter()
   const baseUrl = 'http://localhost:3000/'
@@ -24,11 +24,11 @@ export default boot(async ({app}) => {
   const loginAction =  new LoginAction(loginGateway)
   app.provide('loginAction', loginAction)
 
-  const registerAccountGateway = new RegisterAccountGatewayHttp(httpClient, baseUrl)
+  const registerAccountGateway = new RegisterAccountGatewayHttp(axiosAdapter, baseUrl)
   const registerAccountAction = new RegisterAccountAction(registerAccountGateway)
   app.provide('registerAccountAction', registerAccountAction)
 
-  const verifyAccountGateway = new VerifyAccountGatewayHttp(mockAdpter, baseUrl)
+  const verifyAccountGateway = new VerifyAccountGatewayHttp(axiosAdapter, baseUrl)
   const verifyAccountAction = new VerifyAccountAction(verifyAccountGateway)
   app.provide('verifyAccountAction', verifyAccountAction)
 
