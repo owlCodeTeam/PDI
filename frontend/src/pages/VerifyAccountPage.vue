@@ -35,7 +35,7 @@
               label="Reenviar"
               class="col-auto text-h6"
               color="indigo-10"
-              @click="newVerificationRequest()"
+              @click="newVerificationRequest"
             />
           </div>
         </div>
@@ -64,13 +64,30 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const user = reactive({
-      email: route.params.email,
-      token: ''
+      email: route.params.email as string,
+      token: '' as string
     })
     const token = new VerifyAccountTokenEntity(user)
 
-    function newVerificationRequest() {
-      console.log(user)
+    async function newVerificationRequest() {
+      console.log('pedindo reenvio')
+      try {
+        const response = await verifyAccountAction.newRequest(user.email)
+        console.log(response)
+        if (response.status == true) {
+          Notify.create({
+            message: 'O novo pedido de verificação de e-mail foi feito com sucesso! cheque a sua caixa de entrada',
+            color: 'green-7',
+            position: 'top'
+          })
+        }
+      } catch (error:any) {
+        Notify.create({
+          message: error.message,
+          color: 'red-14',
+          position: 'top'
+        })
+      }
     }
 
     async function onSubmit() {

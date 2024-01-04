@@ -11,4 +11,10 @@ export default class VerifyAccountGatewayHttp implements VerifyAccountGateway {
         const response = verifyAccountEntity.execute(responseGateway)
         return response
     }
+
+    async newEmailRequest(email: string): Promise<any> {
+        const responseGateway = await this.httpClient.get(`${this.baseUrl}resend/${email}`)
+        const response = verifyAccountEntity.newRequest(responseGateway)
+        return response
+    }
 }

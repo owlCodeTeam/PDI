@@ -45,6 +45,8 @@
 </template>
 
 <script lang="ts">
+import { Notify } from 'quasar'
+import RecoverPasswordDataEntity from 'src/core/recoverPassword/RecoverPasswordDataEntity'
 import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'SendTokenForm',
@@ -56,8 +58,18 @@ export default defineComponent({
     const email = ref(props.emailProps)
 
     const onSubmit = () => {
-      emit('setToken', token.value)
-      emit('sendNextPageStep', 'new-password')
+      try {
+        const response = new RecoverPasswordDataEntity()
+        response.validateToken(token.value)
+        emit('setToken', token.value)
+        emit('sendNextPageStep', 'new-password')
+      } catch (error) {
+        Notify.create({
+          message: error.message,
+          color: 'red-14',
+          position: 'top'
+        })
+      }
     }
 
     function newEmailRequest() {

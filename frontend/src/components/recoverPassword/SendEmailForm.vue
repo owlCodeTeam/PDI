@@ -28,6 +28,8 @@
 </template>
 
 <script lang="ts">
+import { Notify } from 'quasar'
+import RecoverPasswordDataEntity from 'src/core/recoverPassword/RecoverPasswordDataEntity'
 import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'SendEmailForm',
@@ -35,10 +37,19 @@ export default defineComponent({
     const email = ref('')
 
     const onSubmit = () => {
-      emit('setEmail', email.value)
-      emit('sendNextPageStep', 'token')
+      try {
+        const response = new RecoverPasswordDataEntity()
+        response.validateEmail(email.value)
+        emit('setEmail', email.value)
+        emit('sendNextPageStep', 'token')
+      } catch (error:any) {
+        Notify.create({
+          message: error.message,
+          color: 'red-14',
+          position: 'top'
+        })
+      }
     }
-
     return {
       email,
       onSubmit
