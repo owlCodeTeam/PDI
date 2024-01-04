@@ -6,9 +6,10 @@
     >
       <q-input 
         outlined 
-        v-model="loginData.email" 
+        v-model="loginData.username" 
         class="text-h6 col-sm-7 col-11 q-my-sm" 
-        label="Email" 
+        label="Username" 
+        hint="Email"
         color="indigo-10"
         type="text"
       >
@@ -72,7 +73,7 @@ export default defineComponent({
   setup() {
     const loginAction = inject('loginAction') as LoginAction
     const loginData = reactive({
-      email: '' as string,
+      username: '' as string,
       password: '' as string
     })
     const showPassword = ref(true)
@@ -81,12 +82,17 @@ export default defineComponent({
     
     async function onSubmit() {
       try {
-        const user = new LoginDataEntity(loginData)
+        const user = new LoginDataEntity({
+          username: loginData.username, 
+          password: loginData.password
+        })
         const response = await loginAction.execute(user)
+        console.log(response)
         if (response?.status == true) {
           router.push('/control-panel')
         }
       } catch (error:any) {
+        console.log(error)
         Notify.create({
           message: error.message,
           color: 'red-14',

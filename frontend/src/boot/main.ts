@@ -18,7 +18,7 @@ export default boot(async ({app}) => {
   const mockAdpter = new MockAdapter()
   const baseUrl = 'http://localhost:3000/'
 
-  const loginGateway = new LoginGatewayHttp(mockAdpter, baseUrl)
+  const loginGateway = new LoginGatewayHttp(httpClient, baseUrl)
   const loginAction =  new LoginAction(loginGateway)
   app.provide('loginAction', loginAction)
 

@@ -5,6 +5,6 @@ export default class LoginAction {
     constructor(readonly gateway:LoginGateway) {}
 
     async execute(user:LoginDataEntity) {
-        return await this.gateway.login(user)
+        return await this.gateway.login(user.getData())
     }
 }

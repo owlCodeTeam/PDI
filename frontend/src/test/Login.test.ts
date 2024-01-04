@@ -3,15 +3,20 @@ import LoginDataEntity from "src/core/login/LoginDataEntity"
 import LoginGatewayHttp from "src/infra/login/LoginGatewayHttp"
 import MockAdapter from "src/infra/http/MockAdapter"
 import { expect, test } from "vitest"
+import AxiosAdpter from "src/infra/http/AxiosAdapter"
+import FetchAdapter from "src/infra/http/FetchAdapter"
 
 const mockAdpter = new MockAdapter()
+const axiosAdapter = new AxiosAdpter()
+const fetchAdapter = new FetchAdapter()
 const baseUrl = 'http://localhost:3000/'
-const loginGateway = new LoginGatewayHttp(mockAdpter, baseUrl)
+
+const loginGateway = new LoginGatewayHttp(axiosAdapter, baseUrl)
 const loginAction = new LoginAction(loginGateway)
 
 test("Deve tentar realizar login válido", async () => {
     const loginData = {
-        email: 'henrique@gmail.com',
+        username: 'usuario01@email.com',
         password: '12345678'
     }
     const user = new LoginDataEntity(loginData)
@@ -19,9 +24,9 @@ test("Deve tentar realizar login válido", async () => {
     expect(response.status).toBe(true)
 })
 
-test("Deve tentar realizar com email inválido", async () => {
+test("Deve tentar realizar com Username inválido", async () => {
     const loginData = {
-        email: 'henrique@',
+        username: 'henrique@',
         password: '12345678'
     }
     try {
@@ -29,13 +34,13 @@ test("Deve tentar realizar com email inválido", async () => {
         const response = await loginAction.execute(user)
         expect(response.status).toBe(true)
     } catch(error) {
-        expect(error?.message).toBe('Email inválido')
+        expect(error?.message).toBe('Username inválido')
     }
 })
 
 test("Deve tentar realizar com senha inválida", async () => {
     const loginData = {
-        email: 'henrique@gmail.com',
+        username: 'henrique@gmail.com',
         password: ''
     }
     try {

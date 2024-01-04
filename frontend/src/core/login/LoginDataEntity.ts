@@ -1,32 +1,36 @@
 export type loginDataProps = {
-    email: string,
+    username: string,
     password: string
 }
 
 export default class LoginDataEntity {
     constructor(readonly props:loginDataProps) {
-        this.validateEmail()
+        this.validateUsername()
         this.validatePassword()
     }
 
-    email() {
-        return this.props.email
+    username() {
+        return this.props.username
     }
 
     password() {
         return this.props.password
     }
 
-    validateEmail() {
-        if (this.email().length <= 0) {
-            throw new Error('O campo email não pode estar vazio')
+    getData() {
+        return this.props
+    }
+
+    validateUsername() {
+        if (this.username().length <= 0) {
+            throw new Error('O campo username não pode estar vazio')
         }
         const regex = /[@]/
-        if (!(regex.test(this.email()))) {
-            throw new Error('Email inválido')
+        if (!(regex.test(this.username()))) {
+            throw new Error('Username inválido')
         }
-        if (((this.email().indexOf('@') <= 0) == true) || (((this.email().length)-1) == this.email().indexOf('@') == true)) {
-            throw new Error('Email inválido')
+        if (((this.username().indexOf('@') <= 0) == true) || (((this.username().length)-1) == this.username().indexOf('@') == true)) {
+            throw new Error('Username inválido')
         }
     }
 

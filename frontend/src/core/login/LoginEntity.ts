@@ -10,7 +10,8 @@ export default class LoginEntity {
     }
 
     execute(responseGateway:any) {
-        if (responseGateway === 'Post Mock Success') {
+        console.log(responseGateway)
+        if (responseGateway.status == 200) {
             this.response.status = true
         }
         return this.response
