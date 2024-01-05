@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import RegisterAccountForm from 'src/components/registerAccount/RegisterAccountForm.vue'
 import { useRouter } from 'vue-router';
 

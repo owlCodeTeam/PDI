@@ -12,11 +12,11 @@ export default class RecoverPasswordEntity {
     }
 
     executeGetToken(responseGateway:any) {
-        console.log(responseGateway)
-        if (responseGateway.message === 'token gerado com sucesso') {
+        console.log(responseGateway.data)
+        if (!(responseGateway.status > 299)) {
             this.response.statusEmail = true
         }   
-        if (!(responseGateway.message === 'token gerado com sucesso')) {
+        if (responseGateway.status > 299) {
             throw new Error(responseGateway.message)
         }
         return this.response

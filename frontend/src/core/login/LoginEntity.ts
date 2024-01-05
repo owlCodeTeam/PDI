@@ -12,7 +12,6 @@ export default class LoginEntity {
     }
 
     execute(responseGateway:any) {
-        console.log(responseGateway)
         if (!(responseGateway.status > 299)) {
             this.response.status = true
         }

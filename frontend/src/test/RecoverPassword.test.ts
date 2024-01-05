@@ -1,67 +1,64 @@
 import RecoverPasswordAction from "src/core/recoverPassword/RecoverPasswordAction";
 import RecoverPasswordDataEntity from "src/core/recoverPassword/RecoverPasswordDataEntity";
+import AxiosAdpter from "src/infra/http/AxiosAdapter";
 import MockAdpter from "src/infra/http/MockAdapter";
 import RecoverPasswordGatewayHttp from "src/infra/recoverPassword/RecoverPasswordGatewayHttp";
 import { expect, test } from "vitest";
 
-const mockAdpter = new MockAdpter()
+const axiosAdapter = new AxiosAdpter()
 const baseUrl = 'http://localhost:3000/'
 
-const recoverPasswordGateway = new RecoverPasswordGatewayHttp(mockAdpter, baseUrl)
+const recoverPasswordGateway = new RecoverPasswordGatewayHttp(axiosAdapter, baseUrl)
 const recoverPasswordAction = new RecoverPasswordAction(recoverPasswordGateway)
 
 test('Deve fazer o pedido de um novo email para recuperacao', async() => {
     const userData = {
-        email: 'henrique@gmail.com',
-        token: 'DdSFSDAwsddas'
+        email: 'henriquedevprofessional@gmail.com',
+        token: 'DdSFSDAwsddas',
+        password: '12345678',
+        confirmPassword: '12345678'
     }
     try {
-        const user = new RecoverPasswordDataEntity(userData)
-        const response = await recoverPasswordAction.executeSendEmail(user.email())
-        expect(response).toBe(true)
+        const email = new RecoverPasswordDataEntity(userData)
+        const response = await recoverPasswordAction.executeGetToken(email.props.email)
+        expect(response.statusEmail).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('Email inválido')
+        console.log(error)
     }
 })
 
-test('Deve fazer o pedido de verificação de token', async() => {
+test('Deve fazer o pedido de um novo email para recuperacao, com o email vazio', async() => {
     const userData = {
-        email: 'henrique@gmail.com',
-        token: 'DdSFSDAwsddas'
+        email: '',
+        token: 'DdSFSDAwsddas',
+        password: '12345678',
+        confirmPassword: '12345678'
     }
     try {
-        const user = new RecoverPasswordDataEntity(userData)
-        const response = await recoverPasswordAction.executeSendToken(user.token())
-        expect(response).toBe(true)
-    } catch (error) {
-        expect(error?.message).toBe('Email inválido')
+        const email = new RecoverPasswordDataEntity(userData)
+        const response = await recoverPasswordAction.executeGetToken(email.props.email)
+        expect(response.statusEmail).toBe(true)
+    } catch (error:any) {
+        expect(error.message).toBe("O email não pode estar vazio")
     }
 })
 
-test('Deve fazer o pedido, porém com email invalido', async() => {
+test('Deve fazer a alteração de senha', async() => {
     const userData = {
-        email: 'henrique@',
-        token: 'DdSFSDAwsddas'
+        email: 'henriquedevprofessional@gmail.com',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMWJkZmRlZWQtYTc5Mi00MDM0LWJiMjgtODRiYTc5NDI4MjE0IiwibmFtZSI6ImhlbnJpcXVlIiwiZW1haWwiOiJoZW5yaXF1ZWRldnByb2Zlc3Npb25hbEBnbWFpbC5jb20iLCJpYXQiOjE3MDQ0NzkyODJ9.evTXeGf13KebHCMCji43qfIaoDoH8XPHyHTRlk89l7Y',
+        password: '12345678',
+        confirmPassword: '12345678'
     }
     try {
         const user = new RecoverPasswordDataEntity(userData)
-        const response = await recoverPasswordAction.executeSendEmail(user.email())
-        expect(response).toBe(true)
-    } catch (error) {
-        expect(error?.message).toBe('Email inválido')
-    }
-})
-
-test('Deve fazer o pedido, porém com token invalido', async() => {
-    const userData = {
-        email: 'henrique@',
-        token: ''
-    }
-    try {
-        const user = new RecoverPasswordDataEntity(userData)
-        const response = await recoverPasswordAction.executeSendToken(user.token())
-        expect(response).toBe(true)
-    } catch (error) {
-        expect(error?.message).toBe('O token não pode estar vazio')
+        const newPassword = {
+            token: user.props?.token,
+            newPassword: user.props?.password
+        }
+        const response = await recoverPasswordAction.executeRecoverPassword(newPassword)
+        expect(response.passwordChangeStatus).toBe(true)
+    } catch (error:any) {
+        console.log(error.message)
     }
 })

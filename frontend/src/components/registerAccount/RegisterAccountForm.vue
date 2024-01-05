@@ -1,5 +1,14 @@
 <template>
   <div>
+    <q-dialog 
+        v-model="awaitPageResponse"
+        persistent
+      >
+        <q-spinner
+          color="indigo-10"
+          size="4em"
+        />
+    </q-dialog>
     <div class="text-center ">
       <p class="q-my-xl text-h4">
         Crie a sua conta
@@ -100,15 +109,18 @@ export default defineComponent({
     const registerAccountAction = inject('registerAccountAction') as RegisterAccountAction
     const showPassword = ref(true)
     const router = useRouter()
+    const awaitPageResponse = ref(false)
+    const confirmPassword = reactive({data: '' as string})
     const registerData = reactive({
       username: '' as string,
       email: '' as string,
       password: '' as string,
       cpf: '' as string
     })
-    const confirmPassword = reactive({data: '' as string})
+
 
     async function onSubmit() {
+      awaitPageResponse.value = true
       try {
         const user = new RegisterAccountDataEntity(registerData, confirmPassword.data)
         const response = await registerAccountAction.execute(user)
@@ -122,6 +134,7 @@ export default defineComponent({
           position: 'top'
         })
       }
+      awaitPageResponse.value = false
     }
     
     return {
@@ -129,6 +142,7 @@ export default defineComponent({
       confirmPassword,
       showPassword,
       router,
+      awaitPageResponse,
       onSubmit
     }
   }

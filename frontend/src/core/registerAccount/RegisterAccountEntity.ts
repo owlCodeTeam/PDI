@@ -10,7 +10,6 @@ export default class RegisterAccountEntity {
     }
 
     execute(responseGateway:any) {
-        console.log(responseGateway)
         if (!(responseGateway.status > 299)) {
             this.response.status = true
         }

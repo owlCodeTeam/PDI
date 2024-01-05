@@ -16,7 +16,6 @@ export default class VerifyAccountEntity {
     }
 
     execute(responseGateway:any) {
-        console.log(responseGateway)
         if (!(responseGateway.status > 299)) {
             this.response.status = true
             this.response.message = responseGateway.data.message
@@ -24,7 +23,7 @@ export default class VerifyAccountEntity {
             this.response.route = '/'
         } 
         if (responseGateway.status > 299) {
-            throw new Error('Conta verificada com sucesso')
+            throw new Error(responseGateway.data.message)
         }
         return this.response
     }

@@ -8,8 +8,8 @@ export type recoverPasswordProps = {
 export default class RecoverPasswordDataEntity {
     constructor(readonly props?:recoverPasswordProps) {
         if (props) {
-            this.validateToken(this.props.email)
-            this.validateEmail(this.props.token)
+            this.validateToken(this.props.token)
+            this.validateEmail(this.props.email)
         }
     }
 
@@ -34,7 +34,7 @@ export default class RecoverPasswordDataEntity {
 
     validateNewPassword(password:string, confirmPassword:string) {
         if (password.length <= 0) {
-            throw new Error('O campo email não pode estar vazio')
+            throw new Error('A senha não pode estar vazia')
         }
         if (password.length < 8) {
             throw new Error('O tamanho minimo da senha deve ser de 8 digitos!')

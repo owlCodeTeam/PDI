@@ -3,18 +3,8 @@ export type tokenProps = {
 }
 
 export default class VerifyAccountTokenEntity {
-    constructor(readonly props:tokenProps) {}
-
-    data() {
-        return this.props.token
-    }
-
-    validateSession(props:any) {
-        if (localStorage.getItem('user-email') === props) {
-            return true
-        } else {
-            return false
-        }
+    constructor(readonly props:tokenProps) {
+        this.validateToken()
     }
 
     validateToken() {

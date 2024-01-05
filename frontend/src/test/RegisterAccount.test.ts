@@ -1,13 +1,9 @@
 import RegisterAccountAction from "src/core/registerAccount/RegisterAccountAction"
 import RegisterAccountDataEntity from "src/core/registerAccount/RegisterAccountDataEntity"
 import RegisterAccountGatewayHttp from "src/infra/registerAccount/RegisterAccountGatewayHttp"
-import MockAdapter from "src/infra/http/MockAdapter"
 import { expect, test } from "vitest"
 import AxiosAdpter from "src/infra/http/AxiosAdapter"
-import FetchAdapter from "src/infra/http/FetchAdapter"
 
-const mockAdpter = new MockAdapter()
-const fetchAdapter = new FetchAdapter()
 const AxiosAdapter = new AxiosAdpter()
 const baseUrl = 'http://localhost:3000/'
 
@@ -19,20 +15,24 @@ test("Deve criar um usuário válido", async () => {
         username: "userTeste",
         password: "12345678",
         email: "usuario01@email.com",
-        cpf: "111.111.111-11"
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
-    const user = new RegisterAccountDataEntity(registerData, confirmPassword)
-    const response = await registerAccountAction.execute(user)
-    expect(response.status).toBe(true)
+    try {
+        const user = new RegisterAccountDataEntity(registerData, confirmPassword)
+        const response = await registerAccountAction.execute(user)
+        expect(response.status).toBe(true)
+    } catch (error) {
+        throw new Error(error.message)
+    }
 })
 
 test("Deve criar um usuário com nome inválido", async () => {
     const registerData = {
-        username: '$%432',
-        email: 'henrique@gmail.com',
-        password: '12345678',
-        cpf: '111.111.111-43'
+        username: "423423",
+        password: "12345678",
+        email: "usuario01@email.com",
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
     try {
@@ -40,16 +40,16 @@ test("Deve criar um usuário com nome inválido", async () => {
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('O nome de usuário não pode conter números ou caracteres especiais')
+        expect(error.message).toBe('O nome de usuário não pode conter números ou caracteres especiais')
     }
 })
 
-test("Deve criar um usuário com email inválido (sem caracter após @)", async () => {
+test("Deve criar um usuário com nome vazio", async () => {
     const registerData = {
-        username: 'Henrique Gabriel Moraes Denoni',
-        email: 'henrique@',
-        password: '12345678',
-        cpf: '111.111.111-43'
+        username: "",
+        password: "12345678",
+        email: "usuario01@email.com",
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
     try {
@@ -57,16 +57,16 @@ test("Deve criar um usuário com email inválido (sem caracter após @)", async 
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('Email inválido')
+        expect(error.message).toBe('O nome de usuário não pode estar vazio')
     }
 })
 
-test("Deve criar um usuário com email inválido (sem @)", async () => {
+test("Deve criar um usuário com a senha menor que 8 caracteres", async () => {
     const registerData = {
-        username: 'Henrique Gabriel Moraes Denoni',
-        email: 'henriquegabriel.com',
-        password: '12345678',
-        cpf: '111.111.111-43'
+        username: "userTest",
+        password: "123",
+        email: "usuario01@email.com",
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
     try {
@@ -74,16 +74,33 @@ test("Deve criar um usuário com email inválido (sem @)", async () => {
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('Email inválido')
+        expect(error.message).toBe('A senha deve conter no minímo 8 caracteres')
+    }
+})
+
+test("Deve criar um usuário com a senha vazia", async () => {
+    const registerData = {
+        username: "userTest",
+        password: "123",
+        email: "usuario01@email.com",
+        cpf: "850.202.310-10"
+    }
+    const confirmPassword = '12345678'
+    try {
+        const user = new RegisterAccountDataEntity(registerData, confirmPassword)
+        const response = await registerAccountAction.execute(user)
+        expect(response.status).toBe(true)
+    } catch (error) {
+        expect(error.message).toBe('A senha deve conter no minímo 8 caracteres')
     }
 })
 
 test("Deve criar um usuário com email inválido (sem caracter antes do @)", async () => {
     const registerData = {
-        username: 'Henrique Gabriel Moraes Denoni',
-        email: '@.com',
-        password: '12345678',
-        cpf: '111.111.111-43'
+        username: "userTest",
+        password: "12345678",
+        email: "@email.com",
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
     try {
@@ -91,33 +108,16 @@ test("Deve criar um usuário com email inválido (sem caracter antes do @)", asy
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('Email inválido')
+        expect(error.message).toBe('Email inválido')
     }
 })
 
-test("Deve criar um usuário com a senha muito pequena", async () => {
+test("Deve criar um usuário com email inválido (sem caracter depois do @)", async () => {
     const registerData = {
-        username: 'Henrique Gabriel Moraes Denoni',
-        email: 'henrique@.com',
-        password: '12345',
-        cpf: '111.111.111-43'
-    }
-    const confirmPassword = '12345678'
-    try {
-        const user = new RegisterAccountDataEntity(registerData, confirmPassword)
-        const response = await registerAccountAction.execute(user)
-        expect(response.status).toBe(true)
-    } catch (error) {        
-        expect(error?.message).toBe('A senha deve conter no minímo 8 caracteres')
-    }
-})
-
-test("Deve criar um usuário com o CPF vazio", async () => {
-    const registerData = {
-        username: 'Henrique Gabriel Moraes Denoni',
-        email: 'henrique@.com',
-        password: '12345678',
-        cpf: ''
+        username: "userTest",
+        password: "12345678",
+        email: "usuario01@",
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
     try {
@@ -125,16 +125,16 @@ test("Deve criar um usuário com o CPF vazio", async () => {
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('O campo CPF não pode estar vazio')
+        expect(error.message).toBe('Email inválido')
     }
 })
 
-test("Deve criar um usuário com o CPF de tamanho inválido", async () => {
+test("Deve criar um usuário com email vazio", async () => {
     const registerData = {
-        username: 'Henrique Gabriel Moraes Denoni',
-        email: 'henrique@.com',
-        password: '12345678',
-        cpf: '321.312'
+        username: "userTest",
+        password: "12345678",
+        email: "",
+        cpf: "850.202.310-10"
     }
     const confirmPassword = '12345678'
     try {
@@ -142,6 +142,40 @@ test("Deve criar um usuário com o CPF de tamanho inválido", async () => {
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error?.message).toBe('CPF inválido')
+        expect(error.message).toBe('O email não pode estar vazio')
+    }
+})
+
+test("Deve criar um usuário com cpf inválido", async () => {
+    const registerData = {
+        username: "userTest",
+        password: "12345678",
+        email: "usuario01@email.com",
+        cpf: "111.111.111-11"
+    }
+    const confirmPassword = '12345678'
+    try {
+        const user = new RegisterAccountDataEntity(registerData, confirmPassword)
+        const response = await registerAccountAction.execute(user)
+        expect(response.status).toBe(true)
+    } catch (error) {
+        expect(error.message).toBe('O cpf enviado não é um cpf válido')
+    }
+})
+
+test("Deve criar um usuário com cpf vazio", async () => {
+    const registerData = {
+        username: "userTest",
+        password: "12345678",
+        email: "usuario01@email.com",
+        cpf: ""
+    }
+    const confirmPassword = '12345678'
+    try {
+        const user = new RegisterAccountDataEntity(registerData, confirmPassword)
+        const response = await registerAccountAction.execute(user)
+        expect(response.status).toBe(true)
+    } catch (error) {
+        expect(error.message).toBe('O campo CPF não pode estar vazio')
     }
 })
