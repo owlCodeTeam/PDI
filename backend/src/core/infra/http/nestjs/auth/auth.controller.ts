@@ -41,6 +41,12 @@ export class AuthController {
     try {
       const usecase = new saveUserUsecase(this.repo, this.gateway, this.emailGateway);
       const user = await usecase.execute(body);
+      if (user.is_verify() === true) {
+        response.status(HttpStatus.OK).send({
+          message: "Usuario cadastrado com sucesso",
+          user: user.props,
+        });
+      }
       response.status(HttpStatus.OK).send({
         message: "Usuario cadastrado com sucesso",
         user: user.props,
@@ -51,7 +57,7 @@ export class AuthController {
       });
     }
   }
-  @Get("resend/:email")
+  @Get("send/token/:email")
   async ResendToken(@Param("email") email: string, @Res() response) {
     try {
       const usecase = new GenerateTokenUsecase(this.repo, this.gateway);

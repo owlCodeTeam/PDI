@@ -29,7 +29,6 @@ export class saveUserUsecase {
       html: `<a href='http://localhost:9000/#/verify-account/${user.email}/${token}'><button style='font-size: 16px; font-weight: 600; padding: 1vh 1vw; cursor: pointer;border-radius: 1vh; color: #fff; background-color: #303f9f; border: none;'>Clique aqui!</button></a>`,
     };
     await this.emailGateway.send(emailContent);
-
     return await this.gateway.save(userInput);
   }
 }

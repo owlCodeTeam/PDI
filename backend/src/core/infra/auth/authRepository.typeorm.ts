@@ -2,6 +2,7 @@ import { AuthRepositoryInterface } from "@domain/auth/authRepository.interface";
 import { userEntity } from "@domain/auth/entity/user.entity";
 import { DataSource } from "typeorm";
 import { UserModel } from "./database/models/User.model";
+import { response } from "express";
 export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
   constructor(readonly dataSource: DataSource) {}
 
@@ -28,21 +29,43 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
     return user;
   }
   async save(user: userEntity): Promise<userEntity> {
-    await this.dataSource
-      .createQueryBuilder()
-      .insert()
-      .into(UserModel)
-      .values([
-        {
-          uuid: user.uuid(),
+    await this.dataSource;
+    const existingUser = await this.dataSource
+      .getRepository(UserModel)
+      .createQueryBuilder("user")
+      .where("email = :email", { email: user.email() })
+      .getOne();
+    if (existingUser) {
+      await this.dataSource
+        .createQueryBuilder()
+        .update(UserModel)
+        .set({
           email: user.email(),
           name: user.name(),
           password: user.password(),
+          is_verify: user.is_verify(),
           cpf: user.cpf(),
-        },
-      ])
-      .orUpdate(["email", "password", "name", "is_verify", "cpf"], ["uuid"])
-      .execute();
+        })
+        .where("email = :email", { email: user.email() })
+        .execute();
+    } else {
+      const response = await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(UserModel)
+        .values([
+          {
+            uuid: user.uuid(),
+            email: user.email(),
+            name: user.name(),
+            password: user.password(),
+            is_verify: user.is_verify(),
+            cpf: user.cpf(),
+          },
+        ])
+        .execute();
+    }
+    console.log(response);
     return user;
   }
   async setCheckedAccount(email: string): Promise<void> {
