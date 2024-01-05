@@ -8,7 +8,7 @@ export class PasswordrecoveryDto {
   token: string;
 
   @ApiProperty({ example: "123456" })
-  @IsString({ message: "O nome deve ser uma string" })
-  @IsNotEmpty({ message: "O nome não pode ser vazio" })
+  @IsString({ message: "O senha deve ser uma string" })
+  @IsNotEmpty({ message: "O senha não pode ser vazio" })
   newPassword: string;
 }
