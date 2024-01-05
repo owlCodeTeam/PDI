@@ -54,9 +54,7 @@ export class AuthController {
         user: user.props,
       });
     } catch (error) {
-      response.status(HttpStatus.PRECONDITION_FAILED).send({
-        message: error.message,
-      });
+      response.error(error.message);
     }
   }
   @Get("send/token/:email")
@@ -89,9 +87,7 @@ export class AuthController {
         user,
       });
     } catch (error) {
-      response.status(HttpStatus.PRECONDITION_FAILED).send({
-        message: error.message,
-      });
+      response.error(error.message);
     }
   }
   @Get("verify/account/:token")
@@ -103,9 +99,7 @@ export class AuthController {
         message: "Conta verificada com sucesso",
       });
     } catch (error) {
-      response.status(HttpStatus.PRECONDITION_FAILED).send({
-        message: error.message,
-      });
+      response.error(error.message);
     }
   }
 }

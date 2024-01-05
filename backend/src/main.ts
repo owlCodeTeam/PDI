@@ -5,6 +5,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { json, urlencoded } from "express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AuthModule } from "@infra/http/nestjs/auth/auth.module";
+import { ErrorHandlingMiddleware } from "@infra/http/nestjs/middleware/exceptionMiddlewareErrors.middleware";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +14,7 @@ async function bootstrap() {
   app.enableCors();
   app.use(json({ limit: "50mb" }));
   app.use(urlencoded({ extended: true, limit: "50mb" }));
-
+  app.use(new ErrorHandlingMiddleware().use);
   //
   const swaggerConfig = new DocumentBuilder()
     .setTitle("API")
