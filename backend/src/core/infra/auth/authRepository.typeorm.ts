@@ -2,7 +2,6 @@ import { AuthRepositoryInterface } from "@domain/auth/authRepository.interface";
 import { userEntity } from "@domain/auth/entity/user.entity";
 import { DataSource } from "typeorm";
 import { UserModel } from "./database/models/User.model";
-import { response } from "express";
 export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
   constructor(readonly dataSource: DataSource) {}
 
@@ -49,7 +48,7 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
         .where("email = :email", { email: user.email() })
         .execute();
     } else {
-      const response = await this.dataSource
+      this.dataSource
         .createQueryBuilder()
         .insert()
         .into(UserModel)
@@ -65,7 +64,6 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
         ])
         .execute();
     }
-    console.log(response);
     return user;
   }
   async setCheckedAccount(email: string): Promise<void> {

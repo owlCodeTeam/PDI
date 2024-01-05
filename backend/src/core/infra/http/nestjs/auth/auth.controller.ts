@@ -10,6 +10,7 @@ import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
 import { PasswordrecoveryDto } from "./passwordRecovery.dto";
 import { passwordRecoveryUsecase } from "@domain/auth/usecase/passwordRecovery.usecase";
 import { verifyAccountUsecase } from "@domain/auth/usecase/verifyAccount.usecase";
+import { ResendTokenUsecase } from "@domain/auth/usecase/resendToken.usecase";
 @ApiTags("Auth")
 @Controller()
 export class AuthController {
@@ -41,9 +42,10 @@ export class AuthController {
     try {
       const usecase = new saveUserUsecase(this.repo, this.gateway, this.emailGateway);
       const user = await usecase.execute(body);
-      if (user.is_verify() === true) {
+      console.log(user.is_verify() === true);
+      if (user.is_verify() === true || (user.is_verify() && user.is_verify() === false)) {
         response.status(HttpStatus.OK).send({
-          message: "Usuario cadastrado com sucesso",
+          message: "Esse email ja foi cadastrado, o seu usuario foi atualizado",
           user: user.props,
         });
       }
@@ -60,10 +62,13 @@ export class AuthController {
   @Get("send/token/:email")
   async ResendToken(@Param("email") email: string, @Res() response) {
     try {
-      const usecase = new GenerateTokenUsecase(this.repo, this.gateway);
-      const token = await usecase.execute({
-        username: email,
-      });
+      const usecase = new ResendTokenUsecase(this.repo, this.gateway);
+      const token = await usecase.execute(email);
+      if (!token) {
+        response.status(HttpStatus.BAD_REQUEST).send({
+          message: "Esse usuario não existe no banco de dados",
+        });
+      }
       response.status(HttpStatus.OK).send({
         message: "token gerado com sucesso",
         token,

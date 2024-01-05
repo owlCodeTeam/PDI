@@ -1,6 +1,5 @@
 import { authGatewayInterface } from "@domain/auth/authGateway.interface";
 import { AuthRepositoryInterface } from "../authRepository.interface";
-
 export type GenetareTokenInput = {
   username: string;
   password?: string;
