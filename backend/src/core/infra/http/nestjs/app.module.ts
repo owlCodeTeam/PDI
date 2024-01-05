@@ -3,7 +3,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module";
 import { UserModel } from "@infra/auth/database/models/User.model";
 import { CompanyModel } from "@infra/auth/database/models/Company.model";
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({

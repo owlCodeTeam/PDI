@@ -5,6 +5,7 @@ import { userEntity } from "@domain/auth/entity/user.entity";
 import { DataSource } from "typeorm";
 import { UserModel } from "./database/models/User.model";
 import * as bcrypt from "bcrypt";
+import { apiError } from "@infra/http/nestjs/helpers/api-Error.helper";
 export type verifyOutput = {
   email: string;
   expiresIn: string;
@@ -34,7 +35,7 @@ export class AuthGatewayLocal implements authGatewayInterface {
       const payload = verify(token, this.key);
       return payload;
     } catch (error) {
-      throw new Error(error);
+      throw new apiError(error, 400, "token_error");
     }
   }
   async encryptPassword(password: string): Promise<string> {

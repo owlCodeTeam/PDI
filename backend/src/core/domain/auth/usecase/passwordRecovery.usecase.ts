@@ -2,6 +2,7 @@ import { PasswordrecoveryDto } from "@infra/http/nestjs/auth/passwordRecovery.dt
 import { authGatewayInterface } from "../authGateway.interface";
 import { AuthRepositoryInterface } from "../authRepository.interface";
 import { userEntity } from "../entity/user.entity";
+import { apiError } from "@infra/http/nestjs/helpers/api-Error.helper";
 export class passwordRecoveryUsecase {
   constructor(
     readonly repo: AuthRepositoryInterface,
@@ -13,7 +14,7 @@ export class passwordRecoveryUsecase {
     await this.repo.setNewPassword(newPasswordHash, tokenDecoded.email);
     const user = await this.repo.getByUsername(tokenDecoded.email);
     if (!user) {
-      throw new Error("Usuario não encontrado");
+      throw new apiError("Usuario não encontrado", 404, "not_found");
     }
     return user;
   }

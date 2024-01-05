@@ -4,7 +4,7 @@ import { userEntity } from "../../auth/entity/user.entity";
 import { randomUUID } from "crypto";
 import { authGatewayInterface } from "../../auth/authGateway.interface";
 import { emailGatewayInterface } from "../emailGateway.interface";
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { apiError } from "@infra/http/nestjs/helpers/api-Error.helper";
 
 export class saveUserUsecase {
   constructor(
@@ -14,7 +14,7 @@ export class saveUserUsecase {
   ) {}
   public async execute(user: AuthSaveDto): Promise<userEntity> {
     if ((await this.repo.verifyCpf(user.cpf)) === false) {
-      throw new HttpException("O cpf enviado não é um cpf válido", HttpStatus.BAD_REQUEST);
+      throw new apiError("CPF inválido", 400, "invalid_item");
     }
     const passwordHash = await this.repo.encryptPassword(user.password);
     const userInput = new userEntity({
