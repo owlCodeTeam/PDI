@@ -15,7 +15,7 @@ export class GenerateTokenUsecase {
     const user = await this.repo.getByUsername(input.username);
 
     if (!user) {
-      throw new Error("Usuario ");
+      throw new Error("Usuario não encontrado");
     }
     if (!input.password) {
       return await this.gateway.tokenGenerate(user);

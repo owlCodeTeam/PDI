@@ -32,6 +32,7 @@ export class AuthController {
         token,
       });
     } catch (error) {
+      console.log(error.message);
       response.status(HttpStatus.PRECONDITION_FAILED).send({
         message: error.message,
       });
