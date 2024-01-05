@@ -1,5 +1,6 @@
 import { authGatewayInterface } from "@domain/auth/authGateway.interface";
 import { AuthRepositoryInterface } from "../authRepository.interface";
+import { HttpException, HttpStatus } from "@nestjs/common";
 export type GenetareTokenInput = {
   username: string;
   password?: string;
@@ -22,10 +23,10 @@ export class GenerateTokenUsecase {
     }
     const validatePassord = await this.gateway.validatePassword(user, input.password);
     if (!validatePassord) {
-      throw new Error("invalid_password");
+      throw new Error("Senha inválida");
     }
     if (user.is_verify() === false && validatePassord === true) {
-      return await this.gateway.tokenGenerate(user);
+      throw new HttpException("Sua conta existe mas não está verificada!!!!", HttpStatus.UNAUTHORIZED);
     }
     return await this.gateway.tokenGenerate(user);
   }
