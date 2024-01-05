@@ -110,7 +110,7 @@ export default defineComponent({
 
     async function sleepNewRequest() {
       newRequestButtonStatus.value = true
-      await sleep(10000)
+      await sleep(10)
       newRequestButtonStatus.value = false
     }
 

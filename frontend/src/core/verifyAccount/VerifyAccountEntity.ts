@@ -30,11 +30,11 @@ export default class VerifyAccountEntity {
     }
 
     newRequest(responseGateway:any) {
-        if (responseGateway.message == 'token gerado com sucesso') {
+        if (!(responseGateway.status > 299)) {
             this.response.status = true
         }
-        if (!(responseGateway.message == 'token gerado com sucesso')) {
-            throw new Error('Não foi possivél gerar outro token')
+        if (responseGateway.status > 299) {
+            throw new Error(responseGateway.data.message)
         }
         return this.response
     }
