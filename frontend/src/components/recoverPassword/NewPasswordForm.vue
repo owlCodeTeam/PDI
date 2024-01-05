@@ -47,6 +47,8 @@
 </template>
 
 <script lang="ts">
+import { Notify } from 'quasar'
+import RecoverPasswordDataEntity from 'src/core/recoverPassword/RecoverPasswordDataEntity'
 import { defineComponent, reactive, ref } from 'vue'
 export default defineComponent({
   name: 'NewPasswordForm',
@@ -58,7 +60,19 @@ export default defineComponent({
     const showPassword = ref(true)
   
     function onSubmit() {
-      emit('setNewPassword', newPassword)
+      try {
+        const response = new RecoverPasswordDataEntity()
+        response.validateNewPassword(newPassword.password, newPassword.confirmPassword)
+        emit('setNewPassword', newPassword)
+        emit('loading', true)
+      } catch (error) {
+        Notify.create({
+          message: error.message,
+          color: 'red-14',
+          position: 'top'
+        })
+      }
+      
     }
 
     return {

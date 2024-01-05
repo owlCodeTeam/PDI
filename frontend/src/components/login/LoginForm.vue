@@ -92,7 +92,6 @@ export default defineComponent({
           router.push('/control-panel')
         }
       } catch (error:any) {
-        console.log(error)
         Notify.create({
           message: error.message,
           color: 'red-14',

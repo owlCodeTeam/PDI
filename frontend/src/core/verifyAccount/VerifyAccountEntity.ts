@@ -24,4 +24,14 @@ export default class VerifyAccountEntity {
         }
         return this.response
     }
+
+    newRequest(responseGateway:any) {
+        if (responseGateway.message == 'token gerado com sucesso') {
+            this.response.status = true
+        }
+        if (!(responseGateway.message == 'token gerado com sucesso')) {
+            throw new Error('Não foi possivél gerar outro token')
+        }
+        return this.response
+    }
 }

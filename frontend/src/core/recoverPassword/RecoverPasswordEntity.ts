@@ -15,13 +15,13 @@ export default class RecoverPasswordEntity {
         if (responseGateway === 'Get Mock Success') {
             this.response.statusEmail = true
         }   
-        return this.response?.statusEmail
+        return this.response
     }
 
     executeSendToken(responseGateway:any) {
         if (responseGateway === 'Get Mock Success') {
             this.response.statusToken = true
         }
-        return this.response?.statusToken
+        return this.response
     }
 }

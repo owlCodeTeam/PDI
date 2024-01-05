@@ -6,4 +6,8 @@ export default class VerifyAccountAction {
     async execute(token:string) {
         return await this.gateway.verify(token)
     }
+
+    async newRequest(email:string) {
+        return await this.gateway.newEmailRequest(email)
+    }
 }

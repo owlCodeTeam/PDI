@@ -26,7 +26,17 @@
       <NewPasswordForm 
         v-if="pageStep == 'new-password'"
         @setNewPassword="getNewPassword"
+        @loading="getLoadingStatus"
       />
+      <q-dialog 
+        v-model="awaitPageResponse"
+        persistent
+      >
+        <q-spinner
+          color="indigo-10"
+          size="4em"
+        />
+      </q-dialog>
     </div>  
     <div class="col-12 col-sm-3 bg-indigo-8 flex justify-center items-center">
       <q-img 
@@ -50,19 +60,17 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const pageStep = ref(SessionStorage.getItem('page-step') ? SessionStorage.getItem('page-step') : 'email')
+    const awaitPageResponse = ref(false)
 
     const user = reactive({
       email: '' as string,
       token: '' as string,
-    })
-    var newPassword:object = reactive({
       password: '' as string,
       confirmPassword: '' as string
     })
 
     function onSubmit() {
       console.log(user)
-      console.log(newPassword)
     }
 
     function getEmail(email:string) {
@@ -73,9 +81,14 @@ export default defineComponent({
       user.token = token
     }
 
-    function getNewPassword(data:object) {
-      newPassword = data
+    function getNewPassword(data:any) {
+      user.password = data.password
+      user.confirmPassword = data.confirmPassword
       onSubmit()
+    }
+
+    function getLoadingStatus(status:boolean) {
+      awaitPageResponse.value = status
     }
 
     function changePageStep(step:string) {
@@ -90,6 +103,8 @@ export default defineComponent({
       router,
       pageStep,
       user,
+      awaitPageResponse,
+      getLoadingStatus,
       leaveThePage,
       getEmail,
       getToken,

@@ -1,38 +1,46 @@
 export type recoverPasswordProps = {
     email: string,
-    token: string
+    token: string,
+    password: string, 
+    confirmPassword: string
 }
 
 export default class RecoverPasswordDataEntity {
-    constructor(readonly props:recoverPasswordProps) {
-        this.validateToken()
-        this.validateEmail()
-    }
-
-    email() {
-        return this.props.email
-    }
-
-    token() {
-        return this.props.token
-    }
-
-    validateToken() {
-        if (this.token().length <= 0) {
-            throw new Error('O token não pode estar vazio')
+    constructor(readonly props?:recoverPasswordProps) {
+        if (props) {
+            this.validateToken(this.props.email)
+            this.validateEmail(this.props.token)
         }
     }
 
-    validateEmail() {
-        if (this.email().length <= 0) {
-            throw new Error('O email não pode estar vazio')
+    validateToken(token:string) {
+        if (token.length <= 0) {
+            throw new Error('O campo token não pode estar vazio')
+        }
+    }
+
+    validateEmail(email:string) {
+        if (email.length <= 0) {
+            throw new Error('O campo email não pode estar vazio')
         }
         const regex = /[@]/
-        if (!(regex.test(this.email()))) {
+        if (!(regex.test(email))) {
             throw new Error('Email inválido')
         }
-        if (((this.email().indexOf('@') <= 0) == true) || (((this.email().length)-1) == this.email().indexOf('@') == true)) {
+        if (((email.indexOf('@') <= 0) == true) || (((email.length)-1) == email.indexOf('@') == true)) {
             throw new Error('Email inválido')
+        }
+    }
+
+    validateNewPassword(password:string, confirmPassword:string) {
+        if (password.length <= 0) {
+            throw new Error('O campo email não pode estar vazio')
+        }
+        if (password.length < 8) {
+            throw new Error('O tamanho minimo da senha deve ser de 8 digitos!')
+        }
+        if (password != confirmPassword) {
+            throw new Error('As senhas devem ser identicas!')
         }
     }
 }
