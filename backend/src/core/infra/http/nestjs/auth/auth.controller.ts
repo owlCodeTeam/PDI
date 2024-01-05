@@ -7,6 +7,8 @@ import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
 import { AuthSaveDto } from "./authSave.dto";
 import { saveUserUsecase } from "@domain/user/usecases/save.usecase";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
+import { PasswordrecoveryDto } from "./passwordRecovery.dto";
+import { passwordRecoveryUsecase } from "@domain/auth/usecase/passwordRecovery.usecase";
 @ApiTags("Auth")
 @Controller()
 export class AuthController {
@@ -58,6 +60,21 @@ export class AuthController {
       response.status(HttpStatus.OK).send({
         message: "token gerado com sucesso",
         token,
+      });
+    } catch (error) {
+      response.status(HttpStatus.PRECONDITION_FAILED).send({
+        message: error.message,
+      });
+    }
+  }
+  @Post("password/recovery")
+  async passwordRecovery(@Body() body: PasswordrecoveryDto, @Res() response) {
+    try {
+      const usecase = new passwordRecoveryUsecase(this.repo, this.gateway);
+      const user = await usecase.execute(body);
+      response.status(HttpStatus.OK).send({
+        message: "Senha alterada com sucesso",
+        user,
       });
     } catch (error) {
       response.status(HttpStatus.PRECONDITION_FAILED).send({

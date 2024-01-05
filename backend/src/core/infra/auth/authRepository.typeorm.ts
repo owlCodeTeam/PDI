@@ -53,4 +53,12 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       .where("email = :email ", { email: email })
       .execute();
   }
+  async setNewPassword(newPassword: string, email: string): Promise<void> {
+    await this.dataSource
+      .createQueryBuilder()
+      .update(UserModel)
+      .set({ password: newPassword })
+      .where("email = :email ", { email: email })
+      .execute();
+  }
 }

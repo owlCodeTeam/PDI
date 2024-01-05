@@ -18,14 +18,16 @@ export class GenerateTokenUsecase {
     if (!user) {
       throw new Error("user_not_found");
     }
-    if (user.is_verify() === false) {
+    if (!input.password) {
       return await this.gateway.tokenGenerate(user);
     }
     const validatePassord = await this.gateway.validatePassword(user, input.password);
     if (!validatePassord) {
       throw new Error("invalid_password");
     }
-
+    if (user.is_verify() === false && validatePassord === true) {
+      return await this.gateway.tokenGenerate(user);
+    }
     return await this.gateway.tokenGenerate(user);
   }
 }
