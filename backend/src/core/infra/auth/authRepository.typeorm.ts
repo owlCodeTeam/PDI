@@ -29,24 +29,32 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
   }
   async save(user: userEntity): Promise<userEntity> {
     await this.dataSource;
-    const existingUser = await this.dataSource
+    const userModel = await this.dataSource
       .getRepository(UserModel)
       .createQueryBuilder("user")
       .where("email = :email", { email: user.email() })
       .getOne();
-    if (existingUser) {
+    if (userModel) {
       await this.dataSource
         .createQueryBuilder()
         .update(UserModel)
         .set({
           email: user.email(),
           name: user.name(),
-          password: user.password(),
           is_verify: user.is_verify(),
           cpf: user.cpf(),
         })
         .where("email = :email", { email: user.email() })
         .execute();
+      const responseUser = new userEntity({
+        uuid: userModel.uuid,
+        name: userModel.name,
+        email: userModel.email,
+        password: userModel.password,
+        cpf: userModel.cpf,
+        is_verify: userModel.is_verify,
+      });
+      return responseUser;
     } else {
       this.dataSource
         .createQueryBuilder()
@@ -63,8 +71,8 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
           },
         ])
         .execute();
+      return user;
     }
-    return user;
   }
   async setCheckedAccount(email: string): Promise<void> {
     await this.dataSource

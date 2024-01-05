@@ -42,8 +42,8 @@ export class AuthController {
     try {
       const usecase = new saveUserUsecase(this.repo, this.gateway, this.emailGateway);
       const user = await usecase.execute(body);
-      console.log(user.is_verify() === true);
-      if (user.is_verify() === true || (user.is_verify() && user.is_verify() === false)) {
+      console.log(user.is_verify());
+      if (user.is_verify() === true || user.is_verify() === false) {
         response.status(HttpStatus.OK).send({
           message: "Esse email ja foi cadastrado, o seu usuario foi atualizado",
           user: user.props,
