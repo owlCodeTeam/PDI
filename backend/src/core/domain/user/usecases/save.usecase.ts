@@ -12,6 +12,9 @@ export class saveUserUsecase {
     readonly emailGateway: emailGatewayInterface,
   ) {}
   public async execute(user: AuthSaveDto): Promise<userEntity> {
+    if ((await this.repo.verifyCpf(user.cpf)) === false) {
+      throw new Error("CPF inválido")
+    }
     const passwordHash = await this.repo.encryptPassword(user.password);
     const userInput = new userEntity({
       email: user.email,
