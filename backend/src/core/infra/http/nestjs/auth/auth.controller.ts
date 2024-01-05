@@ -9,6 +9,7 @@ import { saveUserUsecase } from "@domain/user/usecases/save.usecase";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
 import { PasswordrecoveryDto } from "./passwordRecovery.dto";
 import { passwordRecoveryUsecase } from "@domain/auth/usecase/passwordRecovery.usecase";
+import { verifyAccountUsecase } from "@domain/auth/usecase/verifyAccount.usecase";
 @ApiTags("Auth")
 @Controller()
 export class AuthController {
@@ -75,6 +76,20 @@ export class AuthController {
       response.status(HttpStatus.OK).send({
         message: "Senha alterada com sucesso",
         user,
+      });
+    } catch (error) {
+      response.status(HttpStatus.PRECONDITION_FAILED).send({
+        message: error.message,
+      });
+    }
+  }
+  @Get("verify/account/:token")
+  async verifyAccount(@Param("token") token: string, @Res() response) {
+    try {
+      const verifyAccount = new verifyAccountUsecase(this.repo, this.gateway);
+      await verifyAccount.execute(token);
+      response.status(HttpStatus.OK).send({
+        message: "Conta verificada com sucesso",
       });
     } catch (error) {
       response.status(HttpStatus.PRECONDITION_FAILED).send({
