@@ -62,7 +62,7 @@ export class AuthController {
   @Get("send/token/:email")
   async ResendToken(@Param("email") email: string, @Res() response) {
     try {
-      const usecase = new ResendTokenUsecase(this.repo, this.gateway);
+      const usecase = new ResendTokenUsecase(this.repo, this.gateway, this.emailGateway);
       const token = await usecase.execute(email);
       if (!token) {
         response.status(HttpStatus.BAD_REQUEST).send({
