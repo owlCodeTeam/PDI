@@ -7,7 +7,7 @@ export default class VerifyAccountGatewayHttp implements VerifyAccountGateway {
     constructor(readonly httpClient:HttpClient, readonly baseUrl:string) {}
     
     async verify(token: string): Promise<any> {
-        const responseGateway = await this.httpClient.get(`${this.baseUrl}`)
+        const responseGateway = await this.httpClient.get(`${this.baseUrl}verify/account/${token}`)
         const response = verifyAccountEntity.execute(responseGateway)
         return response
     }

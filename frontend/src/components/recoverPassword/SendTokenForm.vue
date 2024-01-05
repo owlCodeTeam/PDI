@@ -2,27 +2,13 @@
   <div class="row full-width">
     <div class="col-12 text-center q-my-md row justify-center">
       <p class="text-h4 text-bold col-11">PDI</p>
-      <p class="text-h6 col-11">
-        Envie o
+      <p class="text-h6 col-10">
+        acesse seu email e clique no  
         <span class="text-indigo-10">
-          token
+          botão
         </span>
-        que foi fornecido no email
+        de recuperação de senha para restaurar o acesso à sua conta com segurança.
       </p>
-    </div>
-    <div class="col-12 row justify-center">
-      <q-input 
-        class="col-5"
-        outlined
-        label="Token"
-        v-model="token"
-        color="indigo-10"
-      />
-      <q-btn
-        class="bg-indigo-10 full-height text-white q-mx-md" 
-        icon="send"
-        @click="onSubmit"
-      />
     </div>
     <div class="col-12 row justify-center q-my-xl">
       <div class="col-12 flex justify-center items-center">
@@ -48,27 +34,39 @@
 import { Notify } from 'quasar'
 import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction'
 import RecoverPasswordDataEntity from 'src/core/recoverPassword/RecoverPasswordDataEntity'
-import { defineComponent, inject, ref } from 'vue'
+import { defineComponent, inject, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'SendTokenForm',
   props: {
     emailProps: String
   },
   setup(props, { emit }) {
-    const token = ref('')
     const email = ref(props.emailProps)
+    const route = useRoute()
+    const token = ref(route.params.token)
     const recoverPasswordAction = inject('recoverPasswordAction') as RecoverPasswordAction
 
     const onSubmit = async() => {
+      if (route.params.token) {
+        emit('setToken', token.value)
+        emit('sendNextPageStep', 'new-password')
+      }
+    }
+
+    async function newEmailRequest() {
       try {
         const responseDataEntity = new RecoverPasswordDataEntity()
-        responseDataEntity.validateToken(token.value)
-        const responseAction = await recoverPasswordAction.executeSendToken(token.value)
-        if (responseAction.statusToken == true) {
-          emit('setToken', token.value)
-          emit('sendNextPageStep', 'new-password')
+        responseDataEntity.validateEmail(String(email.value))
+        const responseAction = await recoverPasswordAction.executeGetToken(String(email.value))
+        if (responseAction.statusEmail == true) {
+          Notify.create({
+            message: `Novo email contendo o token de recuperação foi enviado com sucesso para: ${email.value}`,
+            color: 'green-7',
+            position: 'top'
+        })
         }
-      } catch (error) {
+      } catch (error:any) {
         Notify.create({
           message: error.message,
           color: 'red-14',
@@ -77,9 +75,9 @@ export default defineComponent({
       }
     }
 
-    function newEmailRequest() {
-      console.log('Nova requesição de email em => '+email.value)
-    }
+    onMounted(() => {
+      onSubmit()
+    })
 
     return {
       token,

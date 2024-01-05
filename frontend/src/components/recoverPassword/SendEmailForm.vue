@@ -42,7 +42,7 @@ export default defineComponent({
       try {
         const responseDataEntity = new RecoverPasswordDataEntity()
         responseDataEntity.validateEmail(email.value)
-        const responseAction = await recoverPasswordAction.executeSendEmail(email.value)
+        const responseAction = await recoverPasswordAction.executeGetToken(email.value)
         if (responseAction.statusEmail == true) {
           emit('setEmail', email.value)
           emit('sendNextPageStep', 'token')

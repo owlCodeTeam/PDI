@@ -1,4 +1,4 @@
 export default interface RecoverPasswordGateway {
-    sendEmail(email:string): Promise<any>
-    sendToken(token:string): Promise<any>
+    getToken(email:string): Promise<any>
+    recoverPassword(user:object): Promise<any>
 }

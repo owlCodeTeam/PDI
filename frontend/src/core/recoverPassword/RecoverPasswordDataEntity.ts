@@ -15,13 +15,13 @@ export default class RecoverPasswordDataEntity {
 
     validateToken(token:string) {
         if (token.length <= 0) {
-            throw new Error('O campo token não pode estar vazio')
+            throw new Error('O token não pode estar vazio')
         }
     }
 
     validateEmail(email:string) {
         if (email.length <= 0) {
-            throw new Error('O campo email não pode estar vazio')
+            throw new Error('O email não pode estar vazio')
         }
         const regex = /[@]/
         if (!(regex.test(email))) {

@@ -63,6 +63,7 @@
 
 <script lang="ts">
 import { Notify } from 'quasar'
+import { route } from 'quasar/wrappers'
 import LoginAction from 'src/core/login/LoginAction'
 import LoginDataEntity from 'src/core/login/LoginDataEntity'
 import { defineComponent, inject, reactive, ref } from 'vue'
@@ -87,16 +88,19 @@ export default defineComponent({
           password: loginData.password
         })
         const response = await loginAction.execute(user)
-        console.log(response)
         if (response?.status == true) {
           router.push('/control-panel')
         }
       } catch (error:any) {
+        console.log(error.message)
         Notify.create({
           message: error.message,
           color: 'red-14',
           position: 'top'
         })
+        if (error.message == 'Sua conta existe mas não está verificada!!!!') {
+          router.push(`/verify-account/${loginData.username}`)
+        }
       }
     }
 

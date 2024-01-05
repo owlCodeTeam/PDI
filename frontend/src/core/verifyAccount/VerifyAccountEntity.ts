@@ -16,11 +16,15 @@ export default class VerifyAccountEntity {
     }
 
     execute(responseGateway:any) {
-        if (responseGateway == 'Get Mock Success') {
+        console.log(responseGateway)
+        if (!(responseGateway.status > 299)) {
             this.response.status = true
-            this.response.message = 'Conta validada com sucesso!'
+            this.response.message = responseGateway.data.message
             this.response.color = 'green-7'
             this.response.route = '/'
+        } 
+        if (responseGateway.status > 299) {
+            throw new Error('Conta verificada com sucesso')
         }
         return this.response
     }

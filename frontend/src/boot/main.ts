@@ -32,7 +32,7 @@ export default boot(async ({app}) => {
   const verifyAccountAction = new VerifyAccountAction(verifyAccountGateway)
   app.provide('verifyAccountAction', verifyAccountAction)
 
-  const recoverPasswordGateway = new RecoverPasswordGatewayHttp(mockAdpter, baseUrl)
+  const recoverPasswordGateway = new RecoverPasswordGatewayHttp(axiosAdapter, baseUrl)
   const recoverPasswordAction = new RecoverPasswordAction(recoverPasswordGateway)
   app.provide('recoverPasswordAction', recoverPasswordAction)
 })

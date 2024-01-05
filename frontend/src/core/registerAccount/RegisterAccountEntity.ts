@@ -10,11 +10,12 @@ export default class RegisterAccountEntity {
     }
 
     execute(responseGateway:any) {
-        if (responseGateway.message == 'Usuario cadastrado com sucesso') {
+        console.log(responseGateway)
+        if (!(responseGateway.status > 299)) {
             this.response.status = true
         }
-        if (!(responseGateway.message == 'Usuario cadastrado com sucesso')) {
-            throw new Error(responseGateway.message)
+        if (responseGateway.status > 299) {
+            throw new Error(responseGateway.data.message)
         }
         return this.response
     }

@@ -6,15 +6,15 @@ const recoverPasswordEntity = new RecoverPasswordEntity()
 export default class RecoverPasswordGatewayHttp implements RecoverPasswordGateway {
     constructor(readonly httpClient:HttpClient, readonly baseUr:string) {}
     
-    async sendEmail(email:string): Promise<any> {
-        const responseGateway = await this.httpClient.get(`${this.baseUr}/${email}`)
-        const response = recoverPasswordEntity.executeSendEmail(responseGateway)
+    async getToken(email:string): Promise<any> {
+        const responseGateway = await this.httpClient.get(`${this.baseUr}send/token/${email}`)
+        const response = recoverPasswordEntity.executeGetToken(responseGateway)
         return response
     }
 
-    async sendToken(token:string): Promise<any> {
-        const responseGateway = await this.httpClient.get(`${this.baseUr}/${token}`)
-        const response = recoverPasswordEntity.executeSendToken(responseGateway)
+    async recoverPassword(user:object): Promise<any> {
+        const responseGateway = await this.httpClient.post(`${this.baseUr}password/recovery`, user)
+        const response = recoverPasswordEntity.executeRecoverPassword(responseGateway)
         return response
     }
 }

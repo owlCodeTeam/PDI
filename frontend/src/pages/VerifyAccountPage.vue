@@ -7,12 +7,12 @@
         <div class="col-11 text-center q-my-md">
           <p class="text-h4">Verifique seu email</p>
           <p class="text-subtitle1">
-            Certifique-se de verificar o token recebido no seu e-mail para concluir com segurança o processo.
+            Por favor, verifique seu e-mail e clique no botão de verificação para concluir o processo. Obrigado!
           </p>
         </div>
         <div class="col-12 q-my-md row justify-center items-center">
           <div class="col-11 text-center text-subtitle1">
-            Caso o token não tenha chegado considere solicitar o reenvio.
+            Caso não tenha recebido o email, solicite o reenvio.
           </div>
           <div class="col-12 row justify-center q-my-sm">
             <q-btn 
@@ -20,7 +20,7 @@
               class="col-auto text-h6"
               color="indigo-10"
               @click="newVerificationRequest"
-              disable
+              :disable="newRequestButtonStatus"
             />
           </div>
         </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, reactive } from 'vue'
+import { defineComponent, inject, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import VerifyAccountAction from 'src/core/verifyAccount/VerifyAccountAction'
 import VerifyAccountTokenEntity from 'src/core/verifyAccount/VerifyAccountTokenEntity'
@@ -53,12 +53,11 @@ export default defineComponent({
       token: '' as string
     })
     const token = new VerifyAccountTokenEntity(user)
+    const newRequestButtonStatus = ref(false)
 
     async function newVerificationRequest() {
-      console.log('pedindo reenvio')
       try {
         const response = await verifyAccountAction.newRequest(user.email)
-        console.log(response)
         if (response.status == true) {
           Notify.create({
             message: 'O novo pedido de verificação de e-mail foi feito com sucesso! cheque a sua caixa de entrada',
@@ -102,12 +101,24 @@ export default defineComponent({
         user.token = route.params.token
         onSubmit()
       }
+      sleepNewRequest()
     })
+
+    function sleep(ms:number) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    async function sleepNewRequest() {
+      newRequestButtonStatus.value = true
+      await sleep(10000)
+      newRequestButtonStatus.value = false
+    }
 
     return {
       user,
+      newRequestButtonStatus,
       newVerificationRequest,
-      onSubmit
+      sleepNewRequest
     }
   }
 })

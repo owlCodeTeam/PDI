@@ -7,7 +7,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('pages/LoginPage.vue') },
       { path: 'register-account', component: () => import('pages/RegisterAccountPage.vue') },
-      { path: 'recover-password', component: () => import('pages/RecoverPasswordPage.vue') },
+      { path: 'recover-password/:email?/:token?', component: () => import('pages/RecoverPasswordPage.vue') },
       { path: 'verify-account/:email/:token?', component: () => import('pages/VerifyAccountPage.vue') }
     ],
   },

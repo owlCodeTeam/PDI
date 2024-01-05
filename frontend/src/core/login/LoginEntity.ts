@@ -1,21 +1,23 @@
 export type responseType = {
-    status: boolean
+    status: boolean,
+    route: string
 }
 
 export default class LoginEntity {
     constructor(readonly response?:responseType) {
         this.response = {
-            status: false
+            status: false,
+            route: ''
         }
     }
 
     execute(responseGateway:any) {
         console.log(responseGateway)
-        if (responseGateway.message == 'token gerado com sucesso') {
+        if (!(responseGateway.status > 299)) {
             this.response.status = true
         }
-        if (!(responseGateway.message == 'token gerado com sucesso')) {
-            throw new Error(responseGateway.message)
+        if (responseGateway.status > 299) {
+            throw new Error(responseGateway.data.message)
         }
         return this.response
     }

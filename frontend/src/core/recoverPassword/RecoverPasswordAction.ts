@@ -3,11 +3,11 @@ import RecoverPasswordGateway from "src/infra/recoverPassword/RecoverPasswordGat
 export default class RecoverPasswordAction {
     constructor(readonly gateway:RecoverPasswordGateway) {}
 
-    async executeSendEmail(email:string) {
-        return await this.gateway.sendEmail(email)
+    async executeGetToken(email:string) {
+        return await this.gateway.getToken(email)
     }
 
-    async executeSendToken(token:string) {
-        return await this.gateway.sendToken(token)   
+    async executeRecoverPassword(user:object) {
+        return await this.gateway.recoverPassword(user)   
     }
 }

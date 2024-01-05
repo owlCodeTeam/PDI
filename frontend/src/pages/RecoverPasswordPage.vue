@@ -19,7 +19,7 @@
       />
       <SendTokenForm 
         v-if="pageStep == 'token'" 
-        :email-props="user.email"
+        :email-props="userData.email"
         @setToken="getToken"
         @sendNextPageStep="changePageStep"
       />
@@ -48,42 +48,66 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router';
+import { defineComponent, inject, onMounted, reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
 import SendEmailForm from '../components/recoverPassword/SendEmailForm.vue'
 import SendTokenForm from '../components/recoverPassword/SendTokenForm.vue'
 import NewPasswordForm from 'src/components/recoverPassword/NewPasswordForm.vue';
-import { SessionStorage } from 'quasar';
+import { Notify, SessionStorage } from 'quasar';
+import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction';
 
 export default defineComponent({
   name: 'RecoverPasswordPage',
   setup() {
+    const recoverPasswordAction = inject('recoverPasswordAction') as RecoverPasswordAction
     const router = useRouter()
+    const route = useRoute()
     const pageStep = ref(SessionStorage.getItem('page-step') ? SessionStorage.getItem('page-step') : 'email')
     const awaitPageResponse = ref(false)
 
-    const user = reactive({
+    const userData = reactive({
       email: '' as string,
       token: '' as string,
       password: '' as string,
       confirmPassword: '' as string
     })
 
-    function onSubmit() {
+    async function onSubmit() {
+      const user = {
+        token: route.params.token,
+        newPassword: userData.password
+      }
       console.log(user)
+      try {
+        const response = await recoverPasswordAction.executeRecoverPassword(user)
+        if (response.passwordChangeStatus == true) {
+          Notify.create({
+            message: 'Senha alterada com sucesso!',
+            color: 'green-7',
+            position: 'top'
+          })
+          router.push('/')
+        }
+      } catch (error:any) {
+        Notify.create({
+          message: error.message,
+          color: 'red-14',
+          position: 'top'
+        })
+      }
     }
 
     function getEmail(email:string) {
-      user.email = email
+      userData.email = email
     }
 
     function getToken(token:string) {
-      user.token = token
+      userData.token = token
     }
 
     function getNewPassword(data:any) {
-      user.password = data.password
-      user.confirmPassword = data.confirmPassword
+      userData.password = data.password
+      userData.confirmPassword = data.confirmPassword
       onSubmit()
     }
 
@@ -99,10 +123,17 @@ export default defineComponent({
       router.push('/')
     }
 
+    onMounted(() => {
+      if (route.params.token) {
+        pageStep.value = 'token'
+        userData.token = String(route.params.token)
+      }
+    })
+
     return {
       router,
       pageStep,
-      user,
+      userData,
       awaitPageResponse,
       getLoadingStatus,
       leaveThePage,
