@@ -13,17 +13,15 @@ const updateAccountAction = new UpdateAccountAction(updateAccountGateway)
 test("Deve atualizar os dados de uma conta", async() => {
     const id = '1bdfdeed-a792-4034-bb28-84ba79428214'
     const updateAccountData = {
-        username: "Henrique Fake Name",
+        username: "Henrique Fake",
         email: "henriquedevprofessional@gmail.com",
     }
     try {
         const user = new UpdateAccountDataEntity(updateAccountData)
-        console.log(user)
         const response = await updateAccountAction.execute(user, id)
-        console.log(response)
-        expect(response).toBe(true)
+        expect(response.status).toBe(true)
     } catch (error) {
-        console.log(error.message)
+        throw new Error(error.message)
     }
 
 })

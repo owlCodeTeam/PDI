@@ -5,6 +5,6 @@ export default class UpdateAccountAction {
     constructor(readonly gateway:UpdateAccountGateway) {}
 
     async execute(user:UpdateAccountDataEntity, id:string) {
-        return await this.gateway.udpate(user, id)
+        return await this.gateway.update(user.getData(), id)
     }
 }

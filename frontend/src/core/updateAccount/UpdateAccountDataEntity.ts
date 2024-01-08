@@ -8,7 +8,7 @@ export default class UpdateAccountDataEntity {
         this.validateName()
         this.validateEmail()
     }
-
+    
     username() {
         return this.props.username
     }

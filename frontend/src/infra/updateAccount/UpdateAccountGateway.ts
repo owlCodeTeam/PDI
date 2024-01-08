@@ -1,3 +1,3 @@
 export default interface UpdateAccountGateway {
-    udpate(user:object, id:string): Promise<any>
+    update(user:object, id:string): Promise<any>
 }

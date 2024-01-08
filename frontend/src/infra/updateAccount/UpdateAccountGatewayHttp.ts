@@ -6,7 +6,7 @@ const updateAccountEntity = new UpdateAccountEntity()
 export default class UpdateAccountGatewayHttp implements UpdateAccountGateway {
     constructor(readonly httpClient:HttpClient, readonly baseUrl:string) {}
 
-    async udpate(user:object, id:string): Promise<any> {
+    async update(user:object, id:string): Promise<any> {
         const responseGateway = await this.httpClient.patch(`${this.baseUrl}update/${id}`, user)
         const response = updateAccountEntity.execute(responseGateway)
         return response 
