@@ -5,7 +5,10 @@ import { DataSource } from "typeorm";
 import { getDataSourceToken } from "@nestjs/typeorm";
 import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
-import { socketIoGateway } from "@infra/socket/socket.gateway";
+// import { socketIoGateway } from "@infra/socket/socket.gateway";
+// import * as http from "http";
+// import { Server } from "socket.io";
+
 @Module({
   imports: [],
   controllers: [AuthController],
@@ -31,12 +34,19 @@ import { socketIoGateway } from "@infra/socket/socket.gateway";
       },
       inject: [getDataSourceToken()],
     },
-    {
-      provide: socketIoGateway,
-      useFactory: () => {
-        return new socketIoGateway();
-      },
-    },
+    // {
+    //   provide: socketIoGateway,
+    //   useFactory: () => {
+    //     const server = http.createServer();
+    //     const io: Server = new Server(server, {
+    //       cors: {
+    //         origin: "http://localhost:9000",
+    //       },
+    //     });
+    //     io.listen(4000);
+    //     return new socketIoGateway(io);
+    //   },
+    // },
   ],
 })
 export class AuthModule {}
