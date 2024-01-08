@@ -15,7 +15,7 @@ async function bootstrap() {
   const server = http.createServer();
   // app.useWebSocketAdapter(new IoAdapter(app));
   app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
-  const io = new Server(server, {
+  const io: Server = new Server(server, {
     cors: {
       origin: "http://localhost:9000",
     },
