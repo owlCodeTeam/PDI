@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AuthModule } from "@infra/http/nestjs/auth/auth.module";
 import { ErrorHandlingMiddleware } from "@infra/http/nestjs/middleware/exceptionMiddlewareErrors.middleware";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
+import { IoAdapter } from "@nestjs/platform-socket.io";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,7 +17,7 @@ async function bootstrap() {
   app.use(json({ limit: "50mb" }));
   app.use(urlencoded({ extended: true, limit: "50mb" }));
   app.use(new ErrorHandlingMiddleware(new emailGatewayLocal()).use);
-  //
+  app.useWebSocketAdapter(new IoAdapter(app));
   const swaggerConfig = new DocumentBuilder()
     .setTitle("API")
     .setDescription("Documentação API")

@@ -5,8 +5,9 @@ import { DataSource } from "typeorm";
 import { getDataSourceToken } from "@nestjs/typeorm";
 import { AuthRepositoryTypeorm } from "@infra/auth/authRepository.typeorm";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
-
+import { socketIoGateway } from "@infra/socket/socket.gateway";
 @Module({
+  imports: [],
   controllers: [AuthController],
   providers: [
     {
@@ -29,6 +30,12 @@ import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
         return new emailGatewayLocal();
       },
       inject: [getDataSourceToken()],
+    },
+    {
+      provide: socketIoGateway,
+      useFactory: () => {
+        return new socketIoGateway();
+      },
     },
   ],
 })

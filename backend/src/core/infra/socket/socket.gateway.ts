@@ -1,16 +1,16 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer, MessageBody, OnGatewayConnection } from "@nestjs/websockets";
 import { Server } from "socket.io";
 @WebSocketGateway()
-export class chatGateway implements OnGatewayConnection {
-  private users = {};
+export class socketIoGateway implements OnGatewayConnection {
+  private users: any = {};
   @WebSocketServer()
   server: Server;
 
   handleConnection(client: any, ...args: any[]) {
-    this.users[client.id] = {}
+    this.users[client.id] = {};
   }
-  @SubscribeMessage("message")
+  @SubscribeMessage("receive-message")
   handleMessage(@MessageBody() message: string): void {
-    
+    console.log(message);
   }
 }
