@@ -1,3 +1,3 @@
-// export interface SocketGateway {
-//   sendMessage
-// }
+export interface SocketGateway {
+  sendNotification(channel: string)
+}
