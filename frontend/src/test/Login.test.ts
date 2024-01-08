@@ -1,3 +1,4 @@
+import 'jsdom-global/register';
 import LoginAction from "src/core/login/LoginAction"
 import LoginDataEntity from "src/core/login/LoginDataEntity"
 import LoginGatewayHttp from "src/infra/login/LoginGatewayHttp"

@@ -159,7 +159,7 @@ test("Deve criar um usuário com cpf inválido", async () => {
         const response = await registerAccountAction.execute(user)
         expect(response.status).toBe(true)
     } catch (error) {
-        expect(error.message).toBe('O cpf enviado não é um cpf válido')
+        expect(error.message).toBe('CPF inválido')
     }
 })
 

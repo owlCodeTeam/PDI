@@ -1,7 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import LoginGatewayHttp from 'src/infra/login/LoginGatewayHttp'
 import AxiosAdapter from '../infra/http/AxiosAdapter'
-import MockAdapter from '../infra/http/MockAdapter'
 import LoginAction from 'src/core/login/LoginAction'
 import RegisterAccountGatewayHttp from 'src/infra/registerAccount/RegisterAccountGatewayHttp'
 import RegisterAccountAction from 'src/core/registerAccount/RegisterAccountAction'
@@ -9,16 +8,22 @@ import VerifyAccountGatewayHttp from 'src/infra/verifyAccount/VerifyAccountGatew
 import VerifyAccountAction from 'src/core/verifyAccount/VerifyAccountAction'
 import RecoverPasswordGatewayHttp from 'src/infra/recoverPassword/RecoverPasswordGatewayHttp'
 import RecoverPasswordAction from 'src/core/recoverPassword/RecoverPasswordAction'
-import FetchAdapter from 'src/infra/http/FetchAdapter'
+import { io } from 'socket.io-client'
+import SocketIoGatewayHttp from 'src/infra/socketIo/SocketIOGatewayHttp'
+import SocketIoAction from 'src/core/socketIo/SocketIoAction'
+
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async ({app}) => {
 
   const axiosAdapter = new AxiosAdapter()
-  const fetchAdapter = new FetchAdapter()
-  const mockAdpter = new MockAdapter()
   const baseUrl = 'http://localhost:3000/'
+  const socketIo = io(baseUrl)
+
+  const socketIoGateway = new SocketIoGatewayHttp(socketIo)
+  const socketIoAction = new SocketIoAction(socketIoGateway)
+  app.provide('socketIoAction', socketIoAction)
 
   const loginGateway = new LoginGatewayHttp(axiosAdapter, baseUrl)
   const loginAction =  new LoginAction(loginGateway)

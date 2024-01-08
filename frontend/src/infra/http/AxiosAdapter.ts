@@ -27,4 +27,17 @@ export default class AxiosAdpter implements HttpClient {
             return error.response
         }
     }
+ 
+    async patch(url:string, data:object): Promise<any> {
+        try {
+            const response = await axios.patch(url, data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            return response
+        } catch (error) {
+            return error.response
+        }
+    }
 }

@@ -1,7 +1,6 @@
 import RecoverPasswordAction from "src/core/recoverPassword/RecoverPasswordAction";
 import RecoverPasswordDataEntity from "src/core/recoverPassword/RecoverPasswordDataEntity";
 import AxiosAdpter from "src/infra/http/AxiosAdapter";
-import MockAdpter from "src/infra/http/MockAdapter";
 import RecoverPasswordGatewayHttp from "src/infra/recoverPassword/RecoverPasswordGatewayHttp";
 import { expect, test } from "vitest";
 
