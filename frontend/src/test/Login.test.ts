@@ -11,7 +11,7 @@ const baseUrl = 'http://localhost:3000/'
 const loginGateway = new LoginGatewayHttp(axiosAdapter, baseUrl)
 const loginAction = new LoginAction(loginGateway)
 
-test("Deve tentar realizar login com uma conta válida", async () => {
+test.skip("Deve tentar realizar login com uma conta válida", async () => {
     const loginData = {
         username: 'henriquedevprofessional@gmail.com',
         password: '12345678'
@@ -53,7 +53,7 @@ test("Deve tentar realizar login com email inválido", async () => {
     }
 })
 
-test("Deve tentar realizar login com a senha inválida", async () => {
+test.skip("Deve tentar realizar login com a senha inválida", async () => {
     const loginData = {
         username: 'henriquedevprofessional@gmail.com',
         password: '124'

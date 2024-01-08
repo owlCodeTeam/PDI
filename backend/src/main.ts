@@ -12,12 +12,12 @@ import { IoAdapter } from "@nestjs/platform-socket.io";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.useWebSocketAdapter(new IoAdapter(app));
   app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
   app.enableCors();
   app.use(json({ limit: "50mb" }));
   app.use(urlencoded({ extended: true, limit: "50mb" }));
   app.use(new ErrorHandlingMiddleware(new emailGatewayLocal()).use);
-  app.useWebSocketAdapter(new IoAdapter(app));
   const swaggerConfig = new DocumentBuilder()
     .setTitle("API")
     .setDescription("Documentação API")

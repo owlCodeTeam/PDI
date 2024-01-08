@@ -10,5 +10,8 @@ const socketIoGateway = new SocketIoGatewayHttp(socketIo)
 const socketIoAction = new SocketIoAction(socketIoGateway)
 
 test('Deve enviar uma mensagem ao backend, por socket', async() => {
-    console.log(await socketIoAction.executeSend('receive-message', 'socket ok'))
+    await socketIoAction.executeSend('receive-message', 'socket ok')
+})
+test('Deve receber uma mensagem do backend', async () =>{
+ console.log(await socketIoAction.executeReceive('receive-message'));
 })
