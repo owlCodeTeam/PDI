@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Param, Post, Res, Get } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Param, Post, Res, Get, Patch } from "@nestjs/common";
 // import { AuthLoginDto } from "./authLogin.dto";
 import { ApiTags } from "@nestjs/swagger";
 import { GenerateTokenUsecase } from "@domain/auth/usecase/generateToken.usecase";
@@ -12,6 +12,8 @@ import { passwordRecoveryUsecase } from "@domain/auth/usecase/passwordRecovery.u
 import { verifyAccountUsecase } from "@domain/auth/usecase/verifyAccount.usecase";
 import { ResendTokenUsecase } from "@domain/auth/usecase/resendToken.usecase";
 import { AuthLoginDto } from "./authLogin.dto";
+import { AuthUpdateDto } from "./authUpdate.dto";
+import { UpdateUserUsecase } from "@domain/user/usecases/updateUser.usecase";
 @ApiTags("Auth")
 @Controller()
 export class AuthController {
@@ -78,6 +80,15 @@ export class AuthController {
     await verifyAccount.execute(token);
     response.status(HttpStatus.OK).send({
       message: "Conta verificada com sucesso",
+    });
+  }
+  @Patch("update/:uuid")
+  async updateUser(@Param("uuid") uuid: string, @Res() response, @Body() body: AuthUpdateDto) {
+    const action = new UpdateUserUsecase(this.repo);
+    const user = await action.execute(body, uuid);
+    response.status(HttpStatus.OK).send({
+      message: "Usuario atualizado com sucesso",
+      user: user,
     });
   }
 }

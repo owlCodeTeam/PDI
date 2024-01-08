@@ -2,6 +2,7 @@ import { AuthRepositoryInterface } from "@domain/auth/authRepository.interface";
 import { userEntity } from "@domain/auth/entity/user.entity";
 import { DataSource } from "typeorm";
 import { UserModel } from "./database/models/User.model";
+import { updateUserInput } from "@domain/user/usecases/updateUser.usecase";
 export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
   constructor(readonly dataSource: DataSource) {}
 
@@ -10,6 +11,28 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       .getRepository(UserModel)
       .createQueryBuilder()
       .where("email = :email", { email: username })
+      .getOne();
+
+    if (!userModel) {
+      return;
+    }
+
+    const user = new userEntity({
+      uuid: userModel.uuid,
+      name: userModel.name,
+      email: userModel.email,
+      password: userModel.password,
+      cpf: userModel.cpf,
+      is_verify: userModel.is_verify,
+    });
+
+    return user;
+  }
+  async getById(uuid: string): Promise<userEntity> {
+    const userModel = await this.dataSource
+      .getRepository(UserModel)
+      .createQueryBuilder()
+      .where("uuid = :uuid", { uuid: uuid })
       .getOne();
 
     if (!userModel) {
@@ -42,7 +65,6 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
           email: user.email(),
           name: user.name(),
           is_verify: user.is_verify(),
-          cpf: user.cpf(),
         })
         .where("email = :email", { email: user.email() })
         .execute();
@@ -88,6 +110,17 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       .update(UserModel)
       .set({ password: newPassword })
       .where("email = :email ", { email: email })
+      .execute();
+  }
+  async updateUser(user: updateUserInput, _id: string): Promise<void> {
+    await this.dataSource
+      .createQueryBuilder()
+      .update(UserModel)
+      .set({
+        email: user.email,
+        name: user.username,
+      })
+      .where("uuid = :uuid", { uuid: _id })
       .execute();
   }
 }
