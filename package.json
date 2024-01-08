@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@nestjs/platform-socket.io": "^10.3.0",
+    "https": "^1.0.0",
     "socket.io": "^4.7.3"
   }
 }

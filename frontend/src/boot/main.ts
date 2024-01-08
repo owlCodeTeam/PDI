@@ -18,13 +18,18 @@ import SocketIoAction from 'src/core/socketIo/SocketIoAction'
 export default boot(async ({app}) => {
 
   const axiosAdapter = new AxiosAdapter()
-  const baseUrl = 'http://locahost:3000/'
-  const socketIoUrl = 'http://localhost:4000';
-  const socketIo = io(socketIoUrl, {
+  const baseUrl = 'http://localhost:4000'
+  const socketIo = io(baseUrl, {
     transports: ['websocket'],
-    withCredentials: true
-  });  
+    withCredentials: true,
+  });
+  socketIo.on('connect', () => {
+    console.log('conectado')
+  })
 
+  socketIo.on('error', (error) => {
+    console.error('Erro na conexão WebSocket:', error);
+  });
   const socketIoGateway = new SocketIoGatewayHttp(socketIo)
   const socketIoAction = new SocketIoAction(socketIoGateway)
   app.provide('socketIoAction', socketIoAction)
