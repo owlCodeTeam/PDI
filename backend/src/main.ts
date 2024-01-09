@@ -7,8 +7,20 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AuthModule } from "@infra/http/nestjs/auth/auth.module";
 import { ErrorHandlingMiddleware } from "@infra/http/nestjs/middleware/exceptionMiddlewareErrors.middleware";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
+// import * as http from "http";
+// import { Server } from "socket.io";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // const server = http.createServer();
+  // const io: Server = new Server(server, {
+  //   cors: {
+  //     origin: "http://localhost:9000",
+  //   },
+  // });
+  // io.listen(4000);
+  // io.on("connection", () => {
+  //   io.emit("receive-message", "minha mãe é verde");
+  // });
   app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
   app.enableCors();
   app.use(json({ limit: "50mb" }));

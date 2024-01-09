@@ -1,17 +1,16 @@
-import { socketIoGateway } from "@infra/socket/socket.gateway";
+import { SocketIoGateway } from "@infra/socket/socket.gateway";
 import * as http from "http";
 import { Server } from "socket.io";
 describe("Testar socket", () => {
-  test("deve mandar uma mensagem", () => {
+  test("deve mandar uma mensagem", async () => {
     const server = http.createServer();
     const io: Server = new Server(server, {
       cors: {
         origin: "http://localhost:9000",
       },
     });
-    io.listen(4000);
-    const socket = new socketIoGateway(io);
-    socket.handleMessage("da certo pfv");
+    const socket = new SocketIoGateway(io);
+    await socket.connect();
     expect(1).toBe(1);
   });
 });
