@@ -1,5 +1,5 @@
 import { ApiTags } from "@nestjs/swagger";
-import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
 import { chatRepositoryOrm } from "@infra/chat/database/chatRepository.typeorm";
 import { SocketIoGateway } from "@infra/socket/socket.gateway";
 import { sendMessageDto } from "./sendMessage.dto";
@@ -19,4 +19,8 @@ export class ChatController {
       message: "mensagem enviada com sucesso",
     });
   }
+  // @Get("messages")
+  // async getMessages(@Res() response) {
+
+  // }
 }

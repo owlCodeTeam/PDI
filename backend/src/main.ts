@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AuthModule } from "@infra/http/nestjs/auth/auth.module";
 import { ErrorHandlingMiddleware } from "@infra/http/nestjs/middleware/exceptionMiddlewareErrors.middleware";
 import { emailGatewayLocal } from "@infra/user/emailGateway.gateway";
+import { ChatModule } from "@infra/http/nestjs/Chat/chat.module";
 // import * as http from "http";
 // import { Server } from "socket.io";
 async function bootstrap() {
@@ -34,7 +35,7 @@ async function bootstrap() {
     .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT", in: "header" }, "Authorization")
     .build();
   const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig, {
-    include: [AppModule, AuthModule],
+    include: [AppModule, AuthModule, ChatModule],
   });
   SwaggerModule.setup("doc", app, swaggerDoc);
 

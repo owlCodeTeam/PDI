@@ -39,4 +39,17 @@ export class chatRepositoryOrm implements chatRepositoryInterface {
 
     return user;
   }
+  // async getMessage(0): Promise<MessageEntity[]> {
+  //   const messages: MessageEntity[] = [];
+  //   const messagesDb: messageModel[] = await this.dataSource.getRepository(messageModel).createQueryBuilder().getMany();
+  //   for (const message of messagesDb) {
+  //     const new_message = new MessageEntity({
+  //       Message: message.message,
+  //       Message_reciever: message.receiver,
+  //       Message_sender: message.sender,
+  //       uuid: message.uuid,
+  //     });
+  //     messages.push(message);
+  //   }
+  // }
 }
