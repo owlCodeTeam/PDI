@@ -14,7 +14,7 @@ describe("Deve testar o verifyAccountUsecase", () => {
       .createQueryBuilder()
       .update(UserModel)
       .set({ is_verify: false })
-      .where("email = :email ", { email: "usuario01@email.com" })
+      .where("email = :email ", { email: "joaopleseux@gmail.com" })
       .execute();
     await dataSource.destroy();
   });
@@ -23,14 +23,14 @@ describe("Deve testar o verifyAccountUsecase", () => {
     const gateway = new AuthRepositoryTypeorm(dataSource);
     const generateToken = new GenerateTokenUsecase(gateway, repo);
     const action = new verifyAccountUsecase(gateway, repo);
-    const token = await generateToken.execute({ username: "usuario01@email.com" });
+    const token = await generateToken.execute({ username: "joaopleseux@gmail.com" });
     await action.execute(token);
     const userDb = await dataSource
       .getRepository(UserModel)
       .createQueryBuilder()
-      .where("email = :email", { email: "usuario01@email.com" })
+      .where("email = :email", { email: "joaopleseux@gmail.com" })
       .getOne();
     expect(userDb.is_verify).toBe(true);
   });
 });
-//  usuario01@email.com
+//  joaopleseux@gmail.com

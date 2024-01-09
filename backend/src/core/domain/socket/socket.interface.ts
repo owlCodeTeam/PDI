@@ -1,4 +1,5 @@
+import { MessageEntity } from "@domain/chat/entity/message.entity";
+
 export interface SocketGatewayInterface {
-  sendNotification(notification: string): Promise<void>;
-  handleMessage(message: string): Promise<void>;
+  sendMessage(message: MessageEntity): Promise<void>;
 }

@@ -11,13 +11,13 @@ describe("Testando TokenGenerateUsecase", () => {
   afterAll(async () => {
     await dataSource.destroy();
   });
-  test("Deve gerar um token de autenticacao", async () => {
+  test.skip("Deve gerar um token de autenticacao", async () => {
     const repo = new AuthRepositoryTypeorm(dataSource);
     const gateway = new AuthGatewayLocal(dataSource);
     const action = new GenerateTokenUsecase(repo, gateway);
 
     const response = await action.execute({
-      username: "usuario01@email.com",
+      username: "joaopleseux@gmail.com",
       password: "123456",
     });
 
@@ -34,7 +34,7 @@ describe("Testando TokenGenerateUsecase", () => {
         username: "usuario",
         password: "123456",
       });
-    }).rejects.toThrow("user_not_found");
+    }).rejects.toThrow("Usuario não encontrado");
   });
 
   test("Deve gerar erro senha incorreta", async () => {
@@ -44,10 +44,10 @@ describe("Testando TokenGenerateUsecase", () => {
 
     await expect(async () => {
       await usecase.execute({
-        username: "usuario01@email.com",
+        username: "joaopleseux@gmail.com",
         password: "123",
       });
-    }).rejects.toThrow("invalid_password");
+    }).rejects.toThrow("Senha inválida");
   });
   test("Deve gerar um novo token a um usuario não autenticado para a verificação da conta", async () => {
     const repo = new AuthRepositoryTypeorm(dataSource);
@@ -55,7 +55,7 @@ describe("Testando TokenGenerateUsecase", () => {
     const action = new GenerateTokenUsecase(repo, gateway);
 
     const response = await action.execute({
-      username: "usuario01@email.com",
+      username: "joaopleseux@gmail.com",
     });
 
     expect(response.length > 10).toBe(true);

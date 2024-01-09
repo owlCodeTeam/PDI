@@ -20,7 +20,7 @@ describe("Deve testar o saveUserUsecase", () => {
       username: "userTeste",
       password: "123456",
       email: "usuario01@email.com",
-      cpf: "111.111.111-11",
+      cpf: "975.400.930-99",
     };
     const userResponseSignUp = await action.execute(userInput);
     const userDb = await dataSource

@@ -12,7 +12,6 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       .createQueryBuilder()
       .where("email = :email", { email: username })
       .getOne();
-
     if (!userModel) {
       return;
     }

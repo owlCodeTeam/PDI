@@ -18,7 +18,7 @@ describe("Deve testar o passwordRecoveryUsecase", () => {
     const gateway = new AuthRepositoryTypeorm(dataSource);
     const passwordRecovery = new passwordRecoveryUsecase(gateway, repo);
     const action = new GenerateTokenUsecase(gateway, repo);
-    const token = await action.execute({ username: "usuario01@email.com" });
+    const token = await action.execute({ username: "joaopleseux@gmail.com" });
     const passwordrecoveryInput = {
       token: token,
       newPassword: "1234567890",
@@ -27,7 +27,7 @@ describe("Deve testar o passwordRecoveryUsecase", () => {
     const userDb = await dataSource
       .getRepository(UserModel)
       .createQueryBuilder()
-      .where("email = :email", { email: "usuario01@email.com" })
+      .where("email = :email", { email: "joaopleseux@gmail.com" })
       .getOne();
     const user = new userEntity({
       uuid: userDb.uuid,

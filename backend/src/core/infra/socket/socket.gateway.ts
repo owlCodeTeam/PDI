@@ -1,15 +1,18 @@
+import { MessageEntity } from "@domain/chat/entity/message.entity";
+import { SocketGatewayInterface } from "@domain/socket/socket.interface";
+import { apiError } from "@infra/http/nestjs/helpers/api-Error.helper";
 import { Injectable } from "@nestjs/common";
 import { Server } from "socket.io";
-// import { SocketGatewayInterface } from "@domain/socket/socket.interface";
 
-@Injectable() // Adicione o decorador Injectable
-export class SocketIoGateway {
-  constructor(readonly server?: Server) {}
+@Injectable()
+export class SocketIoGateway implements SocketGatewayInterface {
   private users: Record<string, any> = {};
-  async connect(): Promise<void> {
-    this.server.on("connect", async (socket) => {
-      console.log("ok");
-    });
-    this.server.emit("receive-message", "OK");
+  constructor(readonly server: Server) {}
+  public async sendMessage(message: MessageEntity): Promise<void> {
+    try {
+      await this.server.emit("send-message", message);
+    } catch (error) {
+      throw new apiError("Erro no envio do socket", 500, "internal_server_error");
+    }
   }
 }

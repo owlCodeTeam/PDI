@@ -14,7 +14,6 @@ export class GenerateTokenUsecase {
 
   public async execute(input: GenetareTokenInput) {
     const user = await this.repo.getByUsername(input.username);
-
     if (!user) {
       throw new apiError("Usuario não encontrado", 404, "not_found");
     }

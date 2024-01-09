@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToMany, PrimaryColumn } from "typeorm";
-import { UserModel } from "./User.model";
+import { UserModel } from "../../../auth/database/models/User.model";
 
 @Entity("chat_messages")
 export class messageModel {

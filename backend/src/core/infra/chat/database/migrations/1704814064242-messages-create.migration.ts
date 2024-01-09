@@ -10,7 +10,6 @@ export class Message1704811682306 implements MigrationInterface {
             name: "uuid",
             type: "uuid",
             isPrimary: true,
-            primaryKeyConstraintName: "PK_chat_message",
           },
           {
             name: "created_at",
@@ -30,20 +29,26 @@ export class Message1704811682306 implements MigrationInterface {
           },
           {
             name: "message",
-            type: "string",
+            type: "varchar",
           },
           {
             name: "sender",
-            type: "string",
+            type: "uuid",
           },
           {
             name: "receiver",
-            type: "string",
+            type: "uuid",
           },
         ],
         foreignKeys: [
           {
-            columnNames: ["sender", "receiver"],
+            columnNames: ["sender"],
+            referencedColumnNames: ["uuid"],
+            referencedTableName: "auth_users",
+            onDelete: "CASCADE",
+          },
+          {
+            columnNames: ["receiver"],
             referencedColumnNames: ["uuid"],
             referencedTableName: "auth_users",
             onDelete: "CASCADE",
@@ -53,5 +58,7 @@ export class Message1704811682306 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable("chat_messages");
+  }
 }

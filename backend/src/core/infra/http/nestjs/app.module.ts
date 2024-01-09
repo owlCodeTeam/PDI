@@ -3,6 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module";
 import { UserModel } from "@infra/auth/database/models/User.model";
 import { CompanyModel } from "@infra/auth/database/models/Company.model";
+import { ChatModule } from "./Chat/chat.module";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -16,6 +17,7 @@ import { CompanyModel } from "@infra/auth/database/models/Company.model";
       synchronize: false,
     }),
     AuthModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [],
