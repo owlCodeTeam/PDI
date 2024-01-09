@@ -20,6 +20,7 @@ export default boot(async ({app}) => {
   const axiosAdapter = new AxiosAdapter()
   const baseUrl = 'http://localhost:3000/'
   const socketBaseUrl = 'http://localhost:4000'
+  
   const socketIo = io(socketBaseUrl, {
     transports: ['websocket'],
     withCredentials: true,
@@ -27,6 +28,7 @@ export default boot(async ({app}) => {
   socketIo.on('connect', () => {
     console.log('conectado')
   })
+
   const socketIoGateway = new SocketIoGatewayHttp(socketIo)
   const socketIoAction = new SocketIoAction(socketIoGateway)
   app.provide('socketIoAction', socketIoAction)

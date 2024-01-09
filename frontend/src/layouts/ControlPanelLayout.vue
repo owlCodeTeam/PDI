@@ -9,18 +9,25 @@
         dense 
         flat 
         round 
+        size="130%"
+        icon="chat" 
+        @click="toggleRightChat" 
+      />
+      <q-btn 
+        dense 
+        flat 
+        round 
         size="140%"
         icon="menu" 
         @click="toggleRightDrawer" 
       />
     </q-header>
-
     <q-drawer 
       show-if-above 
       v-model="rightDrawerOpen" 
       side="right" 
       bordered
-      class="bg-grey-5"
+      class="bg-grey-4"
     >
       <q-btn 
         flat
@@ -51,6 +58,43 @@
       </q-dialog>
     </q-drawer>
 
+    <q-drawer 
+      show-if-above 
+      v-model="rightChatOpen" 
+      side="right" 
+      bordered
+      class="blue-grey-2 column"
+      width="450"
+    >
+    <q-scroll-area class="col-11">
+      <q-chat-message
+        :text="['Lorem Ipsu Dorem']"
+        sent
+        class="q-my-md q-mx-md"
+        bg-color="indigo-10"
+        text-color="white"
+      />
+      <q-chat-message
+        name="fake user"
+        :text="['Lorem Ipsu']"
+        bg-color="grey-4"
+        class="q-my-md q-mx-md"
+      />
+    </q-scroll-area>
+      <div class="row blue-grey-2 col-1 justiify-center items-center">
+        <q-input 
+          borderless
+          class="col-10 text-h6 q-px-sm"
+          placeholder="Mensagem"
+        />
+        <q-btn 
+          icon="send"
+          class="col-2 full-height"
+          flat
+        />
+      </div>
+    </q-drawer>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -66,20 +110,30 @@ export default {
   setup () {
     const logOutOfAccountDialog = ref(false)
     const rightDrawerOpen = ref(false)
+    const rightChatOpen = ref (false)
     const router = useRouter()
 
     function logOutOfAccount() {
       router.push('/')
     }
+
+    function toggleRightChat() {
+      rightChatOpen.value = !rightChatOpen.value
+      rightDrawerOpen.value = false
+    }
+
     function toggleRightDrawer () {
       rightDrawerOpen.value = !rightDrawerOpen.value
+      rightChatOpen.value = false
     }
 
     return {
       rightDrawerOpen,
       logOutOfAccountDialog,
+      rightChatOpen,
       toggleRightDrawer,
-      logOutOfAccount
+      logOutOfAccount,
+      toggleRightChat
     }
   }
 }
