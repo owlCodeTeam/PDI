@@ -9,15 +9,23 @@ import { UserModel } from "@infra/auth/database/models/User.model";
 export class chatRepositoryOrm implements chatRepositoryInterface {
   constructor(readonly dataSource: DataSource) {}
   async sendMessage(message: MessageEntity): Promise<void> {
+    console.log(message.Message_reciever().uuid());
     try {
-      await this.dataSource.createQueryBuilder().insert().into(messageModel).values({
-        uuid: message.uuid(),
-        message: message.Message(),
-        receiver: message.Message_reciever().uuid(),
-        sender: message.Message_sender().uuid(),
-      });
+      this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(messageModel)
+        .values([
+          {
+            uuid: message.uuid(),
+            message: message.Message(),
+            receiver: message.Message_reciever().uuid(),
+            sender: message.Message_sender().uuid(),
+          },
+        ])
+        .execute();
     } catch (error) {
-      throw new apiError("Erro enquanto salvava a mensagem", 500, "internal_server_error");
+      throw new apiError("Erro enquanto salvava a mensagem" + error, 500, "internal_server_error");
     }
   }
   async getUserByUuid(uuid: string): Promise<userEntity> {
@@ -40,16 +48,6 @@ export class chatRepositoryOrm implements chatRepositoryInterface {
     return user;
   }
   // async getMessage(0): Promise<MessageEntity[]> {
-  //   const messages: MessageEntity[] = [];
-  //   const messagesDb: messageModel[] = await this.dataSource.getRepository(messageModel).createQueryBuilder().getMany();
-  //   for (const message of messagesDb) {
-  //     const new_message = new MessageEntity({
-  //       Message: message.message,
-  //       Message_reciever: message.receiver,
-  //       Message_sender: message.sender,
-  //       uuid: message.uuid,
-  //     });
-  //     messages.push(message);
-  //   }
+
   // }
 }

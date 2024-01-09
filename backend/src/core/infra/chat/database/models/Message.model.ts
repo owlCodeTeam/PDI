@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { UserModel } from "../../../auth/database/models/User.model";
 
 @Entity("chat_messages")
@@ -8,10 +8,12 @@ export class messageModel {
 
   @Column()
   message: string;
-  @ManyToMany(() => UserModel, { eager: true })
+
+  @ManyToOne(() => UserModel, { eager: true })
   @JoinColumn({ name: "sender", referencedColumnName: "uuid" })
   sender: string;
-  @ManyToMany(() => UserModel, { eager: true })
+
+  @ManyToOne(() => UserModel, { eager: true })
   @JoinColumn({ name: "receiver", referencedColumnName: "uuid" })
   receiver: string;
 }

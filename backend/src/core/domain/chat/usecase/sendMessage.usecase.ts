@@ -19,8 +19,9 @@ export class sendMessageUsecase {
       Message: input.message,
       Message_reciever: receiver,
       Message_sender: sender,
-      uuid: crypto.randomBytes(8).toString("hex"),
+      uuid: crypto.randomUUID(),
     });
+    await this.repo.sendMessage(message);
     await this.socketRepo.sendMessage(message);
   }
 }

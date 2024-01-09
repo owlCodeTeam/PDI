@@ -4,6 +4,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModel } from "@infra/auth/database/models/User.model";
 import { CompanyModel } from "@infra/auth/database/models/Company.model";
 import { ChatModule } from "./Chat/chat.module";
+import { messageModel } from "@infra/chat/database/models/Message.model";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -13,7 +14,7 @@ import { ChatModule } from "./Chat/chat.module";
       username: "root",
       password: "root",
       database: "pdi",
-      entities: [UserModel, CompanyModel],
+      entities: [UserModel, CompanyModel, messageModel],
       synchronize: false,
     }),
     AuthModule,

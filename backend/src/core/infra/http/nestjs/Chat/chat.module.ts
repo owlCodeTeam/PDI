@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import { chatRepositoryOrm } from "@infra/chat/database/chatRepository.typeorm";
 import { DataSource } from "typeorm";
 import { getDataSourceToken } from "@nestjs/typeorm";
+import { QuerychatRepository } from "@infra/chat/database/QueryChatReposiotry.query";
 
 @Module({
   imports: [],
@@ -30,6 +31,13 @@ import { getDataSourceToken } from "@nestjs/typeorm";
         io.listen(4000);
         return new SocketIoGateway(io);
       },
+    },
+    {
+      provide: QuerychatRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new QuerychatRepository(dataSource);
+      },
+      inject: [getDataSourceToken()],
     },
   ],
 })
