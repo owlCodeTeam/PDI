@@ -63,7 +63,6 @@
 
 <script lang="ts">
 import { Notify } from 'quasar'
-import { route } from 'quasar/wrappers'
 import LoginAction from 'src/core/login/LoginAction'
 import LoginDataEntity from 'src/core/login/LoginDataEntity'
 import { defineComponent, inject, reactive, ref } from 'vue'

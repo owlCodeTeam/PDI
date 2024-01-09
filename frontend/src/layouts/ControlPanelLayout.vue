@@ -2,9 +2,17 @@
   <q-layout view="hHh lpR fFf">
 
     <q-header 
-      bordered c
+      bordered
       class="bg-indigo-10 text-white text-right"
     >
+      <q-btn 
+        dense 
+        flat 
+        round 
+        size="130%"
+        icon="chat" 
+        @click="toggleRightChat" 
+      />
       <q-btn 
         dense 
         flat 
@@ -14,13 +22,12 @@
         @click="toggleRightDrawer" 
       />
     </q-header>
-
     <q-drawer 
       show-if-above 
       v-model="rightDrawerOpen" 
       side="right" 
       bordered
-      class="bg-grey-5"
+      class="bg-grey-4"
     >
       <q-btn 
         flat
@@ -51,6 +58,17 @@
       </q-dialog>
     </q-drawer>
 
+    <q-drawer 
+      show-if-above 
+      v-model="rightChatOpen" 
+      side="right" 
+      bordered
+      class="blue-grey-2 column"
+      width="450"
+    >
+      <ChatVue />
+    </q-drawer>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -61,26 +79,40 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ChatVue from 'src/components/chat/Chat.vue'
 
 export default {
   setup () {
     const logOutOfAccountDialog = ref(false)
     const rightDrawerOpen = ref(false)
+    const rightChatOpen = ref (false)
     const router = useRouter()
 
     function logOutOfAccount() {
       router.push('/')
     }
+
+    function toggleRightChat() {
+      rightChatOpen.value = !rightChatOpen.value
+      rightDrawerOpen.value = false
+    }
+
     function toggleRightDrawer () {
       rightDrawerOpen.value = !rightDrawerOpen.value
+      rightChatOpen.value = false
     }
 
     return {
       rightDrawerOpen,
       logOutOfAccountDialog,
+      rightChatOpen,
       toggleRightDrawer,
-      logOutOfAccount
+      logOutOfAccount,
+      toggleRightChat
     }
+  },
+  components: {
+    ChatVue
   }
 }
 </script>
