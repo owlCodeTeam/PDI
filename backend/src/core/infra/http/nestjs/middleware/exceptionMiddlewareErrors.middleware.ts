@@ -17,7 +17,6 @@ export class ErrorHandlingMiddleware implements NestMiddleware {
       console.log(error);
       res.status(statusCode).json({ message: error.message, internalMessage: error.internalMessage });
     };
-
     next();
   }
 }

@@ -1,3 +1,4 @@
+import { SocketGatewayInterface } from "@domain/socket/socket.interface";
 import {
   SubscribeMessage,
   WebSocketGateway,
@@ -7,18 +8,11 @@ import {
   OnGatewayDisconnect,
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
-
-@WebSocketGateway(4000, {
-  cors: {
-    origin: "*",
-    credentials: false,
-  },
-})
-export class socketIoGateway implements OnGatewayConnection, OnGatewayDisconnect {
+@WebSocketGateway()
+export class socketIoGateway implements OnGatewayConnection, OnGatewayDisconnect, SocketGatewayInterface {
+  constructor(readonly server: Server) {}
   private users: Record<string, any> = {};
   @WebSocketServer()
-  server: Server;
-
   handleConnection(client: Socket, ...args: any[]) {
     console.log(`Client connected: ${client.id}`);
     this.users[client.id] = {};
@@ -30,7 +24,12 @@ export class socketIoGateway implements OnGatewayConnection, OnGatewayDisconnect
   }
 
   @SubscribeMessage("receive-message")
-  handleMessage(@MessageBody() message: string): void {
+  async handleMessage(@MessageBody() message: string): Promise<void> {
+    console.log(message);
     this.server.emit("receive-message", message);
+  }
+  @SubscribeMessage("send-Notification")
+  async sendNotification(notification: string): Promise<void> {
+    this.server.emit(notification);
   }
 }
