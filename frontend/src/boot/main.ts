@@ -13,7 +13,6 @@ import SocketIoGatewayHttp from 'src/infra/socketIo/SocketIOGatewayHttp'
 import SocketIoAction from 'src/core/socketIo/SocketIoAction'
 
 
-// "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async ({app}) => {
 
@@ -21,17 +20,17 @@ export default boot(async ({app}) => {
   const baseUrl = 'http://localhost:3000/'
   const socketBaseUrl = 'http://localhost:4000'
   
-  const socketIo = io(socketBaseUrl, {
-    transports: ['websocket'],
-    withCredentials: true,
-  });
-  socketIo.on('connect', () => {
-    console.log('conectado')
-  })
+  //const socketIo = io(socketBaseUrl, {
+  //  transports: ['websocket'],
+  //  withCredentials: true,
+  //});
+  //socketIo.on('connect', () => {
+  //  console.log('conectado')
+  //})
 
-  const socketIoGateway = new SocketIoGatewayHttp(socketIo)
-  const socketIoAction = new SocketIoAction(socketIoGateway)
-  app.provide('socketIoAction', socketIoAction)
+  //const socketIoGateway = new SocketIoGatewayHttp(socketIo)
+  //const socketIoAction = new SocketIoAction(socketIoGateway)
+  //app.provide('socketIoAction', socketIoAction)
 
   const loginGateway = new LoginGatewayHttp(axiosAdapter, baseUrl)
   const loginAction =  new LoginAction(loginGateway)

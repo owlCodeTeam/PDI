@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf">
 
     <q-header 
-      bordered c
+      bordered
       class="bg-indigo-10 text-white text-right"
     >
       <q-btn 
@@ -66,33 +66,7 @@
       class="blue-grey-2 column"
       width="450"
     >
-    <q-scroll-area class="col-11">
-      <q-chat-message
-        :text="['Lorem Ipsu Dorem']"
-        sent
-        class="q-my-md q-mx-md"
-        bg-color="indigo-10"
-        text-color="white"
-      />
-      <q-chat-message
-        name="fake user"
-        :text="['Lorem Ipsu']"
-        bg-color="grey-4"
-        class="q-my-md q-mx-md"
-      />
-    </q-scroll-area>
-      <div class="row blue-grey-2 col-1 justiify-center items-center">
-        <q-input 
-          borderless
-          class="col-10 text-h6 q-px-sm"
-          placeholder="Mensagem"
-        />
-        <q-btn 
-          icon="send"
-          class="col-2 full-height"
-          flat
-        />
-      </div>
+      <ChatVue />
     </q-drawer>
 
     <q-page-container>
@@ -105,6 +79,7 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ChatVue from 'src/components/chat/Chat.vue'
 
 export default {
   setup () {
@@ -135,6 +110,9 @@ export default {
       logOutOfAccount,
       toggleRightChat
     }
+  },
+  components: {
+    ChatVue
   }
 }
 </script>

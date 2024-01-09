@@ -12,23 +12,30 @@ export default class RecoverPasswordEntity {
     }
 
     executeGetToken(responseGateway:any) {
-        console.log(responseGateway.data)
-        if (!(responseGateway.status > 299)) {
-            this.response.statusEmail = true
-        }   
-        if (responseGateway.status > 299) {
-            throw new Error(responseGateway.message)
+        if (responseGateway) {
+            if (!(responseGateway.status > 299)) {
+                this.response.statusEmail = true
+            }   
+            if (responseGateway.status > 299) {
+                throw new Error(responseGateway.message)
+            }
+            return this.response
+        } else {
+            throw new Error('Desculpe, no momento não é possível acessar o sistema.')
         }
-        return this.response
     }
 
     executeRecoverPassword(responseGateway:any) {
-        if (!(responseGateway.status > 299)) {
-            this.response.passwordChangeStatus = true
+        if (responseGateway) {
+            if (!(responseGateway.status > 299)) {
+                this.response.passwordChangeStatus = true
+            }
+            if (responseGateway.status > 299) {
+                throw new Error(responseGateway.message)
+            }
+            return this.response
+        } else {
+            throw new Error('Desculpe, no momento não é possível acessar o sistema.')
         }
-        if (responseGateway.status > 299) {
-            throw new Error(responseGateway.message)
-        }
-        return this.response
     }
 }
