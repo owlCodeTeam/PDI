@@ -10,6 +10,7 @@ export default class SocketIoEntity {
     }
 
     execute(responseGateway:any) {
+        console.log(responseGateway)
         if (responseGateway) {
             if (!(responseGateway.status > 299)) {
                 this.response.status = true
