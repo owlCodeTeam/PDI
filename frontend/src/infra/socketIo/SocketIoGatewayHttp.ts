@@ -5,10 +5,10 @@ const socketIoEntity = new SocketIoEntity()
 
 export default class SocketIoGatewayHttp implements SocketIOGateway {
     constructor(readonly socket:any, readonly httpClient:HttpClient, readonly baseUrl:string) {}
-    
+
     async receive(url: string): Promise<any> {
-        console.log(this.socket)
         this.socket.on(url, (data:any) => {
+            console.log(data.props);
             return data
         })
     }

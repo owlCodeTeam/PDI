@@ -11,7 +11,7 @@ export class QuerychatRepository implements QuerychatRepositoryInterface {
     const messagesDb: messageModel[] = await this.dataSource
       .getRepository(messageModel)
       .createQueryBuilder()
-      .where("receiver = :receiver && sender = :sender", {sender: sender, })
+      .where("receiver = :receiver AND sender = :sender", { receiver: receiver.uuid(), sender: sender.uuid() })
       .getMany();
     for (const message of messagesDb) {
       const new_message = new MessageEntity({
