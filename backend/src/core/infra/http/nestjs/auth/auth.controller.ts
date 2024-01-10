@@ -14,6 +14,9 @@ import { ResendTokenUsecase } from "@domain/auth/usecase/resendToken.usecase";
 import { AuthLoginDto } from "./authLogin.dto";
 import { AuthUpdateDto } from "./authUpdate.dto";
 import { UpdateUserUsecase } from "@domain/user/usecases/updateUser.usecase";
+import { userEntity } from "@domain/auth/entity/user.entity";
+import { GetOneUserUsecase } from "@domain/user/usecases/getOneUser.usecase";
+import { getUsersUsecase } from "@domain/user/usecases/getUsers.usecase";
 @ApiTags("Auth")
 @Controller()
 export class AuthController {
@@ -25,13 +28,14 @@ export class AuthController {
   @Post("token-generate")
   async tokenGenerate(@Body() body: AuthLoginDto, @Res() response) {
     const usecase = new GenerateTokenUsecase(this.repo, this.gateway);
-    const token = await usecase.execute({
+    const output: { token: string; user: userEntity } = await usecase.execute({
       username: body.username,
       password: body.password,
     });
     response.status(HttpStatus.OK).send({
       message: "token gerado com sucesso",
-      token,
+      user: output.user.props,
+      token: output.token,
     });
   }
   @Post("signUp")
@@ -63,7 +67,24 @@ export class AuthController {
       message: "token gerado com sucesso",
       token,
     });
-    response.status(HttpStatus.PRECONDITION_FAILED).send({});
+  }
+  @Get("user/:uuid")
+  async getUserById(@Param("uuid") uuid: string, @Res() response) {
+    const action = new GetOneUserUsecase(this.repo);
+    const user = await action.execute(uuid);
+    response.status(HttpStatus.OK).send({
+      message: "Usuario encontrado com sucesso",
+      user: user,
+    });
+  }
+  @Get("users")
+  async getAllUsers(@Res() response) {
+    const action = new getUsersUsecase(this.repo);
+    const users = await action.execute();
+    response.status(HttpStatus.OK).send({
+      message: "Usuarios encontrados com sucesso",
+      user: users,
+    });
   }
   @Post("password/recovery")
   async passwordRecovery(@Body() body: PasswordrecoveryDto, @Res() response) {

@@ -33,11 +33,9 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       .createQueryBuilder()
       .where("uuid = :uuid", { uuid: uuid })
       .getOne();
-
     if (!userModel) {
       return;
     }
-
     const user = new userEntity({
       uuid: userModel.uuid,
       name: userModel.name,
@@ -121,5 +119,20 @@ export class AuthRepositoryTypeorm implements AuthRepositoryInterface {
       })
       .where("uuid = :uuid", { uuid: _id })
       .execute();
+  }
+  async getAllUsers(): Promise<userEntity[]> {
+    const users: userEntity[] = [];
+    (await this.dataSource.getRepository(UserModel).createQueryBuilder().getMany()).forEach((user) => {
+      const userInput = new userEntity({
+        uuid: user.uuid,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        cpf: user.cpf,
+        is_verify: user.is_verify,
+      });
+      users.push(userInput);
+    });
+    return users;
   }
 }

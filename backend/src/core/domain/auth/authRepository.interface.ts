@@ -8,4 +8,5 @@ export interface AuthRepositoryInterface {
   setCheckedAccount(email: string): Promise<void>;
   setNewPassword(newPassword: string, email: string): Promise<void>;
   updateUser(user: updateUserInput, id: string): Promise<void>;
+  getAllUsers(): Promise<userEntity[]>;
 }

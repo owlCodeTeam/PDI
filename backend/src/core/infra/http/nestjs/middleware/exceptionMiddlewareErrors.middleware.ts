@@ -14,7 +14,6 @@ export class ErrorHandlingMiddleware implements NestMiddleware {
         await action.execute(["joaopleseux@gmail.com", "dione.bruno@gmail.com"]);
         res.status(500).json({ message: "Ocorreu um erro inesperado" });
       }
-      console.log(error);
       res.status(statusCode).json({ message: error.message, internalMessage: error.internalMessage });
     };
     next();
