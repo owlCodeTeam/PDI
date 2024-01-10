@@ -7,7 +7,7 @@ export class ResendTokenUsecase {
     readonly gateway: authGatewayInterface,
     readonly emailGateway?: emailGatewayInterface,
   ) {}
-  public async execute(email: string): Promise<string> {
+  public async execute(email: string, route: string): Promise<string> {
     const user = await this.repo.getByUsername(email);
     if (user) {
       const token = await this.gateway.tokenGenerate(user);
@@ -16,7 +16,7 @@ export class ResendTokenUsecase {
         to: user.email(),
         subject: "Reenvio de token",
         text: "Clique no botão abaixo e será redirecionado para o site.",
-        html: `<a href='http://localhost:9000/#/recover-password/${email}/${token}'><button style='font-size: 16px; font-weight: 600; padding: 1vh 1vw; cursor: pointer;border-radius: 1vh; color: #fff; background-color: #303f9f; border: none;'>Clique aqui!</button></a>`,
+        html: `<a href='http://localhost:9000/#/${route}/${email}/${token}'><button style='font-size: 16px; font-weight: 600; padding: 1vh 1vw; cursor: pointer;border-radius: 1vh; color: #fff; background-color: #303f9f; border: none;'>Clique aqui!</button></a>`,
       };
       await this.emailGateway.send(emailContent);
       return token;

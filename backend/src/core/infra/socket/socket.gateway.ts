@@ -10,7 +10,12 @@ export class SocketIoGateway implements SocketGatewayInterface {
   constructor(readonly server: Server) {}
   public async sendMessage(message: MessageEntity): Promise<void> {
     try {
-      await this.server.emit("send-message", message);
+      const messageInput = {
+        message: message.Message(),
+        receiver: message.Message_reciever().props,
+        sender: message.Message_sender().props,
+      };
+      await this.server.emit("send-message", messageInput);
     } catch (error) {
       throw new apiError("Erro no envio do socket", 500, "internal_server_error");
     }

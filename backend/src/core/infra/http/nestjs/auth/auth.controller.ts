@@ -54,10 +54,10 @@ export class AuthController {
       user: user.props,
     });
   }
-  @Get("send/token/:email")
-  async ResendToken(@Param("email") email: string, @Res() response) {
+  @Get("send/token/:email/:route")
+  async ResendToken(@Param("email") email: string, @Param("route") route: string, @Res() response) {
     const usecase = new ResendTokenUsecase(this.repo, this.gateway, this.emailGateway);
-    const token = await usecase.execute(email);
+    const token = await usecase.execute(email, route);
     if (!token) {
       response.status(HttpStatus.BAD_REQUEST).send({
         message: "Esse usuario não existe no banco de dados",
