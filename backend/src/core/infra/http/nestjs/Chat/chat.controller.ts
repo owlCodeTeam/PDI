@@ -24,15 +24,25 @@ export class ChatController {
   }
   @Get("messages/:receiver/:sender")
   async getMessages(@Res() response, @Param("sender") sender: string, @Param("receiver") receiver: string) {
+    const formmatedMessages: any[] = [];
     const input = {
       sender: sender,
       receiver: receiver,
     };
     const action = new getMessagesUsecase(this.chatRepo, this.query);
     const messages = await action.execute(input);
+    for (const message of messages) {
+      const messagesFormmated = {
+        message: message.Message(),
+        receiver: message.Message_reciever().props,
+        sender: message.Message_sender().props,
+        uuid: message.uuid(),
+      };
+      formmatedMessages.push(messagesFormmated);
+    }
     response.status(HttpStatus.OK).send({
-      message: "mensagem encontradas com sucesso",
-      messages,
+      message: "mensagens encontradas com sucesso",
+      formmatedMessages,
     });
   }
 }
