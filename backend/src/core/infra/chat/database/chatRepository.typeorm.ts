@@ -5,11 +5,11 @@ import { MessageEntity } from "@domain/chat/entity/message.entity";
 import { apiError } from "@infra/http/nestjs/helpers/api-Error.helper";
 import { userEntity } from "@domain/chat/entity/user.entity";
 import { UserModel } from "@infra/auth/database/models/User.model";
+import { isUUID } from "class-validator";
 
 export class chatRepositoryOrm implements chatRepositoryInterface {
   constructor(readonly dataSource: DataSource) {}
   async sendMessage(message: MessageEntity): Promise<void> {
-    console.log(message.Message_reciever().uuid());
     try {
       this.dataSource
         .createQueryBuilder()
@@ -29,6 +29,9 @@ export class chatRepositoryOrm implements chatRepositoryInterface {
     }
   }
   async getUserByUuid(uuid: string): Promise<userEntity> {
+    if (!isUUID(uuid)) {
+      throw new apiError(`Usuario com id igual a ${uuid} não existe no banco de dados`, 404, "invalid_uuid");
+    }
     const userModel = await this.dataSource
       .getRepository(UserModel)
       .createQueryBuilder()
@@ -47,7 +50,4 @@ export class chatRepositoryOrm implements chatRepositoryInterface {
 
     return user;
   }
-  // async getMessage(0): Promise<MessageEntity[]> {
-
-  // }
 }
